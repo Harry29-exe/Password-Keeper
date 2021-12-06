@@ -3,7 +3,7 @@ package pl.kamilwojcik.passwordkeeper.users.dao.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.entities.PasswordEntity;
+import pl.kamilwojcik.passwordkeeper.passwords_storage.dao.entities.PasswordEntity;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,5 +33,16 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<PasswordEntity> passwordsInStorage;
+
+    public UserEntity(String username, String password, String storagePassword) {
+        this.username = username;
+        this.password = password;
+        this.storagePassword = storagePassword;
+    }
+
+    @PrePersist
+    public void generatePublicId() {
+        this.publicId = UUID.randomUUID();
+    }
 
 }

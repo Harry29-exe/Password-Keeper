@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.users.dto.values;
+package pl.kamilwojcik.passwordkeeper.users.services.dto;
 
 public record CreateUser(
         String username,

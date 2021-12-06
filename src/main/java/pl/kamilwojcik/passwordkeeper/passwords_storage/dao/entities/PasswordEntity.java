@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.dto.entities;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.dao.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
