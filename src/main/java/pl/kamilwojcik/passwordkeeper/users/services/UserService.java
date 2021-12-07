@@ -11,7 +11,7 @@ public interface UserService {
 
     void createUser(CreateUser createUser);
 
-    @PreAuthorize("#authentication.principal == #publicId")
-    void deleteUser(UUID publicId);
+    @PreAuthorize("isAuthenticated() && #authentication.name == #username")
+    void deleteUser(String username);
 
 }

@@ -38,8 +38,14 @@ public class UserServiceImpl implements UserService {
         userRepo.save(userEntity);
     }
 
-    @Override
-    public void deleteUser(UUID publicId) {
 
+    @Override
+    public void deleteUser(String username) {
+        if(userRepo.existsByUsername(username)) {
+            userRepo.deleteByPublicId(username);
+        } else {
+            //todo
+            throw new IllegalStateException();
+        }
     }
 }

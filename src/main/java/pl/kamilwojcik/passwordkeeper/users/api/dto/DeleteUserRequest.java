@@ -1,7 +1,9 @@
 package pl.kamilwojcik.passwordkeeper.users.api.dto;
 
+import java.util.UUID;
+
 public record DeleteUserRequest(
-        String userPubId,
+        UUID userPubId,
         String username,
         String password
 ) {
