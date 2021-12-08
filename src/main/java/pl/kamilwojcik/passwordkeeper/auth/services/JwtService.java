@@ -1,6 +1,8 @@
 package pl.kamilwojcik.passwordkeeper.auth.services;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import pl.kamilwojcik.passwordkeeper.auth.dto.AppAuthentication;
 
 import java.util.UUID;
 
@@ -11,8 +13,10 @@ public interface JwtService {
 
     String createRefreshToken(UUID userPubId);
 
-    void validateAuthToken(String authToken);
+    AppAuthentication validateAndAuthenticate(String authToken);
 
     String refreshAuthToken(String refreshToken);
+
+    String refreshRefreshToken(String refreshToken);
 
 }

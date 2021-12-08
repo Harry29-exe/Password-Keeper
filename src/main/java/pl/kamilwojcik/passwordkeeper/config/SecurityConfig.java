@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,17 +21,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
         jsr250Enabled = false
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final AuthenticationProvider authProvider;
+//    private final AuthenticationProvider authProvider;
 
     public SecurityConfig(
-            PasswordEncoder passwordEncoder,
-            UserDetailsService userDetailsService
+//            PasswordEncoder passwordEncoder,
+//            UserDetailsService userDetailsService
     ) {
-        var authProvider = new DaoAuthenticationProvider();
-        authProvider.setPasswordEncoder(passwordEncoder);
-        authProvider.setUserDetailsService(userDetailsService);
-
-        this.authProvider = authProvider;
+//        var authProvider = new DaoAuthenticationProvider();
+//        authProvider.setPasswordEncoder(passwordEncoder);
+//        authProvider.setUserDetailsService(userDetailsService);
+//
+//        this.authProvider = authProvider;
     }
 
     @Override
@@ -39,17 +41,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anonymous()
                 .disable()
             .sessionManagement()
-                .disable();
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(this.authProvider);
-    }
-
-    @Bean
-    public AuthenticationManager getAuthenticationManager() throws Exception {
-        return this.authenticationManager();
-    }
+//
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.authenticationProvider(this.authProvider);
+//    }
+//
+//    @Bean
+//    public AuthenticationManager getAuthenticationManager() throws Exception {
+//        return this.authenticationManager();
+//    }
 
 }
