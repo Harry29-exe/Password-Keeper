@@ -1,7 +1,7 @@
-package pl.kamilwojcik.passwordkeeper.users.dao.repositories;
+package pl.kamilwojcik.passwordkeeper.users.domain.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.kamilwojcik.passwordkeeper.users.dao.entities.UserEntity;
+import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
 
 import java.util.Optional;
 import java.util.UUID;

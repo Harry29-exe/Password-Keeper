@@ -22,7 +22,6 @@ import java.util.Date;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    private final UserDetailsService userDetailsService;
     private final Algorithm authAlgorithm;
     private final Integer authExpInSec;
     private final Algorithm refreshAlgorithm;
@@ -35,8 +34,7 @@ public class JwtServiceImpl implements JwtService {
     private final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
 
-    public JwtServiceImpl(UserDetailsService userDetailsService,
-                          @Value("${jwt.secrets.auth}") String authSecret,
+    public JwtServiceImpl(@Value("${jwt.secrets.auth}") String authSecret,
                           @Value("${jwt.secrets.refresh}") String refreshSecret,
                           @Value("${jwt.config.auth.exp_in_sec}") Integer authExp,
                           @Value("${jwt.config.refresh.exp_in_sec}") Integer refreshExp) {
@@ -47,7 +45,7 @@ public class JwtServiceImpl implements JwtService {
         if(refreshSecret.getBytes(StandardCharsets.UTF_8).length < (512 / 8)) {
             throw new IllegalArgumentException("Refresh secret must be at least 512 bit long");
         }
-        this.userDetailsService = userDetailsService;
+
         this.authAlgorithm = Algorithm.HMAC256(authSecret.getBytes(StandardCharsets.UTF_8));
         this.authExpInSec = authExp;
         this.refreshAlgorithm = Algorithm.HMAC512(refreshSecret.getBytes(StandardCharsets.UTF_8));

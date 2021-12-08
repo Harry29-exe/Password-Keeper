@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.dto.values;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.services.dto;
 
 public record AddNewPassword(
         String nonEncodedPassword,

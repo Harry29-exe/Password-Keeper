@@ -3,12 +3,10 @@ package pl.kamilwojcik.passwordkeeper.users.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.kamilwojcik.passwordkeeper.users.dao.entities.UserEntity;
-import pl.kamilwojcik.passwordkeeper.users.dao.repositories.UserRepository;
+import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
+import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 import pl.kamilwojcik.passwordkeeper.users.services.dto.CreateUser;
 import pl.kamilwojcik.passwordkeeper.validators.UserValidator;
-
-import java.util.UUID;
 
 
 @Service

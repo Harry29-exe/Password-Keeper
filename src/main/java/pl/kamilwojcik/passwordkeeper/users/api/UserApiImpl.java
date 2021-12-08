@@ -20,10 +20,7 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public void deleteUser(DeleteUserRequest request) {
-
-
-
-        userService.deleteUser(request.userPubId());
+        userService.deleteUser(request.username());
     }
 
 }

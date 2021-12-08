@@ -1,9 +1,9 @@
-package pl.kamilwojcik.passwordkeeper.users.dao.entities;
+package pl.kamilwojcik.passwordkeeper.users.domain.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.dao.entities.PasswordEntity;
+import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.entities.PasswordEntity;
 
 import javax.persistence.*;
 import java.util.List;
