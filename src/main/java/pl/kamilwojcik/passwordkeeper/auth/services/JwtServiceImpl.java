@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.NotAuthorizedException;
@@ -19,6 +20,7 @@ import pl.kamilwojcik.passwordkeeper.exceptions.auth.NotAuthorizedException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Service
 public class JwtServiceImpl implements JwtService {
     private final UserDetailsService userDetailsService;
     private final Algorithm authAlgorithm;
@@ -30,7 +32,7 @@ public class JwtServiceImpl implements JwtService {
     private static final String AUTH_TYPE = "Auth";
     private static final String REFRESH_TYPE = "Refresh";
 
-    private Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
 
     public JwtServiceImpl(UserDetailsService userDetailsService,
@@ -54,61 +56,98 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String createAuthToken(UserDetails userDetails) {
+        var username = userDetails.getUsername();
+        if(username == null || username.isBlank()) {
+            //todo
+            throw new IllegalArgumentException();
+        }
+
+        return this.createAuthToken(userDetails.getUsername());
+    }
+
+    @Override
+    public String createRefreshToken(UserDetails userDetails) {
+        var username = userDetails.getUsername();
+        if(username == null || username.isBlank()) {
+            //todo
+            throw new IllegalArgumentException();
+        }
+
+        return this.createRefreshToken(username);
+    }
+
+    @Override
+    public DecodedJWT validateAuthToken(@NonNull String authToken) {
+        return validateJWT(authToken, authAlgorithm, AUTH_TYPE);
+    }
+
+    @Override
+    public String refreshAuthToken(String refreshToken) {
+        var token = validateRefreshToken(refreshToken);
+        var sub = token.getSubject();
+
+        return this.createAuthToken(sub);
+    }
+
+    @Override
+    public String refreshRefreshToken(String refreshToken) {
+        var token = validateRefreshToken(refreshToken);
+        var sub = token.getSubject();
+
+        return createRefreshToken(sub);
+    }
+
+    private String createAuthToken(@NonNull String subject) {
         var now = new Date();
         var exp = new Date(now.getTime() + this.authExpInSec * 1000);
 
         return JWT.create()
                 .withClaim(TOKEN_TYPE_CLAIM, AUTH_TYPE)
-                .withSubject(userDetails.getUsername())
+                .withSubject(subject)
                 .withIssuedAt(now)
                 .withExpiresAt(exp)
                 .sign(this.authAlgorithm);
     }
 
-    @Override
-    public String createRefreshToken(UserDetails userDetails) {
+    private String createRefreshToken(@NonNull String subject) {
         var now = new Date();
         var exp = new Date(now.getTime() + this.refreshExpInSec * 1000);
 
         return JWT.create()
                 .withClaim(TOKEN_TYPE_CLAIM, REFRESH_TYPE)
-                .withSubject(userDetails.getUsername())
+                .withSubject(subject)
                 .withIssuedAt(now)
                 .withExpiresAt(exp)
                 .sign(refreshAlgorithm);
     }
 
-    @Override
-    public DecodedJWT validateAuthToken(@NonNull String authToken) {
+    private DecodedJWT validateRefreshToken(String refreshToken) {
+        return validateJWT(refreshToken, refreshAlgorithm, REFRESH_TYPE);
+    }
+
+    private DecodedJWT validateJWT(String refreshToken, Algorithm refreshAlgorithm, String refreshType) {
         try {
-            var token = JWT.decode(authToken);
+            var token = JWT.decode(refreshToken);
+            var sub = token.getSubject();
+            if(sub == null || sub.isBlank()) {
+                throw new JWTVerificationException("Subject can not be black or null");
+            }
             JWTVerifier verifier = JWT.require(refreshAlgorithm)
-                    .withClaim(TOKEN_TYPE_CLAIM, REFRESH_TYPE)
-                    .withSubject(token.getSubject())
+                    .withClaim(TOKEN_TYPE_CLAIM, refreshType)
+                    .withSubject(sub)
                     .build();
 
             verifier.verify(token);
 
             return token;
         } catch (JWTDecodeException ex) {
-            this.logNonJwtCompatibleTokenValue(authToken, AUTH_TYPE);
+            this.logNonJwtCompatibleTokenValue(refreshToken, refreshType);
             throw new NotAuthorizedException();
         } catch (JWTVerificationException ex) {
-            this.logInvalidJwtToken(authToken, ex.getMessage(), AUTH_TYPE);
+            this.logInvalidJwtToken(refreshToken, ex.getMessage(), refreshType);
             throw new NotAuthorizedException();
         }
     }
-
-    @Override
-    public String refreshAuthToken(String refreshToken) {
-        return null;
-    }
-
-    @Override
-    public String refreshRefreshToken(String refreshToken) {
-        return null;
-    }
-
 
     private void logNonJwtCompatibleTokenValue(String invalidJWT, String tokenType) {
         var requestAttributes = RequestContextHolder.getRequestAttributes();
