@@ -1,5 +1,7 @@
 package pl.kamilwojcik.passwordkeeper.auth.services;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -7,12 +9,14 @@ import java.util.UUID;
 @Service
 public interface JwtService {
 
-    String createAuthToken(UUID userPubId);
+    String createAuthToken(UserDetails userDetails);
 
-    String createRefreshToken(UUID userPubId);
+    String createRefreshToken(UserDetails userDetails);
 
-    void validateAuthToken(String authToken);
+    DecodedJWT validateAuthToken(String authToken);
 
     String refreshAuthToken(String refreshToken);
+
+    String refreshRefreshToken(String refreshToken);
 
 }

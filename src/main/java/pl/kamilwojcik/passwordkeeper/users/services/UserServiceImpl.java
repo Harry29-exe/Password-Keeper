@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String username) {
         if(userRepo.existsByUsername(username)) {
-            userRepo.deleteByPublicId(username);
+            userRepo.deleteByUsername(username);
         } else {
             //todo
             throw new IllegalStateException();
