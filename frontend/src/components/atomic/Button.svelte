@@ -5,7 +5,6 @@
 
   export let buttonType: ButtonStyle = "Primary";
   export let size: "sm" | "md" | "lg" = "md";
-  export let buttonName: string = "button";
   export let style = "";
 
   type ButtonStyle = "Primary" | "Success" | "Danger";
@@ -19,7 +18,7 @@
 
 
 <div on:click={e => onClick(e)} class={`${buttonType} ${size} Button`} style={style}>
-    {buttonName}
+    <slot></slot>
 </div>
 
 <style>

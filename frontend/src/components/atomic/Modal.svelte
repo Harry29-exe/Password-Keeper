@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Button from "./Button.svelte";
+
   export let isOpen: boolean = true;
   export let style: string = "";
 </script>
@@ -6,10 +8,10 @@
 
 <div class="overlay">
     <div class="modal">
-        <div class="close-button" on:click={() => {
-            console.log("close");
-            isOpen = false;
-        }}>Close</div>
+        <Button style="position: absolute; right: 10px; top: 10px; width: 40px"
+                on:click={() => isOpen = false}>
+            X
+        </Button>
         <slot></slot>
     </div>
 </div>
@@ -37,8 +39,8 @@
         min-height: 50%;
         margin-bottom: 10%;
 
-        border-radius: 10px;
-        box-shadow: 2px 2px 4px 2px rgba(0,0,0, 0.4);
+        border-radius: 3px;
+        box-shadow: 3px 3px 5px 2px rgba(0,0,0, 0.4);
     }
 
     .close-button {

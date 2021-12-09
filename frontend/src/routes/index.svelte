@@ -2,8 +2,11 @@
   import "./../style/Utils.css"
   import Button from "../components/atomic/Button.svelte";
   import {goto} from "$app/navigation";
+  import Modal from "../components/atomic/Modal.svelte";
+  import LoggingModule from "../components/modules/LoggingModule.svelte";
 
-  const isTrue = true;
+  let loginModal = false;
+  let registerModal = false;
 </script>
 
 <svelte:head>
@@ -15,9 +18,16 @@
         Password keeper
     </h1>
 
-    <Button buttonName="Login" style="margin: 8px" size="lg" on:click={e => goto("/Dashboard")}/>
+    <LoggingModule/>
 
-    <Button buttonName="Register" style="margin: 8px" size="lg" on:click={e => console.log("warming")}/>
+    <Button style="margin: 8px" size="lg">
+        Register
+    </Button>
+    {#if registerModal}
+        <Modal isOpen={registerModal}>
+
+        </Modal>
+    {/if}
 
     <div style="width: 1px; height: 200px"></div>
 </div>
