@@ -1,0 +1,14 @@
+.sm {
+    height: 20px;
+    width: 80px;
+}
+
+.md {
+    height: 30px;
+    width: 150px;
+}
+
+.lg {
+    height: 50px;
+    width: 250px;
+}
