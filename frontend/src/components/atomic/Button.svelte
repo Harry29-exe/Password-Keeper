@@ -1,19 +1,24 @@
 <script lang="ts">
-    import "./../../style/ComponentSize.css";
-    import "./../../style/Utils.css";
+  import "./../../style/ComponentSize.css";
+  import "./../../style/Utils.css";
+  import {createEventDispatcher} from "svelte";
 
-    export let onClick: (e: MouseEvent) => any;
-    export let buttonType: ButtonStyle = "Primary";
-    export let size: "sm" | "md" | "lg" = "md";
-    export let buttonName: string = "button";
-    export let style = "";
+  export let buttonType: ButtonStyle = "Primary";
+  export let size: "sm" | "md" | "lg" = "md";
+  export let buttonName: string = "button";
+  export let style = "";
 
-    type ButtonStyle = "Primary" | "Success" | "Danger";
+  type ButtonStyle = "Primary" | "Success" | "Danger";
+
+  const dispatch = createEventDispatcher();
+  const onClick = (e: MouseEvent) => {
+    dispatch('click', e);
+  }
 
 </script>
 
 
-<div on:click={onClick} class={`${buttonType} ${size} Button`} style={style}>
+<div on:click={e => onClick(e)} class={`${buttonType} ${size} Button`} style={style}>
     {buttonName}
 </div>
 
@@ -25,7 +30,7 @@
         align-items: center;
 
         border-radius: 2px;
-        box-shadow: 2px 2px 4px 2px rgba(0,0,0, 0.4);
+        box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4);
     }
 
     .Button:hover {

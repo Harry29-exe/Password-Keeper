@@ -1,5 +1,5 @@
 export const Primary = {
-   50: "#EBF8FF",
+  50: "#EBF8FF",
   100: "#BEE3F8",
   200: "#90CDF4",
   300: "#63B3ED",
@@ -12,7 +12,7 @@ export const Primary = {
 }
 
 export const Warning = {
-   50: "#FFF5F5",
+  50: "#FFF5F5",
   100: "#FED7D7",
   200: "#FEB2B2",
   300: "#FC8181",
@@ -25,7 +25,7 @@ export const Warning = {
 }
 
 export const Success = {
-   50: "#F0FFF4",
+  50: "#F0FFF4",
   100: "#C6F6D5",
   200: "#9AE6B4",
   300: "#68D391",
@@ -39,7 +39,7 @@ export const Success = {
 }
 
 export const Gray = {
-   50: "#F7FAFC",
+  50: "#F7FAFC",
   100: "#EDF2F7",
   200: "#E2E8F0",
   300: "#CBD5E0",

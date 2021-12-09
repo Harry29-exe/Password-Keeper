@@ -1,14 +1,17 @@
 <script lang="ts">
+    import Modal from "../components/atomic/Modal.svelte";
+    import Button from "../components/atomic/Button.svelte";
 
+    let isOpen = false;
 </script>
-
-
-<!--<svelte:head>-->
-<!--    Dashboard-->
-<!--</svelte:head>-->
 
 <div class="wrapper">
     Wellcome to dashboard
+    {#if isOpen}
+        <Modal bind:isOpen={isOpen}/>
+    {/if}
+
+    <Button on:click={() => isOpen = true}/>
 </div>
 
 
@@ -16,7 +19,6 @@
     .wrapper {
         width: 100vw;
         height: 100vh;
-        background: #182768;
         flex-direction: column;
         display: flex;
         justify-content: center;
