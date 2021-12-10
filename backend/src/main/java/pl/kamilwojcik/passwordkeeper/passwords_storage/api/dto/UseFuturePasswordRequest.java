@@ -1,6 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.api.dto;
 
-public record CreateNewPasswordRequest(
+public record UseFuturePasswordRequest(
         String passwordName
 ) {
 }
