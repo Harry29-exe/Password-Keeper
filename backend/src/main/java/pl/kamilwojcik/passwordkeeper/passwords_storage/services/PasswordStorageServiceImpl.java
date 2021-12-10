@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.repositories.PasswordRepository;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.services.dto.AddNewPassword;
+import pl.kamilwojcik.passwordkeeper.passwords_storage.services.dto.UsePassword;
 
 import java.util.UUID;
 
@@ -17,17 +18,22 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
     }
 
     @Override
-    public void createNewPassword(UUID userPubId, AddNewPassword newPassword) {
+    public void createFuturePasswords(String username, AddNewPassword newPassword) {
 
     }
 
     @Override
-    public void deletePassword(UUID userPubId, String passwordName) {
+    public void usePassword(String username, UsePassword usePassword) {
 
     }
 
     @Override
-    public String readPassword(UUID userPubId, String passwordName, String storagePassword) {
+    public void deletePassword(String username, String passwordName) {
+
+    }
+
+    @Override
+    public String readPassword(String username, String storagePassword) {
         return null;
     }
 }
