@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
 public class DecodedPasswordDto {
-    private @NonNull String passwordName;
-    private @NonNull String decodedPassword;
+    private @NotNull String passwordName;
+    private @NotNull String decodedPassword;
 }

@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.domain.entities;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
