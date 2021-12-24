@@ -15,4 +15,6 @@ public interface UserApi {
     @DeleteMapping("delete")
     void deleteUser(DeleteUserRequest request);
 
+
+
 }
