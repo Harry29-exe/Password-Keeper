@@ -10,5 +10,11 @@ public interface PasswordRepository extends JpaRepository<PasswordEntity, Long> 
 
     List<PasswordEntity> findAllByUser_Username(String username);
 
+    PasswordEntity findByUser_UsernameAndPasswordName(String username, String passwordName);
+
+    boolean existsByUser_UsernameAndPasswordName(String username, String passwordName);
+
+    void deleteByUser_UsernameAndPasswordName(String username, String passwordName);
+
 
 }

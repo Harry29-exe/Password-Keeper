@@ -10,6 +10,6 @@ public class PasswordInfoDto {
 
     private @NotBlank String passwordName;
     private @Nullable
-    String webUrl;
+    String passwordUrl;
 
 }

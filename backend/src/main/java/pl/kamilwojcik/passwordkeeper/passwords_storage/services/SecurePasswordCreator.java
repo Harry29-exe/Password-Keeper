@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.services;
 
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
 

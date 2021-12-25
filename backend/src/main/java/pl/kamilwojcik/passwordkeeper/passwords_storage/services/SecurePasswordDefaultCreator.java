@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.services;
 
 import org.springframework.stereotype.Component;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 @Component
-public class BasicPasswordCreator implements SecurePasswordCreator {
+public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
     //todo sprawdzić to
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
     private final char[] lowerCaseChars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -26,7 +26,7 @@ public class BasicPasswordCreator implements SecurePasswordCreator {
             24, 6, 2, 2, 1
     );
 
-    public BasicPasswordCreator() throws NoSuchAlgorithmException {
+    public SecurePasswordDefaultCreator() throws NoSuchAlgorithmException {
     }
 
     @Override
