@@ -16,22 +16,17 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
     }
 
     @Override
-    public void createFuturePasswords(String username, AddNewPassword newPassword) {
-
-    }
-
-    @Override
-    public void usePassword(String username, UsePassword usePassword) {
-
-    }
-
-    @Override
     public void deletePassword(String username, String passwordName) {
 
     }
 
     @Override
-    public String readPassword(String username, String storagePassword) {
+    public void savePassword(String passwordToSave, String passwordStorageKey, String username) {
+
+    }
+
+    @Override
+    public String readPassword(String passwordName, String storageKayString, String username) {
         return null;
     }
 }

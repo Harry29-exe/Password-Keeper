@@ -35,7 +35,6 @@ public interface PasswordApi {
             Authentication auth
     );
 
-
     @GetMapping
     List<PasswordInfoDto> getAllPasswordsInStorage(
             Authentication auth

@@ -10,16 +10,13 @@ import java.util.UUID;
 @Service
 public interface PasswordStorageService {
 
-    @PreAuthorize("authentication.name == #username")
-    void createFuturePasswords(String username, AddNewPassword newPassword);
+    @PreAuthorize("@authorizationUtils.usernamesMatch(#username)")
+    void savePassword(String passwordToSave, String passwordStorageKey, String username);
 
-    @PreAuthorize("authentication.name == #username")
-    void usePassword(String username, UsePassword usePassword);
+    @PreAuthorize("@authorizationUtils.usernamesMatch(#username)")
+    String readPassword(String passwordName, String storageKayString, String username);
 
-    @PreAuthorize("authentication.name == #username")
-    void deletePassword(String username, String passwordName);
-
-    @PreAuthorize("authentication.name == #username")
-    String readPassword(String username, String storagePassword);
+    @PreAuthorize("@authorizationUtils.usernamesMatch(#username)")
+    void deletePassword(String passwordName, String username);
 
 }

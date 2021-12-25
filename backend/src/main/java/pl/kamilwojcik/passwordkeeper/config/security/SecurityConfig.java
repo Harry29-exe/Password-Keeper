@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.config;
+package pl.kamilwojcik.passwordkeeper.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
