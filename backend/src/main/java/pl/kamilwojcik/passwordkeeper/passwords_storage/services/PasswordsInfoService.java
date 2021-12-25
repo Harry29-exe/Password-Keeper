@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface PasswordsInfoService {
 
-    @PreAuthorize("@authorizationUtils.usernamesMatch(#username)")
+    @PreAuthorize("@authFunctions.usernamesMatch(#username)")
     List<PasswordInfoDto> getUsersPasswords(String username);
 
 

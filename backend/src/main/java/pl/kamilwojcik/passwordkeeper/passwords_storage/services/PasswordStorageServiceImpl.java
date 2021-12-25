@@ -54,7 +54,7 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
     }
 
     @Override
-    public void createNewPassword(PasswordInfoDto passwordInfo,
+    public String createNewPassword(PasswordInfoDto passwordInfo,
                                   PasswordRequirements requirements,
                                   String storagePassword,
                                   String username
@@ -67,6 +67,7 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
         }
 
         this.savePassword(passwordToSave, passwordInfo, storagePassword, username);
+        return passwordToSave;
     }
 
     @Override

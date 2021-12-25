@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public record DecodeAndGetRequest(
         @NotBlank String storagePassword,
-        @NotNull UUID passwordPubId
+        @NotNull String passwordName
 ) {
 }
