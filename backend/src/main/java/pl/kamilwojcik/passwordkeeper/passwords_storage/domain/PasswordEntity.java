@@ -13,9 +13,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "passwords_storage",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"password_name", "password_owner"})
-})
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"password_name", "password_owner"})
+        })
 public class PasswordEntity {
 
     @Id

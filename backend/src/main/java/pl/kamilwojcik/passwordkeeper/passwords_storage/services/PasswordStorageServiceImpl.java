@@ -3,8 +3,6 @@ package pl.kamilwojcik.passwordkeeper.passwords_storage.services;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.PasswordRepository;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.services.dto.AddNewPassword;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.services.dto.UsePassword;
 
 @Service
 @Transactional

@@ -4,12 +4,13 @@ import org.springframework.stereotype.Component;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
 
 import java.nio.ByteBuffer;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 @Component
 public class BasicPasswordCreator implements SecurePasswordCreator {
     //todo sprawdzić to
-    private final SecureRandom secureRandom = new SecureRandom();
+    private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
     private final char[] lowerCaseChars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private final char[] upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     private final char[] digitsChars = "1234567890".toCharArray();
@@ -25,6 +26,9 @@ public class BasicPasswordCreator implements SecurePasswordCreator {
             24, 6, 2, 2, 1
     );
 
+    public BasicPasswordCreator() throws NoSuchAlgorithmException {
+    }
+
     @Override
     public String createSecurePassword() {
         return this.createSecurePassword(defaultPasswordRequirements);
@@ -36,16 +40,16 @@ public class BasicPasswordCreator implements SecurePasswordCreator {
         String password = null;
         while (password == null) {
             String passwordCandidate = tryGenerateSecurePassword(passwordRequirements.passwordLength());
-            if(validatePassword(passwordCandidate, passwordRequirements)) {
+            if (validatePassword(passwordCandidate, passwordRequirements)) {
                 password = passwordCandidate;
             }
         }
 
         return password;
     }
-    
+
     private boolean validatePassword(String password, PasswordRequirements criteria) {
-        if(password.length() < criteria.passwordLength()) {
+        if (password.length() < criteria.passwordLength()) {
             return false;
         }
         int lowercase = 0;
@@ -53,12 +57,12 @@ public class BasicPasswordCreator implements SecurePasswordCreator {
         int digits = 0;
         int special = 0;
 
-        for(char c : password.toCharArray()) {
-            if(Character.isDigit(c)) {
+        for (char c : password.toCharArray()) {
+            if (Character.isDigit(c)) {
                 digits++;
-            } else if(Character.isLowerCase(c)) {
+            } else if (Character.isLowerCase(c)) {
                 lowercase++;
-            } else if(Character.isUpperCase(c)) {
+            } else if (Character.isUpperCase(c)) {
                 uppercase++;
             } else {
                 special++;
@@ -72,7 +76,6 @@ public class BasicPasswordCreator implements SecurePasswordCreator {
     }
 
 
-
     private String tryGenerateSecurePassword(Integer passwordLength) {
         StringBuilder passwordBuilder = new StringBuilder();
 
@@ -80,14 +83,13 @@ public class BasicPasswordCreator implements SecurePasswordCreator {
         secureRandom.nextBytes(bytes);
         ByteBuffer randomBytes = ByteBuffer.wrap(bytes);
 
-        for(int i = 0; i < passwordLength; i++) {
+        for (int i = 0; i < passwordLength; i++) {
             int charCode = randomBytes.getInt() % allowedChars.length;
             passwordBuilder.append(allowedChars[charCode]);
         }
 
         return passwordBuilder.toString();
     }
-
 
 
 }

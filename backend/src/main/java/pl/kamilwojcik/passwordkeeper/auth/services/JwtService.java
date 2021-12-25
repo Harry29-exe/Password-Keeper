@@ -4,8 +4,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public interface JwtService {
 

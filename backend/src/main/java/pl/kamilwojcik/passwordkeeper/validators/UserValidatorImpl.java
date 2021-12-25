@@ -11,8 +11,8 @@ public class UserValidatorImpl implements UserValidator {
 
     @Override
     public void validateUsername(String username) {
-        for(var c : username.toCharArray()) {
-            if(!Character.isLetterOrDigit(c)) {
+        for (var c : username.toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) {
                 //todo
                 throw new IllegalArgumentException();
             }
@@ -21,8 +21,8 @@ public class UserValidatorImpl implements UserValidator {
 
     @Override
     public void validatePassword(String password) {
-        for(var c : password.toCharArray()) {
-            if(!(Character.isLetterOrDigit(c) || additionalAllowedChars.contains(c))) {
+        for (var c : password.toCharArray()) {
+            if (!(Character.isLetterOrDigit(c) || additionalAllowedChars.contains(c))) {
                 //todo
                 throw new IllegalArgumentException("");
             }

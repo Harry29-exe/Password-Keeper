@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 public class PasswordInfoDto {
 
     private @NotBlank String passwordName;
-    private @Nullable String webUrl;
+    private @Nullable
+    String webUrl;
 
 }

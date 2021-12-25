@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -39,10 +38,10 @@ public class JwtServiceImpl implements JwtService {
                           @Value("${jwt.config.auth.exp_in_sec}") Integer authExp,
                           @Value("${jwt.config.refresh.exp_in_sec}") Integer refreshExp) {
 
-        if(authSecret.getBytes(StandardCharsets.UTF_8).length < (256 / 8)) {
+        if (authSecret.getBytes(StandardCharsets.UTF_8).length < (256 / 8)) {
             throw new IllegalArgumentException("Auth secret must be at least 256 bit long");
         }
-        if(refreshSecret.getBytes(StandardCharsets.UTF_8).length < (512 / 8)) {
+        if (refreshSecret.getBytes(StandardCharsets.UTF_8).length < (512 / 8)) {
             throw new IllegalArgumentException("Refresh secret must be at least 512 bit long");
         }
 
@@ -55,7 +54,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String createAuthToken(UserDetails userDetails) {
         var username = userDetails.getUsername();
-        if(username == null || username.isBlank()) {
+        if (username == null || username.isBlank()) {
             //todo
             throw new IllegalArgumentException();
         }
@@ -66,7 +65,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String createRefreshToken(UserDetails userDetails) {
         var username = userDetails.getUsername();
-        if(username == null || username.isBlank()) {
+        if (username == null || username.isBlank()) {
             //todo
             throw new IllegalArgumentException();
         }
@@ -127,7 +126,7 @@ public class JwtServiceImpl implements JwtService {
         try {
             var token = JWT.decode(refreshToken);
             var sub = token.getSubject();
-            if(sub == null || sub.isBlank()) {
+            if (sub == null || sub.isBlank()) {
                 throw new JWTVerificationException("Subject can not be black or null");
             }
             JWTVerifier verifier = JWT.require(refreshAlgorithm)
@@ -149,7 +148,7 @@ public class JwtServiceImpl implements JwtService {
 
     private void logNonJwtCompatibleTokenValue(String invalidJWT, String tokenType) {
         var requestAttributes = RequestContextHolder.getRequestAttributes();
-        if(requestAttributes == null) {
+        if (requestAttributes == null) {
             logger.error("Client without ip tried pass following string: " +
                     invalidJWT + " as jwt " + tokenType + "token");
             return;
@@ -163,7 +162,7 @@ public class JwtServiceImpl implements JwtService {
 
     private void logInvalidJwtToken(String invalidJWT, String rejectReason, String tokenType) {
         var requestAttributes = RequestContextHolder.getRequestAttributes();
-        if(requestAttributes == null) {
+        if (requestAttributes == null) {
             logger.error("Client without ip tried to use following invalid jwt token: " + invalidJWT +
                     " as jwt " + tokenType + "token, token was rejected because of the following reason: " +
                     rejectReason);

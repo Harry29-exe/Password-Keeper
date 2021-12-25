@@ -1,7 +1,9 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
+import javax.crypto.SecretKey;
+
 public interface StorageKeyGenerator {
 
-    String getStorageKey(String storagePassword);
+    SecretKey getStorageKey(String storagePassword, String salt);
 
 }

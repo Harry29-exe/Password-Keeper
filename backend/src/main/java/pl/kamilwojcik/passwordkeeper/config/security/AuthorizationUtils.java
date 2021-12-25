@@ -20,7 +20,7 @@ public class AuthorizationUtils {
         }
 
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth == null) {
+        if (auth == null) {
             return false;
         }
 

@@ -32,14 +32,14 @@ public class UserServiceImpl implements UserService {
                 createUser.username(),
                 passwordEncoder.encode(createUser.nonEncodedPassword()),
                 passwordEncoder.encode(createUser.storageNonEncodedPassword())
-                );
+        );
         userRepo.save(userEntity);
     }
 
 
     @Override
     public void deleteUser(String username) {
-        if(userRepo.existsByUsername(username)) {
+        if (userRepo.existsByUsername(username)) {
             userRepo.deleteByUsername(username);
         } else {
             //todo

@@ -8,4 +8,5 @@ public record CreateNewSecurePassword(
         @NotBlank String storagePassword,
         @NotBlank String passwordName,
         @Nullable String passwordUrl
-) {}
+) {
+}

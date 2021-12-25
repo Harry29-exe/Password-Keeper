@@ -16,5 +16,4 @@ public interface UserApi {
     void deleteUser(DeleteUserRequest request);
 
 
-
 }

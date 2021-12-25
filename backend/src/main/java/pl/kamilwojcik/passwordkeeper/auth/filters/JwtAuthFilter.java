@@ -1,6 +1,5 @@
 package pl.kamilwojcik.passwordkeeper.auth.filters;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

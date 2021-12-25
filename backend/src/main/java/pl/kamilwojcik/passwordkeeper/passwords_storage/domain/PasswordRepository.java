@@ -11,5 +11,4 @@ public interface PasswordRepository extends JpaRepository<PasswordEntity, Long> 
     List<PasswordEntity> findAllByUser_Username(String username);
 
 
-
 }

@@ -10,7 +10,7 @@ public record PasswordRequirements(
 
     public PasswordRequirements {
         var minimalLength = lowerCaseChars + upperCaseChars + digitsChars + specialChars;
-        if(passwordLength < minimalLength) {
+        if (passwordLength < minimalLength) {
             throw new IllegalStateException("Password must be at least as long as all it's necessary parts");
         }
     }

@@ -4,8 +4,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import pl.kamilwojcik.passwordkeeper.users.services.dto.CreateUser;
 
-import java.util.UUID;
-
 @Service
 public interface UserService {
 

@@ -1,7 +1,5 @@
 package pl.kamilwojcik.passwordkeeper.users.api;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import pl.kamilwojcik.passwordkeeper.users.api.dto.DeleteUserRequest;
 import pl.kamilwojcik.passwordkeeper.users.services.UserService;
 import pl.kamilwojcik.passwordkeeper.users.services.dto.CreateUser;
