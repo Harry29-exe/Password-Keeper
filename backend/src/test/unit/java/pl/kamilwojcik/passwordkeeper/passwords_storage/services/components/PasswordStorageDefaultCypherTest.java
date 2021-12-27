@@ -1,17 +1,16 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
 import org.junit.jupiter.api.Test;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.services.StoragePasswordCypherService;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-class StoragePasswordCypherServiceTest {
-    StoragePasswordCypherService cypherService =
-            new StoragePasswordCypherService();
+class PasswordStorageDefaultCypherTest {
+    PasswordStorageDefaultCypher cypherService =
+            new PasswordStorageDefaultCypher();
     SecureRandom random = SecureRandom.getInstanceStrong();
 
-    StoragePasswordCypherServiceTest() throws NoSuchAlgorithmException {
+    PasswordStorageDefaultCypherTest() throws NoSuchAlgorithmException {
     }
 
     @Test

@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.services;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,12 @@ import java.security.spec.KeySpec;
 import java.util.Base64;
 
 @Service
-public class StoragePasswordCypherService implements StoragePasswordCypher {
-    private static final Integer HASH_FUNCTION_SIZE = 512;
+public class PasswordStorageDefaultCypher implements PasswordStorageCypher {
+    private static final Integer PASSWORD_SIZE = 256;
+    private static final Integer IV_SIZE = 128;
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
-    public StoragePasswordCypherService() throws NoSuchAlgorithmException {
+    public PasswordStorageDefaultCypher() throws NoSuchAlgorithmException {
     }
 
     @Override
@@ -56,14 +57,14 @@ public class StoragePasswordCypherService implements StoragePasswordCypher {
 
     @Override
     public byte[] generateInputVector() {
-        byte[] randomBytes = new byte[HASH_FUNCTION_SIZE / 8];
+        byte[] randomBytes = new byte[IV_SIZE / 8];
         secureRandom.nextBytes(randomBytes);
         return randomBytes;
     }
 
     @Override
     public byte[] generateSalt() {
-        byte[] randomBytes = new byte[HASH_FUNCTION_SIZE / 8];
+        byte[] randomBytes = new byte[PASSWORD_SIZE / 8];
         secureRandom.nextBytes(randomBytes);
         return randomBytes;
     }
@@ -76,7 +77,7 @@ public class StoragePasswordCypherService implements StoragePasswordCypher {
                     storagePassword.toCharArray(),
                     salt,
                     65536,
-                    HASH_FUNCTION_SIZE);
+                    PASSWORD_SIZE);
             SecretKey key = keyFactory.generateSecret(keySpec);
 
             return new SecretKeySpec(key.getEncoded(), "AES");

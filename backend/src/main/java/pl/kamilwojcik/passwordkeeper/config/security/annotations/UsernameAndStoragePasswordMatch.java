@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.config.security.authorize.annotations;
+package pl.kamilwojcik.passwordkeeper.config.security.annotations;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 

@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.services;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
 import org.springframework.stereotype.Component;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;

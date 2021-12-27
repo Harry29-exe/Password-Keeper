@@ -1,8 +1,8 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.services;
+package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
 import javax.crypto.SecretKey;
 
-public interface StoragePasswordCypher {
+public interface PasswordStorageCypher {
 
     String encryptPassword(String password, SecretKey storageKey, byte[] iv);
 

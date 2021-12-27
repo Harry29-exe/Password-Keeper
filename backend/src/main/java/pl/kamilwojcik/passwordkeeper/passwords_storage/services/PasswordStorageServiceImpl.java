@@ -6,30 +6,34 @@ import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.PasswordEntity;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.PasswordRepository;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordInfoDto;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
+import pl.kamilwojcik.passwordkeeper.passwords_storage.services.components.SecurePasswordCreator;
+import pl.kamilwojcik.passwordkeeper.passwords_storage.services.components.PasswordStorageCypher;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @Transactional
 public class PasswordStorageServiceImpl implements PasswordStorageService {
     private final PasswordRepository passwordRepo;
     private final UserRepository userRepo;
-    private final StoragePasswordCypher storageCypher;
+    private final PasswordStorageCypher storageCypher;
     private final SecurePasswordCreator securePasswordCreator;
 
-    public PasswordStorageServiceImpl(PasswordRepository passwordRepo, UserRepository userRepo, StoragePasswordCypher storageCypher, SecurePasswordCreator securePasswordCreator) {
+    public PasswordStorageServiceImpl(PasswordRepository passwordRepo, UserRepository userRepo, PasswordStorageCypher storageCypher, SecurePasswordCreator securePasswordCreator) {
         this.passwordRepo = passwordRepo;
         this.userRepo = userRepo;
         this.storageCypher = storageCypher;
         this.securePasswordCreator = securePasswordCreator;
     }
 
+
     @Override
-    public void savePassword(String passwordToSave,
-                             PasswordInfoDto passwordInfo,
-                             String storagePassword,
-                             String username
+    public void encryptAndSave(String passwordToSave,
+                               PasswordInfoDto passwordInfo,
+                               String storagePassword,
+                               String username
     ) {
         var iv = storageCypher.generateInputVector();
         var salt = storageCypher.generateSalt();
@@ -53,6 +57,7 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
         passwordRepo.save(entity);
     }
 
+
     @Override
     public String createNewPassword(PasswordInfoDto passwordInfo,
                                   PasswordRequirements requirements,
@@ -66,9 +71,10 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
             passwordToSave = securePasswordCreator.createSecurePassword(requirements);
         }
 
-        this.savePassword(passwordToSave, passwordInfo, storagePassword, username);
+        this.encryptAndSave(passwordToSave, passwordInfo, storagePassword, username);
         return passwordToSave;
     }
+
 
     @Override
     public String readPassword(String passwordName,
@@ -83,14 +89,20 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
                 passwordEntity.getSalt()
         );
 
-        String decryptedPassword = storageCypher.decodePassword(
+        return storageCypher.decodePassword(
                 passwordEntity.getEncryptedPassword(),
                 storageKey,
                 passwordEntity.getIv()
         );
-
-        return decryptedPassword;
     }
+
+
+    @Override
+    public List<PasswordInfoDto> getUsersPasswords(String username) {
+
+        return passwordRepo.findDtoByUser_Username(username);
+    }
+
 
     @Override
     public void deletePassword(String username, String passwordName) {
@@ -100,5 +112,6 @@ public class PasswordStorageServiceImpl implements PasswordStorageService {
             throw new EntityNotFoundException("Given password does not exists");
         }
     }
+
 
 }

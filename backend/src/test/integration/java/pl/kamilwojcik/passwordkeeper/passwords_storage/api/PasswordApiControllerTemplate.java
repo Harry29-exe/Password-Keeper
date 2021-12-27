@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-class PasswordApiControllerTemplate {
+public class PasswordApiControllerTemplate {
 
     @Autowired
     protected MockMvc mockMvc;
