@@ -1,4 +1,5 @@
-import {readable, writable} from "svelte/store";
+import type {Readable} from "svelte/store";
+import {writable} from "svelte/store";
 import {ResponseStatus, ResponseStatusU} from "../logic/ResponseStatus";
 import {AuthApi} from "../logic/auth-api/AuthApi";
 
@@ -27,12 +28,16 @@ export class AuthHolder {
     }
 }
 
-function createAuthStore() {
+interface AuthStore extends Readable<AuthHolder> {
+    login: (username: string, password: string) => Promise<ResponseStatus>
+}
+
+function createAuthStore(): AuthStore {
     const {subscribe, set, update} = writable<AuthHolder>();
     set(new AuthHolder(false));
 
     return {
-        subscribe,
+        subscribe: subscribe,
         login: (username: string, password: string): Promise<ResponseStatus> => {
             return AuthApi.login(username, password)
                 .then(response => {
@@ -46,4 +51,4 @@ function createAuthStore() {
     };
 }
 
-export const AuthStore = createAuthStore();
+export const authStore = createAuthStore();

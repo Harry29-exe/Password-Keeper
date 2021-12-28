@@ -1,6 +1,6 @@
 <script lang="ts">
-  import "./../../style/ComponentSize.css";
-  import "./../../style/Utils.css";
+  import "../../../style/ComponentSize.css";
+  import "../../../style/Utils.css";
   import {createEventDispatcher} from "svelte";
 
   export let buttonType: ButtonStyle = "Primary";

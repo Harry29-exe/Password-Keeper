@@ -3,17 +3,18 @@
     export let value = "";
     export let placeholder = "";
     export let type: "password" | "text" = "text"
+
+    const onchange = (e: Event) => {
+        let target = e.target;
+        if(target instanceof HTMLInputElement) {
+            value = target.value;
+        }
+    }
 </script>
 
-{#if type === "text"}
-    <input bind:value={value} style={style} type="text"
+<input id="input" on:change={onchange} style={style} type={type}
            placeholder={placeholder}/>
-{/if}
 
-{#if type === "password"}
-    <input bind:value={value} style={style} type="password"
-           placeholder={placeholder}/>
-{/if}
 
 
 <style>

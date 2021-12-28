@@ -1,9 +1,9 @@
 <script lang="ts">
   import "./../style/Utils.css"
-  import Button from "../components/atomic/Button.svelte";
+  import Button from "../components/utils/atomic/Button.svelte";
   import {goto} from "$app/navigation";
-  import Modal from "../components/atomic/Modal.svelte";
-  import LoggingModule from "../components/modules/LoggingModule.svelte";
+  import Modal from "../components/utils/atomic/Modal.svelte";
+  import LoggingModule from "../components/home/LoggingModal.svelte";
 
   let loginModal = false;
   let registerModal = false;

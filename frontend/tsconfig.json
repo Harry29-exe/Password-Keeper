@@ -27,7 +27,10 @@
 			"$lib/*": ["src/lib/*"]
 		},
 		"strictNullChecks": true,
-		"alwaysStrict": true
+		"alwaysStrict": true,
+
+		"importsNotUsedAsValues": "remove"
+
 	},
 	"include": [
       "src/**/*.d.ts",

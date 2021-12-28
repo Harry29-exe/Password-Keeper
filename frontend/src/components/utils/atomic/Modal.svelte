@@ -6,8 +6,8 @@
 </script>
 
 
-<div class="overlay">
-    <div class="modal">
+<div class="overlay" style={style} on:click={() => isOpen = false}>
+    <div class="modal" on:click={e => e.stopPropagation()}>
         <Button style="position: absolute; right: 10px; top: 10px; width: 40px"
                 on:click={() => isOpen = false}>
             X
@@ -41,11 +41,5 @@
 
         border-radius: 3px;
         box-shadow: 3px 3px 5px 2px rgba(0,0,0, 0.4);
-    }
-
-    .close-button {
-        position: absolute;
-        right: 10px;
-        top: 10px;
     }
 </style>
