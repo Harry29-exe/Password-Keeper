@@ -16,6 +16,8 @@
         justify-content: center;
         align-items: flex-start;
         flex-direction: row;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .HStack > * {
