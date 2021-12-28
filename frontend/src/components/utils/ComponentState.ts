@@ -1,6 +1,7 @@
 export enum State {
     IN_PROGRESS,
     NOT_INITIALIZED,
+    FINISHED_SUCCESSFULLY,
     ERROR
 }
 
@@ -19,6 +20,10 @@ export class ComponentState {
 
     public isInProgress() {
         return this.state === State.IN_PROGRESS;
+    }
+
+    public isFinishedSuccessfully() {
+        return this.state === State.FINISHED_SUCCESSFULLY;
     }
 
     public isError() {

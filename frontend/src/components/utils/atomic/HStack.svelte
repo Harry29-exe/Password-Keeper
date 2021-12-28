@@ -13,12 +13,12 @@
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: row;
     }
 
     .HStack > * {
-        margin-top: 8px;
+        margin-right: 8px;
     }
 </style>
