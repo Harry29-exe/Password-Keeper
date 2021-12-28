@@ -12,7 +12,7 @@
     }
 </script>
 
-<input id="input" on:change={onchange} style={style} type={type}
+<input on:change={onchange} style={style} type={type}
            placeholder={placeholder}/>
 
 
@@ -21,7 +21,8 @@
     input {
         background: var(--gray-800);
         border: 2px solid var(--primary-600);
-        margin: 8px 0 8px 0;
+        margin-top: 8px;
+        margin-bottom: 8px;
         width: 100%;
         border-radius: 2px;
         box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.4);

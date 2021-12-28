@@ -1,7 +1,7 @@
 <script lang="ts">
     import {authStore} from "../../stores/AuthStore";
     import {onMount} from "svelte";
-    import PasswordList from "../../components/dashboard/PasswordList.svelte";
+    import PasswordList from "../../components/dashboard/password-list/PasswordList.svelte";
     import {ComponentState, State} from "../../components/utils/ComponentState";
     import {PasswordAPI} from "../../logic/password-storage-api/PasswordAPI";
     import {PasswordInfoDTO} from "../../logic/password-storage-api/PasswordInfoDTO";

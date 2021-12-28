@@ -2,14 +2,14 @@
     export let style = "";
 </script>
 
-<div style={style} class="HStack">
+<div style={style} class="VStack">
     <slot>
 
     </slot>
 </div>
 
 <style>
-    .HStack {
+    .VStack {
         width: 100%;
         height: 100%;
         display: flex;
@@ -20,7 +20,7 @@
         margin-left: auto;
     }
 
-    .HStack > * {
+    .VStack > * {
         margin-top: 8px;
     }
 </style>

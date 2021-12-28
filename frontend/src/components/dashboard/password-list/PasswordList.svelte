@@ -1,8 +1,8 @@
 <script lang="ts">
-    import {PasswordInfoDTO} from "../../logic/password-storage-api/PasswordInfoDTO";
-    import HStack from "../utils/atomic/HStack.svelte";
-    import VStack from "../utils/atomic/VStack.svelte";
-    import Spacer from "../utils/atomic/Spacer.svelte";
+    import {PasswordInfoDTO} from "../../../logic/password-storage-api/PasswordInfoDTO";
+    import HStack from "../../utils/atomic/HStack.svelte";
+    import VStack from "../../utils/atomic/VStack.svelte";
+    import Spacer from "../../utils/atomic/Spacer.svelte";
     import Password from "./Password.svelte";
 
     export let passwordList: PasswordInfoDTO[] = [];

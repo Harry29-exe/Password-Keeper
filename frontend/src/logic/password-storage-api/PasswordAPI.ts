@@ -2,7 +2,7 @@ import {PasswordInfoDTO} from "./PasswordInfoDTO";
 import {BACKEND_ADDRESS} from "../BackendAddress";
 
 export class PasswordAPI {
-    private static readonly API_ADDRESS = BACKEND_ADDRESS + "/password-storage/"
+    private static readonly API_ADDRESS = BACKEND_ADDRESS + "/password-storage"
 
     public static async getPasswords(authToken: string): Promise<PasswordInfoDTO[]> {
         return fetch(`${this.API_ADDRESS}`, {
@@ -25,7 +25,10 @@ export class PasswordAPI {
 
         return fetch(`${this.API_ADDRESS}/get`, {
             method: 'post',
-            headers: {'Authorization': authToken},
+            headers: {
+                'Authorization': authToken,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 storagePassword: storagePassword,
                 passwordName: passwordName
@@ -35,7 +38,7 @@ export class PasswordAPI {
                 return Promise.reject("Server returned: " + response.status);
             }
 
-            return response.json();
+            return response.text()
         })
     }
 
