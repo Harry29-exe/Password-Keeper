@@ -17,6 +17,7 @@ import java.util.List;
 
 @Validated
 @RequestMapping("password-storage")
+@CrossOrigin(origins = {"http://localhost:3000"})
 @PreAuthorize("isAuthenticated()")
 public interface PasswordApi {
 
@@ -39,9 +40,14 @@ public interface PasswordApi {
             @NotNull Authentication auth
     );
 
+    @GetMapping
+    List<PasswordInfoDto> getAllPasswordsInStorage(
+            @NotNull Authentication auth
+    );
 
     //todo
 //    @PatchMapping
+
 //    void updatePasswordInfo()
 
 
@@ -51,11 +57,6 @@ public interface PasswordApi {
             @NotNull Authentication auth
     );
 
-
-    @GetMapping
-    List<PasswordInfoDto> getAllPasswordsInStorage(
-            @NotNull Authentication auth
-    );
 
 
 }

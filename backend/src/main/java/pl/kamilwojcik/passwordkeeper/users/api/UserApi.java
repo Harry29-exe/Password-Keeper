@@ -9,8 +9,9 @@ import pl.kamilwojcik.passwordkeeper.users.services.dto.CreateUser;
 
 import javax.validation.Valid;
 
-@RequestMapping("/users")
 @Validated
+@RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public interface UserApi {
 
     @PutMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
