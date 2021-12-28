@@ -25,7 +25,9 @@
 		"paths": {
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"]
-		}
+		},
+		"strictNullChecks": true,
+		"alwaysStrict": true
 	},
 	"include": [
       "src/**/*.d.ts",

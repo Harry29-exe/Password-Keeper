@@ -1,10 +1,10 @@
 <script>
-    // let
+    export let style = "";
 </script>
 
 
-<div>
-
+<div style={style}>
+    <slot></slot>
 </div>
 
 <style>

@@ -3,6 +3,10 @@
 }
 
 * {
+    box-sizing: border-box;
+}
+
+* {
     --primary-50: #EBF8FF;
     --primary-100: #BEE3F8;
     --primary-200: #90CDF4;
