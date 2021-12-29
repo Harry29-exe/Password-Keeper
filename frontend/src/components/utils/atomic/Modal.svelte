@@ -41,6 +41,7 @@
         min-width: 40%;
         min-height: 50%;
         margin-bottom: 10%;
+        margin-top: 10%;
 
         border-radius: 3px;
         box-shadow: 3px 3px 5px 2px rgba(0,0,0, 0.4);

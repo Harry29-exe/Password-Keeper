@@ -4,6 +4,7 @@
   import {goto} from "$app/navigation";
   import Modal from "../components/utils/atomic/Modal.svelte";
   import LoggingModule from "../components/home/LoggingModal.svelte";
+  import RegisterModal from "../components/home/RegisterModal.svelte";
 
   let loginModal = false;
   let registerModal = false;
@@ -20,14 +21,9 @@
 
     <LoggingModule/>
 
-    <Button style="margin: 8px" size="lg">
-        Register
-    </Button>
-    {#if registerModal}
-        <Modal isOpen={registerModal}>
+    <div style="width: 100%; height: 20px"></div>
 
-        </Modal>
-    {/if}
+    <RegisterModal/>
 
     <div style="width: 1px; height: 200px"></div>
 </div>
