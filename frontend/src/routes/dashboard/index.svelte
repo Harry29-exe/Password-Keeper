@@ -5,6 +5,7 @@
     import {ComponentState, State} from "../../components/utils/ComponentState";
     import {PasswordAPI} from "../../logic/password-storage-api/PasswordAPI";
     import {PasswordInfoDTO} from "../../logic/password-storage-api/PasswordInfoDTO";
+    import AddPassword from "../../components/dashboard/password-list/AddPassword.svelte";
 
     let passwordList: PasswordInfoDTO[] = [];
     let passwordsFetchStatus: ComponentState = new ComponentState(State.IN_PROGRESS);
@@ -28,6 +29,8 @@
     {#if passwordsFetchStatus.isFinishedSuccessfully()}
         <PasswordList passwordList={passwordList}/>
     {/if}
+
+    <AddPassword/>
 
 </div>
 

@@ -1,8 +1,10 @@
 <script lang="ts">
     export let style = "";
+    export let cssClass = "";
+    export {cssClass as class};
 </script>
 
-<div style={style} class="VStack">
+<div style={style} class={`VStack ${cssClass}`} on:click>
     <slot>
 
     </slot>

@@ -3,7 +3,7 @@
     import type {PasswordInfoDTO} from "../../../logic/password-storage-api/PasswordInfoDTO.js";
     import Button from "../../utils/atomic/Button.svelte";
     import Center from "../../utils/atomic/Center.svelte";
-    import PasswordModal from "./PasswordModal.svelte";
+    import PasswordModal from "./modal/PasswordModal.svelte";
 
     export let passwordInfo: PasswordInfoDTO;
     let isOpen = false;
