@@ -2,6 +2,7 @@ import {PasswordInfoDTO} from "./PasswordInfoDTO";
 import {BACKEND_ADDRESS} from "../BackendAddress";
 import {SavePasswordRequestDTO} from "./SavePasswordRequestDTO";
 import {ResponseStatus, ResponseStatusU} from "../ResponseStatus";
+import {CreateNewPasswordRequestDTO} from "./CreateNewPasswordRequestDTO";
 
 export class PasswordAPI {
     private static readonly API_ADDRESS = BACKEND_ADDRESS + "/password-storage"
@@ -50,6 +51,22 @@ export class PasswordAPI {
     ): Promise<ResponseStatus> {
 
         return fetch(`${this.API_ADDRESS}/save-password`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authToken
+            },
+            body: JSON.stringify(requestBody)
+        }).then(response => ResponseStatusU.getResponseStatus(response.status))
+
+    }
+
+    public static async createNewPassword(
+        requestBody: CreateNewPasswordRequestDTO,
+        authToken: string
+    ): Promise<ResponseStatus> {
+
+        return fetch(`${this.API_ADDRESS}/create-password`, {
             method: 'put',
             headers: {
                 'Content-Type': 'application/json',

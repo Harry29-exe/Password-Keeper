@@ -9,6 +9,7 @@
     import {SavePasswordRequestDTO} from "../../../logic/password-storage-api/SavePasswordRequestDTO";
     import {authStore} from "../../../stores/AuthStore";
     import {ResponseStatusU} from "../../../logic/ResponseStatus";
+    import {CreateNewPasswordRequestDTO} from "../../../logic/password-storage-api/CreateNewPasswordRequestDTO";
 
     let isOpen = false;
 
@@ -24,7 +25,9 @@
     let storagePassword = "";
 
     const onAddPassword = () => {
-      if(addPasswordMode) {
+        if(newPassword !== newPasswordRepeat) {
+            //todo
+        } else if(addPasswordMode) {
           PasswordAPI.saveNewPassword(
               new SavePasswordRequestDTO(
                   storagePassword,
@@ -39,7 +42,21 @@
                       console.log('not ok')
                   }
               })
-      }
+        } else {
+            PasswordAPI.createNewPassword(
+                new CreateNewPasswordRequestDTO(
+                    storagePassword,
+                    passwordName,
+                    passwordUrl
+                ), $authStore.authToken as string
+            ).then(status => {
+                if(ResponseStatusU.isOk(status)) {
+                    console.log('ok')
+                } else {
+                    console.log('not ok')
+                }
+            })
+        }
     }
 </script>
 
