@@ -84,7 +84,7 @@ public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
         ByteBuffer randomBytes = ByteBuffer.wrap(bytes);
 
         for (int i = 0; i < passwordLength; i++) {
-            int charCode = randomBytes.getInt() % allowedChars.length;
+            int charCode = Math.abs(randomBytes.getInt()) % allowedChars.length;
             passwordBuilder.append(allowedChars[charCode]);
         }
 
