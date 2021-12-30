@@ -5,6 +5,10 @@
     import TextInput from "../../utils/atomic/TextInput.svelte";
     import Spacer from "../../utils/atomic/Spacer.svelte";
     import HStack from "../../utils/atomic/HStack.svelte";
+    import {PasswordAPI} from "../../../logic/password-storage-api/PasswordAPI";
+    import {SavePasswordRequestDTO} from "../../../logic/password-storage-api/SavePasswordRequestDTO";
+    import {authStore} from "../../../stores/AuthStore";
+    import {ResponseStatusU} from "../../../logic/ResponseStatus";
 
     let isOpen = false;
 
@@ -18,6 +22,25 @@
     let newPassword = "";
     let newPasswordRepeat = "";
     let storagePassword = "";
+
+    const onAddPassword = () => {
+      if(addPasswordMode) {
+          PasswordAPI.saveNewPassword(
+              new SavePasswordRequestDTO(
+                  storagePassword,
+                  newPassword,
+                  passwordName,
+                  passwordUrl
+              ), $authStore.authToken as string)
+              .then(status => {
+                  if(ResponseStatusU.isOk(status)) {
+                      console.log('ok')
+                  } else {
+                      console.log('not ok')
+                  }
+              })
+      }
+    }
 </script>
 
 
@@ -49,7 +72,7 @@
         <TextInput bind:value={storagePassword} placeholder="Your storage password" type="password"/>
 
 
-        <Button style="margin-top: 20px" size="lg">
+        <Button style="margin-top: 20px" size="lg" on:click={onAddPassword}>
             Add password
         </Button>
     </VStack>
