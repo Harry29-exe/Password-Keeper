@@ -4,6 +4,7 @@
     export let value = "";
     export let placeholder = "";
     export let type: "password" | "text" = "text"
+    export let disabled = false;
 
     const onchange = (e: Event) => {
         let target = e.target;
@@ -13,8 +14,9 @@
     }
 </script>
 
-<input on:change={onchange} style={style} class={cssClass} type={type}
-           placeholder={placeholder}/>
+<input on:change={onchange} style={`${style} ${disabled? "background: var(--gray-700); color: var(--gray-300)": ""}`}
+       class={cssClass} type={type}
+       disabled={disabled} placeholder={placeholder}/>
 
 
 

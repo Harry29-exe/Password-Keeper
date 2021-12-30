@@ -8,6 +8,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.kamilwojcik.passwordkeeper.auth.dto.value.LoginRequest;
 
+import javax.servlet.http.Cookie;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class AuthAPIMockMvc {
@@ -23,6 +25,17 @@ public class AuthAPIMockMvc {
                 post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestBody))
+        );
+    }
+
+    public ResultActions refreshAuthToken(String refreshToken) throws Exception {
+        var cookie = new Cookie("Refresh-Token", refreshToken);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+
+        return mockMvc.perform(
+                post("/refresh/auth-token")
+                        .cookie(cookie)
         );
     }
 

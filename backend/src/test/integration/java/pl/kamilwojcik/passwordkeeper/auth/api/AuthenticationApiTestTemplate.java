@@ -8,10 +8,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.kamilwojcik.passwordkeeper.auth.utils.AuthAPIMockMvc;
+import pl.kamilwojcik.passwordkeeper.utils.ExecuteDML;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Sql(scripts = {"/sql/drop.sql", "/sql/add_users.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@ExecuteDML
 @ActiveProfiles("tests")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc

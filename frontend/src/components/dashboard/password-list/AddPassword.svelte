@@ -67,23 +67,30 @@
 </Button>
 
 
-<Modal bind:isOpen>
-    <VStack style="margin: 60px 50px 50px 50px; min-width: 300px; width: 80%; font-size: 1.5rem;">
+<Modal bind:isOpen style="min-height: 70vh; min-width: 50vw">
+    <VStack style="margin: 10px 50px 50px 50px; min-width: 300px; width: 80%; font-size: 1.5rem;">
+        <h1>Add new password</h1>
         <TextInput bind:value={passwordName} placeholder="Password name" />
         <TextInput bind:value={passwordUrl} placeholder="Optional password url" />
         <Spacer/>
 
 
         <HStack class="hover-pointer" on:click={switchActionType}>
-            <input type="checkbox" style="width: 20px; height: 20px" bind:checked={addPasswordMode}/>
+            <input type="checkbox" style="width: 20px; height: 20px"
+                   checked={!addPasswordMode} on:click={e => {
+                       e.stopPropagation();
+                       switchActionType();
+                   }}/>
             <span style="flex-grow: 5; text-align: center">
                 Generate password for me
             </span>
         </HStack>
-        {#if addPasswordMode}
-            <TextInput bind:value={newPassword} placeholder="New Password" type="password"/>
-            <TextInput bind:value={newPasswordRepeat} placeholder="Repeat new Password" type="password"/>
-        {/if}
+
+        <TextInput bind:value={newPassword} placeholder="New Password"
+                   type="password" disabled={!addPasswordMode}/>
+        <TextInput bind:value={newPasswordRepeat} placeholder="Repeat new Password"
+                   type="password" disabled={!addPasswordMode}/>
+
 
         <Spacer />
         <TextInput bind:value={storagePassword} placeholder="Your storage password" type="password"/>

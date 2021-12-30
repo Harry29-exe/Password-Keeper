@@ -51,12 +51,16 @@ public class AuthenticationApiController implements AuthenticationApi {
 
     @Override
     public void refreshAuthToken(HttpServletRequest request, HttpServletResponse response) {
-
+        // TODO: 31.12.2021
     }
 
     @Override
     public void refreshRefreshToken(HttpServletRequest request, HttpServletResponse response) {
+        // TODO: 31.12.2021
+    }
 
+    private void validateCookie(Cookie cookie) {
+        //todo
     }
 
     private void addRefreshTokenCookie(String refreshToken, HttpServletResponse response) {
