@@ -1,12 +1,10 @@
-package pl.kamilwojcik.passwordkeeper.auth.utils;
+package pl.kamilwojcik.passwordkeeper.authentication.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.kamilwojcik.passwordkeeper.auth.dto.value.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
 
 import javax.servlet.http.Cookie;
 

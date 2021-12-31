@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.auth.utils;
+package pl.kamilwojcik.passwordkeeper.authentication.utils;
 
 public class DefaultUsersCredentials {
 

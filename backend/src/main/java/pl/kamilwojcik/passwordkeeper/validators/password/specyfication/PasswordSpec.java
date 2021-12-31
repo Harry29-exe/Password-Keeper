@@ -1,6 +1,9 @@
-package pl.kamilwojcik.passwordkeeper.passwords_storage.dto;
+package pl.kamilwojcik.passwordkeeper.validators.password.specyfication;
 
-public record PasswordRequirements(
+import java.util.List;
+
+public record PasswordSpec(
+        List<Character> specialCharacters,
         Integer passwordLength,
         Integer lowerCaseChars,
         Integer upperCaseChars,
@@ -8,7 +11,7 @@ public record PasswordRequirements(
         Integer specialChars
 ) {
 
-    public PasswordRequirements {
+    public PasswordSpec {
         var minimalLength = lowerCaseChars + upperCaseChars + digitsChars + specialChars;
         if (passwordLength < minimalLength) {
             throw new IllegalStateException("Password must be at least as long as all it's necessary parts");

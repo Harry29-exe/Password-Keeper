@@ -1,11 +1,11 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
-import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
+import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
 
 public interface SecurePasswordCreator {
 
     String createSecurePassword();
 
-    String createSecurePassword(PasswordRequirements passwordRequirements);
+    String createSecurePassword(PasswordSpec passwordSpec);
 
 }

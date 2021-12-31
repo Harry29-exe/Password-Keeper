@@ -1,8 +1,8 @@
-package pl.kamilwojcik.passwordkeeper.auth.api;
+package pl.kamilwojcik.passwordkeeper.authentication.api;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.kamilwojcik.passwordkeeper.auth.dto.value.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
 import pl.kamilwojcik.passwordkeeper.config.consts.CorsAddresses;
 
 import javax.servlet.http.HttpServletRequest;

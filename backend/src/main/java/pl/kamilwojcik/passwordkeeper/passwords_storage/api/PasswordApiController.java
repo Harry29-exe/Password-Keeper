@@ -34,7 +34,7 @@ public class PasswordApiController implements PasswordApi {
     public String createSecurePassword(CreateNewPasswordRequest request, Authentication auth) {
         return passwordService.createNewPassword(
                 new PasswordInfoDto(request.passwordName(), request.passwordUrl()),
-                request.passwordRequirements(),
+                request.passwordSpec(),
                 request.storagePassword(),
                 auth.getName()
         );

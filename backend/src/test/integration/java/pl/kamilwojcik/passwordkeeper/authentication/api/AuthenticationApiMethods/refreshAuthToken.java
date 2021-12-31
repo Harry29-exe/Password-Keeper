@@ -1,7 +1,7 @@
-package pl.kamilwojcik.passwordkeeper.auth.api.AuthenticationApiMethods;
+package pl.kamilwojcik.passwordkeeper.authentication.api.AuthenticationApiMethods;
 
 import org.junit.jupiter.api.Test;
-import pl.kamilwojcik.passwordkeeper.auth.api.AuthenticationApiTestTemplate;
+import pl.kamilwojcik.passwordkeeper.authentication.api.AuthenticationApiTestTemplate;
 
 class refreshAuthToken extends AuthenticationApiTestTemplate {
 

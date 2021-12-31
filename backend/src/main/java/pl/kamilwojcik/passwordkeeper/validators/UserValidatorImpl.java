@@ -1,18 +1,19 @@
 package pl.kamilwojcik.passwordkeeper.validators;
 
 import org.springframework.stereotype.Component;
+import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpecValidator;
 
 import javax.validation.ValidationException;
 import java.util.List;
 
 @Component
 public class UserValidatorImpl implements UserValidator {
-    private final PasswordRequirementsValidator passwordRequirementsValidator;
+    private final PasswordSpecValidator passwordSpecValidator;
 
     private final List<Character> additionalAllowedChars = List.of('_', '@', '$');
 
-    public UserValidatorImpl(PasswordRequirementsValidator passwordRequirementsValidator) {
-        this.passwordRequirementsValidator = passwordRequirementsValidator;
+    public UserValidatorImpl(PasswordSpecValidator passwordSpecValidator) {
+        this.passwordSpecValidator = passwordSpecValidator;
     }
 
     @Override
@@ -32,6 +33,6 @@ public class UserValidatorImpl implements UserValidator {
             }
         }
 
-        passwordRequirementsValidator.validatePassword(password);
+        passwordSpecValidator.passwordIsValid(password);
     }
 }

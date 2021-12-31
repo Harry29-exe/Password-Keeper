@@ -1,8 +1,8 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
 import org.springframework.stereotype.Component;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
-import pl.kamilwojcik.passwordkeeper.validators.PasswordRequirementsValidator;
+import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
+import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpecValidator;
 
 import javax.validation.ValidationException;
 import java.nio.ByteBuffer;
@@ -11,7 +11,8 @@ import java.security.SecureRandom;
 
 @Component
 public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
-    private final PasswordRequirementsValidator passwordValidator;
+    private final PasswordSpecValidator passwordValidator;
+    private final PasswordSpec defaultPasswordSpec;
     //todo sprawdzić to
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
     private final char[] lowerCaseChars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -25,26 +26,23 @@ public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
             String.valueOf(specialChars))
             .toCharArray();
 
-    private final PasswordRequirements defaultPasswordRequirements = new PasswordRequirements(
-            24, 6, 2, 2, 1
-    );
-
-    public SecurePasswordDefaultCreator(PasswordRequirementsValidator passwordValidator) throws NoSuchAlgorithmException {
+    public SecurePasswordDefaultCreator(PasswordSpecValidator passwordValidator, PasswordSpec defaultPasswordSpec) throws NoSuchAlgorithmException {
         this.passwordValidator = passwordValidator;
+        this.defaultPasswordSpec = defaultPasswordSpec;
     }
 
     @Override
     public String createSecurePassword() {
-        return this.createSecurePassword(defaultPasswordRequirements);
+        return this.createSecurePassword(defaultPasswordSpec);
     }
 
     //todo its not really well optimized (creating password in loop)
     @Override
-    public String createSecurePassword(PasswordRequirements passwordRequirements) {
+    public String createSecurePassword(PasswordSpec passwordSpec) {
         String password = null;
         while (password == null) {
-            String passwordCandidate = tryGenerateSecurePassword(passwordRequirements.passwordLength());
-            if (validatePassword(passwordCandidate, passwordRequirements)) {
+            String passwordCandidate = tryGenerateSecurePassword(passwordSpec.passwordLength());
+            if (validatePassword(passwordCandidate, passwordSpec)) {
                 password = passwordCandidate;
             }
         }
@@ -52,9 +50,9 @@ public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
         return password;
     }
 
-    private boolean validatePassword(String password, PasswordRequirements criteria) {
+    private boolean validatePassword(String password, PasswordSpec criteria) {
         try {
-            passwordValidator.validatePassword(password, criteria);
+            passwordValidator.passwordIsValid(password, criteria);
         } catch (ValidationException exception) {
             return false;
         }

@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.auth.services;
+package pl.kamilwojcik.passwordkeeper.authentication.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

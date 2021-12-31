@@ -1,13 +1,12 @@
-package pl.kamilwojcik.passwordkeeper.auth.api.AuthenticationApiMethods;
+package pl.kamilwojcik.passwordkeeper.authentication.api.AuthenticationApiMethods;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import pl.kamilwojcik.passwordkeeper.auth.api.AuthenticationApiTestTemplate;
-import pl.kamilwojcik.passwordkeeper.auth.dto.value.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.authentication.api.AuthenticationApiTestTemplate;
+import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pl.kamilwojcik.passwordkeeper.auth.utils.DefaultUsersCredentials.USER1_PASSWORD;
-import static pl.kamilwojcik.passwordkeeper.auth.utils.DefaultUsersCredentials.USER1_USERNAME;
+import static pl.kamilwojcik.passwordkeeper.authentication.utils.DefaultUsersCredentials.USER1_PASSWORD;
+import static pl.kamilwojcik.passwordkeeper.authentication.utils.DefaultUsersCredentials.USER1_USERNAME;
 
 class login extends AuthenticationApiTestTemplate {
 

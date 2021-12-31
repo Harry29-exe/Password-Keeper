@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.auth.dto.value;
+package pl.kamilwojcik.passwordkeeper.authentication.dto.value;
 
 import javax.validation.constraints.NotBlank;
 

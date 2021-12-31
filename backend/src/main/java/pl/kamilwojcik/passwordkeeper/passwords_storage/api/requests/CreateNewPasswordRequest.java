@@ -1,13 +1,16 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests;
 
+import org.hibernate.validator.constraints.URL;
 import org.springframework.lang.Nullable;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
+import pl.kamilwojcik.passwordkeeper.validators.password.ValidAppPassword;
+import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
+import pl.kamilwojcik.passwordkeeper.validators.url.UrlOrNull;
 
 import javax.validation.constraints.NotBlank;
 
 public record CreateNewPasswordRequest(
-        @NotBlank String storagePassword,
+        @ValidAppPassword String storagePassword,
         @NotBlank String passwordName,
-        @Nullable String passwordUrl,
-        @Nullable PasswordRequirements passwordRequirements
+        @UrlOrNull String passwordUrl,
+        @Nullable PasswordSpec passwordSpec
 ) {}

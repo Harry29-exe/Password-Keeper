@@ -2,10 +2,9 @@ package pl.kamilwojcik.passwordkeeper.passwords_storage.services;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 import pl.kamilwojcik.passwordkeeper.config.security.annotations.UsernameAndStoragePasswordMatch;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordInfoDto;
-import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
+import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface PasswordStorageService {
 
     @UsernameAndStoragePasswordMatch
     String createNewPassword(PasswordInfoDto passwordInfo,
-                           @Nullable PasswordRequirements requirements,
+                           @Nullable PasswordSpec requirements,
                            String storagePassword,
                            String username);
 
