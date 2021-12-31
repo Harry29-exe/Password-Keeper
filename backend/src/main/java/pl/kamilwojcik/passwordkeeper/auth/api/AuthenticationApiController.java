@@ -50,6 +50,17 @@ public class AuthenticationApiController implements AuthenticationApi {
     }
 
     @Override
+    public void logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("Refresh-Token", "");
+        cookie.setPath("/refresh");
+        cookie.setHttpOnly(true);
+        //todo not for production
+        cookie.setSecure(false);
+
+        response.addCookie(cookie);
+    }
+
+    @Override
     public void refreshAuthToken(HttpServletRequest request, HttpServletResponse response) {
         // TODO: 31.12.2021
     }
@@ -68,7 +79,7 @@ public class AuthenticationApiController implements AuthenticationApi {
         cookie.setPath("/refresh");
         cookie.setHttpOnly(true);
         //todo for production
-        cookie.setSecure(true);
+        cookie.setSecure(false);
 
         response.addCookie(cookie);
     }

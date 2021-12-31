@@ -17,6 +17,9 @@ public interface AuthenticationApi {
     @PostMapping("/login")
     void login(@RequestBody @Valid LoginRequest request, HttpServletResponse response);
 
+    @GetMapping("/logout")
+    void logout(HttpServletResponse response);
+
     @PostMapping("/refresh/auth-token")
     void refreshAuthToken(HttpServletRequest request, HttpServletResponse response);
 

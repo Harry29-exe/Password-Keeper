@@ -2,13 +2,16 @@ package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
 import org.springframework.stereotype.Component;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordRequirements;
+import pl.kamilwojcik.passwordkeeper.validators.PasswordRequirementsValidator;
 
+import javax.validation.ValidationException;
 import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 @Component
 public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
+    private final PasswordRequirementsValidator passwordValidator;
     //todo sprawdzić to
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
     private final char[] lowerCaseChars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -26,7 +29,8 @@ public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
             24, 6, 2, 2, 1
     );
 
-    public SecurePasswordDefaultCreator() throws NoSuchAlgorithmException {
+    public SecurePasswordDefaultCreator(PasswordRequirementsValidator passwordValidator) throws NoSuchAlgorithmException {
+        this.passwordValidator = passwordValidator;
     }
 
     @Override
@@ -49,30 +53,13 @@ public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
     }
 
     private boolean validatePassword(String password, PasswordRequirements criteria) {
-        if (password.length() < criteria.passwordLength()) {
+        try {
+            passwordValidator.validatePassword(password, criteria);
+        } catch (ValidationException exception) {
             return false;
         }
-        int lowercase = 0;
-        int uppercase = 0;
-        int digits = 0;
-        int special = 0;
 
-        for (char c : password.toCharArray()) {
-            if (Character.isDigit(c)) {
-                digits++;
-            } else if (Character.isLowerCase(c)) {
-                lowercase++;
-            } else if (Character.isUpperCase(c)) {
-                uppercase++;
-            } else {
-                special++;
-            }
-        }
-
-        return lowercase >= criteria.lowerCaseChars() &&
-                uppercase >= criteria.upperCaseChars() &&
-                digits >= criteria.digitsChars() &&
-                special >= criteria.specialChars();
+        return true;
     }
 
 
