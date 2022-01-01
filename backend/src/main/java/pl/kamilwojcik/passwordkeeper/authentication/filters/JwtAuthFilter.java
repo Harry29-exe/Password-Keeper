@@ -16,11 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static pl.kamilwojcik.passwordkeeper.authentication.filters.JwtAuthFilter.FILTER_ORDER;
+
 @Component
-@Order(1)
+@Order(FILTER_ORDER)
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    public static final Integer FILTER_ORDER = 1;
 
     public JwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
