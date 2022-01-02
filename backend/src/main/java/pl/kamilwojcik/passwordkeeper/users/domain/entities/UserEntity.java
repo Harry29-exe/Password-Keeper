@@ -25,6 +25,9 @@ public class UserEntity {
     @Column(unique = true, nullable = false, updatable = false)
     private String username;
 
+    @Column(unique = true, nullable = false)
+    private String email;
+
     @Column(nullable = false)
     private String password;
 
@@ -34,8 +37,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<PasswordEntity> passwordsInStorage;
 
-    public UserEntity(String username, String password, String storagePassword) {
+    public UserEntity(String username, String email, String password, String storagePassword) {
         this.username = username;
+        this.email = email;
         this.password = password;
         this.storagePassword = storagePassword;
     }

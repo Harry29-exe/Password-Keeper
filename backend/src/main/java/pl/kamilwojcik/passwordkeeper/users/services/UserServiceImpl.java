@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     public void createUser(CreateUser createUser) {
         var userEntity = new UserEntity(
                 createUser.username(),
+                createUser.email(),
                 passwordEncoder.encode(createUser.nonEncodedPassword()),
                 passwordEncoder.encode(createUser.storageNonEncodedPassword())
         );
