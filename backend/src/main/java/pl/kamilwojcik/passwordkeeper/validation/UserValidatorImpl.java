@@ -1,7 +1,7 @@
-package pl.kamilwojcik.passwordkeeper.validators;
+package pl.kamilwojcik.passwordkeeper.validation;
 
 import org.springframework.stereotype.Component;
-import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpecValidator;
+import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpecValidator;
 
 import javax.validation.ValidationException;
 import java.util.List;

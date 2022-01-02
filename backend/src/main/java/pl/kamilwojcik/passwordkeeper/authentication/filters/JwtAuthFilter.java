@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static pl.kamilwojcik.passwordkeeper.authentication.filters.JwtAuthFilter.FILTER_ORDER;
 
 @Component
-@Order(FILTER_ORDER)
+@Order(0)
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;

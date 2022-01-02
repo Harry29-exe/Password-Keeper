@@ -1,8 +1,6 @@
-package pl.kamilwojcik.passwordkeeper.validators.password.specyfication;
+package pl.kamilwojcik.passwordkeeper.validation.password.specyfication;
 
 import org.springframework.stereotype.Component;
-
-import javax.validation.ValidationException;
 
 @Component
 public class PasswordSpecValidatorImpl implements PasswordSpecValidator {
@@ -32,8 +30,10 @@ public class PasswordSpecValidatorImpl implements PasswordSpecValidator {
                 lowercase++;
             } else if (Character.isUpperCase(c)) {
                 uppercase++;
-            } else {
+            } else if (requirements.specialCharacters().contains(c)){
                 special++;
+            } else {
+                return false;
             }
         }
 

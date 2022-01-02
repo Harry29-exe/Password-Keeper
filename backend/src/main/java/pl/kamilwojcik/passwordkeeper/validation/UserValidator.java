@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.validators;
+package pl.kamilwojcik.passwordkeeper.validation;
 
 public interface UserValidator {
 

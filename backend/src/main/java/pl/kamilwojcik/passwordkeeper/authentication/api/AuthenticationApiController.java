@@ -11,7 +11,7 @@ import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotActionTyp
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsAccountList;
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsMsgDispatcher;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
-import pl.kamilwojcik.passwordkeeper.validators.UserValidator;
+import pl.kamilwojcik.passwordkeeper.validation.UserValidator;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

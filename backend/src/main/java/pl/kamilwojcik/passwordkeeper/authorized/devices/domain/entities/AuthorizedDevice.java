@@ -16,7 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "authorized_devices", uniqueConstraints = {
         @UniqueConstraint(
-                name = "authorized-device",
+                name = "authorized_device",
                 columnNames = {"ip_address", "client_name", "user_id"}
         )
 }
@@ -31,14 +31,14 @@ public class AuthorizedDevice {
     @Column(nullable = false, updatable = false, unique = true)
     private UUID publicId = UUID.randomUUID();
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "ip_address")
     private String ipAddress;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "client_name")
     private String clientName;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @OneToMany(mappedBy = "device")

@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.validators.password.specyfication;
+package pl.kamilwojcik.passwordkeeper.validation.password.specyfication;
 
 public interface PasswordSpecValidator {
 

@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.validators.password.specyfication;
+package pl.kamilwojcik.passwordkeeper.validation.password.specyfication;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ public record PasswordSpec(
         Integer lowerCaseChars,
         Integer upperCaseChars,
         Integer digitsChars,
+        Boolean allowsNonASCII,
         Integer specialChars
 ) {
 

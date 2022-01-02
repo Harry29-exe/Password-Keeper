@@ -1,5 +1,10 @@
-alter table if exists passwords_storage
-    drop constraint if exists FK4mfpqbpcgn9dug5pqaliw2xf5;
+alter table if exists authorized_devices drop constraint if exists FKnkhnob5gfwu9x5qo3dxy2py9e;
+alter table if exists login_events drop constraint if exists FKfs0vld0k1yi909m7x6810x2mx;
+alter table if exists passwords_storage drop constraint if exists FK4mfpqbpcgn9dug5pqaliw2xf5;
+alter table if exists unauthorized_devices drop constraint if exists FK5q9jw9xi5pv8o24b3wxehm4sd;
+drop table if exists authorized_devices cascade;
+drop table if exists login_events cascade;
 drop table if exists passwords_storage cascade;
+drop table if exists unauthorized_devices cascade;
 drop table if exists user_entity cascade;
 drop sequence if exists hibernate_sequence;

@@ -1,8 +1,8 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
 import org.springframework.stereotype.Component;
-import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
-import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpecValidator;
+import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpec;
+import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpecValidator;
 
 import javax.validation.ValidationException;
 import java.nio.ByteBuffer;

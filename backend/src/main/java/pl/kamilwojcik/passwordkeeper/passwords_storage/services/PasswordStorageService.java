@@ -4,7 +4,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import pl.kamilwojcik.passwordkeeper.config.security.annotations.UsernameAndStoragePasswordMatch;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordInfoDto;
-import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
+import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpec;
 
 import java.util.List;
 

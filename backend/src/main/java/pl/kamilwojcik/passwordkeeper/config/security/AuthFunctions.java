@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
-import pl.kamilwojcik.passwordkeeper.validators.UserValidator;
+import pl.kamilwojcik.passwordkeeper.validation.UserValidator;
 
 @Component
 public class AuthFunctions {

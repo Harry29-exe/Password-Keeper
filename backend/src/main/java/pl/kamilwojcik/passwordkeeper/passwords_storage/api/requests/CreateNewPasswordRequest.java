@@ -1,10 +1,9 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests;
 
-import org.hibernate.validator.constraints.URL;
 import org.springframework.lang.Nullable;
-import pl.kamilwojcik.passwordkeeper.validators.password.ValidAppPassword;
-import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
-import pl.kamilwojcik.passwordkeeper.validators.url.UrlOrNull;
+import pl.kamilwojcik.passwordkeeper.validation.password.ValidAppPassword;
+import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpec;
+import pl.kamilwojcik.passwordkeeper.validation.url.UrlOrNull;
 
 import javax.validation.constraints.NotBlank;
 

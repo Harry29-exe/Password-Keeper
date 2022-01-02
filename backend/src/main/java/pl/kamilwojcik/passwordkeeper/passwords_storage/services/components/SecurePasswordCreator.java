@@ -1,6 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.services.components;
 
-import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
+import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpec;
 
 public interface SecurePasswordCreator {
 

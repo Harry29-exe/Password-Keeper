@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.PasswordEntity;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.PasswordRepository;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordInfoDto;
-import pl.kamilwojcik.passwordkeeper.validators.password.specyfication.PasswordSpec;
+import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpec;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.services.components.SecurePasswordCreator;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.services.components.PasswordStorageCypher;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;

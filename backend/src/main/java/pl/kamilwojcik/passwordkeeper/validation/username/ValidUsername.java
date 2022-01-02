@@ -1,11 +1,11 @@
-package pl.kamilwojcik.passwordkeeper.validators.url;
+package pl.kamilwojcik.passwordkeeper.validation.username;
 
 import javax.validation.Constraint;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = UrlOrNullValidator.class)
+@Constraint(validatedBy = UsernameValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UrlOrNull {
+public @interface ValidUsername {
 }
