@@ -19,10 +19,10 @@ public class UnauthorizedDevice {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, updatable = false, unique = true, length = 100)
-    private String authorizationLink;
+    private String authorizationLink = UUID.randomUUID().toString();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
@@ -38,4 +38,15 @@ public class UnauthorizedDevice {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    public UnauthorizedDevice(
+            Date linkExpirationDate,
+            String ipAddress,
+            String clientName,
+            UserEntity user
+    ) {
+        this.linkExpirationDate = linkExpirationDate;
+        this.ipAddress = ipAddress;
+        this.clientName = clientName;
+        this.user = user;
+    }
 }

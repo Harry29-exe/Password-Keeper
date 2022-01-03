@@ -1,9 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.authorized.devices.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 

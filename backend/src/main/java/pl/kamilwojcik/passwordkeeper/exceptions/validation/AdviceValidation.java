@@ -20,9 +20,8 @@ public class AdviceValidation {
     private final String ERROR_CODE = "INPUT_VALUES_CONSTRAINT_VIOLATION";
 
     @ExceptionHandler({ValidationException.class})
-    public String handleJavaxValidationExceptions(ValidationException ex) {
-        System.out.println(ex.getMessage());
-        return "";
+    public ErrorBody handleJavaxValidationExceptions(ValidationException ex) {
+        return new ErrorBody(ERROR_CODE);
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)

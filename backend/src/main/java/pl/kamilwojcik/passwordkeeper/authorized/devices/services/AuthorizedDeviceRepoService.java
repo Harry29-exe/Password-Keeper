@@ -12,13 +12,10 @@ import java.util.UUID;
 public interface AuthorizedDeviceRepoService {
 
     @PreAuthorize("@authFunctions.usernamesMatch(#authorizedDevice.username)")
-    @Nullable UUID authorizedDeviceExists(AuthorizedDeviceDTO authorizedDevice);
+    boolean authorizedDeviceExists(AuthorizedDeviceDTO authorizedDevice);
 
     @PreAuthorize("@authFunctions.usernamesMatch(#username)")
     List<AuthorizedDeviceDTO> getAllAuthorizedDevices(String username);
-
-    //todo jak to zabezpieczyć przed myślącymi innaczej
-    void addAuthorizedDevice(AuthorizedDeviceDTO authorizedDevice);
 
     @PreAuthorize("@authFunctions.usernamesMatch(#username)")
     void removeAuthorizedDevice(UUID devicePublicId, String username);
