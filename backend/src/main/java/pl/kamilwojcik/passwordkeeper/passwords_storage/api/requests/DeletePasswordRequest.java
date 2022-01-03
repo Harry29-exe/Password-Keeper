@@ -1,8 +1,8 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests;
 
-import javax.validation.constraints.NotBlank;
+import pl.kamilwojcik.passwordkeeper.validation.text_or_digit.SimpleText;
 
 public record DeletePasswordRequest(
-        @NotBlank String passwordName
+        @SimpleText String passwordName
 ) {
 }

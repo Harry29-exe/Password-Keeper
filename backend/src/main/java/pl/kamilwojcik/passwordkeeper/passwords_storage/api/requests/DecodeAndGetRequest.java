@@ -1,11 +1,10 @@
 package pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
+import pl.kamilwojcik.passwordkeeper.validation.password.app.AppPassword;
+import pl.kamilwojcik.passwordkeeper.validation.text_or_digit.SimpleText;
 
 public record DecodeAndGetRequest(
-        @NotBlank String storagePassword,
-        @NotNull String passwordName
+        @AppPassword String storagePassword,
+        @SimpleText String passwordName
 ) {
 }

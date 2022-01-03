@@ -1,11 +1,11 @@
-package pl.kamilwojcik.passwordkeeper.validation.password;
+package pl.kamilwojcik.passwordkeeper.validation.password.app;
 
 import pl.kamilwojcik.passwordkeeper.validation.password.specyfication.PasswordSpecValidator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class AppPasswordValidator implements ConstraintValidator<ValidAppPassword, String> {
+public class AppPasswordValidator implements ConstraintValidator<AppPassword, String> {
     private final PasswordSpecValidator passwordSpecValidator;
 
     public AppPasswordValidator(PasswordSpecValidator passwordSpecValidator) {
