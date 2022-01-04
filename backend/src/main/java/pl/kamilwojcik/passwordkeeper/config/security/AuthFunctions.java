@@ -5,23 +5,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
-import pl.kamilwojcik.passwordkeeper.validation.UserValidator;
 
 @Component
 public class AuthFunctions {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
-    private final UserValidator userValidator;
 
-    public AuthFunctions(UserRepository userRepo, PasswordEncoder passwordEncoder, UserValidator userValidator) {
+    public AuthFunctions(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
-        this.userValidator = userValidator;
     }
 
     public boolean usernamesMatch(String username) {
         try {
-            userValidator.validateUsername(username);
+            //todo
+//            userValidator.validateUsername(username);
         } catch (Exception ex) {
             return false;
         }

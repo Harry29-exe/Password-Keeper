@@ -13,7 +13,7 @@ public class AuthorizedDeviceDTO {
 
     private String ipAddress;
 
-    private String clientName;
+    private String userAgent;
 
     private String username;
 

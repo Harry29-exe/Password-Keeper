@@ -11,7 +11,7 @@ public class UnauthorizedDeviceDTO {
 
     private String ipAddress;
 
-    private String clientName;
+    private String userAgent;
 
     private String username;
 

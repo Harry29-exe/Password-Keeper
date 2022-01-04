@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public interface AuthenticationApi {
 
     @PostMapping("/login")
-    void login(@RequestBody @Valid LoginRequest request, HttpServletResponse response);
+    void login(@RequestBody @Valid LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response);
 
     @GetMapping("/logout")
     void logout(HttpServletResponse response);

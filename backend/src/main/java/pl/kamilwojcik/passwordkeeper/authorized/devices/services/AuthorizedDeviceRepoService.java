@@ -11,8 +11,8 @@ import java.util.UUID;
 @Transactional
 public interface AuthorizedDeviceRepoService {
 
-    @PreAuthorize("@authFunctions.usernamesMatch(#authorizedDevice.username)")
-    boolean authorizedDeviceExists(AuthorizedDeviceDTO authorizedDevice);
+    @PreAuthorize("@authFunctions.usernamesMatch(#username)")
+    boolean authorizedDeviceExists(String ipAddress, String userAgentHeader, String username);
 
     @PreAuthorize("@authFunctions.usernamesMatch(#username)")
     List<AuthorizedDeviceDTO> getAllAuthorizedDevices(String username);

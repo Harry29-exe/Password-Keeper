@@ -9,6 +9,8 @@ public interface UserService {
 
     void createUser(CreateUser createUser);
 
+    boolean exist(String username);
+
     @PreAuthorize("isAuthenticated() && #authentication.name == #username")
     void deleteUser(String username);
 

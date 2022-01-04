@@ -35,7 +35,7 @@ public class AuthorizedDevice {
     private String ipAddress;
 
     @Column(nullable = false, updatable = false, name = "client_name")
-    private String clientName;
+    private String userAgent;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -44,9 +44,9 @@ public class AuthorizedDevice {
     @OneToMany(mappedBy = "device")
     private List<LoginEvent> loginEvents;
 
-    public AuthorizedDevice(String ipAddress, String clientName, UserEntity user) {
+    public AuthorizedDevice(String ipAddress, String userAgent, UserEntity user) {
         this.ipAddress = ipAddress;
-        this.clientName = clientName;
+        this.userAgent = userAgent;
         this.user = user;
     }
 }

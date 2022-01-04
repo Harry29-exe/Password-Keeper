@@ -1,17 +1,14 @@
 package pl.kamilwojcik.passwordkeeper.authentication.api;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RestController;
 import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.authentication.services.AuthenticationService;
 import pl.kamilwojcik.passwordkeeper.authentication.services.JwtService;
-import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotActionType;
-import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsAccountList;
-import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsMsgDispatcher;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.services.UnauthorizedDeviceService;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateUnauthorizedDevice;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
-import pl.kamilwojcik.passwordkeeper.validation.UserValidator;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,45 +19,33 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 public class AuthenticationApiController implements AuthenticationApi {
-    private final AuthenticationManager authManager;
+    private final AuthenticationService authService;
     private final UserDetailsService userDetailsService;
-    private final UserValidator userValidator;
+    private final UnauthorizedDeviceService unauthorizedDeviceService;
     private final JwtService jwtService;
-
-    private final HoneypotsAccountList honeypotsAccounts;
-    private final HoneypotsMsgDispatcher honeypotsMsg;
 
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
-    public AuthenticationApiController(AuthenticationManager authManager,
-                                       UserDetailsService userDetailsService,
-                                       UserValidator userValidator,
-                                       JwtService jwtService,
-                                       HoneypotsAccountList honeypotsAccounts, HoneypotsMsgDispatcher honeypotsMsg) throws NoSuchAlgorithmException {
-        this.authManager = authManager;
+    public AuthenticationApiController(
+            AuthenticationService authService,
+            UserDetailsService userDetailsService,
+            UnauthorizedDeviceService unauthorizedDeviceService, JwtService jwtService) throws NoSuchAlgorithmException {
+        this.authService = authService;
         this.userDetailsService = userDetailsService;
-        this.userValidator = userValidator;
+        this.unauthorizedDeviceService = unauthorizedDeviceService;
         this.jwtService = jwtService;
-        this.honeypotsAccounts = honeypotsAccounts;
-        this.honeypotsMsg = honeypotsMsg;
     }
 
     @Override
-    public void login(LoginRequest request, HttpServletResponse response) {
-        userValidator.validateUsername(request.username());
-        userValidator.validatePassword(request.password());
+    public void login(LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response) {
 
-        Authentication auth = new UsernamePasswordAuthenticationToken(request.username(), request.password());
-        if(honeypotsAccounts.isHoneypot(auth)) {
-            honeypotsMsg.dispatchMsg(auth, HoneypotActionType.LOGIN_ATTEMPT);
+        try {
+            authService.authenticate(requestBody.username(), requestBody.password());
+        } catch (DeviceNotAuthorizedException ex) {
+           unauthorizedDeviceService.addNewUnauthorizedDevice(requestBody.username());
         }
 
-        auth = authManager.authenticate(auth);
-        if(honeypotsAccounts.isHoneypot(auth)) {
-            honeypotsMsg.dispatchMsg(auth, HoneypotActionType.SUCCESSFUL_LOGIN);
-        }
-
-        var user = userDetailsService.loadUserByUsername(request.username());
+        var user = userDetailsService.loadUserByUsername(requestBody.username());
 
 
         var authToken = jwtService.createAuthToken(user);

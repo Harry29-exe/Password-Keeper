@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 import pl.kamilwojcik.passwordkeeper.users.services.dto.CreateUser;
-import pl.kamilwojcik.passwordkeeper.validation.UserValidator;
 
 
 @Service
@@ -32,6 +31,10 @@ public class UserServiceImpl implements UserService {
         userRepo.save(userEntity);
     }
 
+    @Override
+    public boolean exist(String username) {
+        return userRepo.existsByUsername(username);
+    }
 
     @Override
     public void deleteUser(String username) {

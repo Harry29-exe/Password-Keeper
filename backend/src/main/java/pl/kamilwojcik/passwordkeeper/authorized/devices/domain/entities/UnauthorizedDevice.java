@@ -32,7 +32,7 @@ public class UnauthorizedDevice {
     private String ipAddress;
 
     @Column(nullable = false, updatable = false)
-    private String clientName;
+    private String userAgent;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -41,12 +41,12 @@ public class UnauthorizedDevice {
     public UnauthorizedDevice(
             Date linkExpirationDate,
             String ipAddress,
-            String clientName,
+            String userAgent,
             UserEntity user
     ) {
         this.linkExpirationDate = linkExpirationDate;
         this.ipAddress = ipAddress;
-        this.clientName = clientName;
+        this.userAgent = userAgent;
         this.user = user;
     }
 }
