@@ -1,6 +1,5 @@
 package pl.kamilwojcik.passwordkeeper.users.api;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import pl.kamilwojcik.passwordkeeper.users.api.dto.CreateUserRequest;
 import pl.kamilwojcik.passwordkeeper.users.api.dto.DeleteUserRequest;

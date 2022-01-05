@@ -11,4 +11,5 @@ public record CreateNewPasswordRequest(
         @SimpleText String passwordName,
         @URL String passwordUrl,
         @Nullable PasswordSpec passwordSpec
-) {}
+) {
+}

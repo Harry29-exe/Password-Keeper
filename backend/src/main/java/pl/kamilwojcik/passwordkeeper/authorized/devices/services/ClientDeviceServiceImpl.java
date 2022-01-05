@@ -48,42 +48,6 @@ public class ClientDeviceServiceImpl
     }
 
     @Override
-    public boolean authorizedDeviceExists(String ipAddress, String userAgentHeader, String username) {
-        return clientDeviceRepo.existsByIpAddressAndUserAgentAndUser_Username(
-                ipAddress,
-                userAgentService.parseToStorageForm(userAgentHeader),
-                username
-        );
-    }
-
-    @Override
-    public List<ClientDeviceDTO> getAllAuthorizedDevices(String username) {
-        return clientDeviceRepo
-                .findByUser_Username(username)
-                .stream()
-                .map(device -> new ClientDeviceDTO(
-                        device.getPublicId(),
-                        device.getIpAddress(),
-                        device.getUserAgent(),
-                        device.getIsAuthorized()
-                )).toList();
-    }
-
-    @Override
-    public void removeAuthorizedDevice(UUID devicePublicId, String username) {
-        if(clientDeviceRepo.existsByPublicIdAndUser_Username(
-                devicePublicId,
-                username)
-        ) {
-            clientDeviceRepo.deleteByPublicId(devicePublicId);
-        } else {
-            throw new ResourceNotFoundException("Authorized device");
-        }
-    }
-
-
-
-    @Override
     public void addClientDevice(CreateClientDevice unauthorizedDevice) {
         var user = userRepo.getByUsername(unauthorizedDevice.username())
                 .orElseThrow(IllegalStateException::new);
@@ -108,7 +72,7 @@ public class ClientDeviceServiceImpl
     public void addClientDevice(String username) {
         var request = RequestUtils.getRequest();
         var userAgentHeader = request.getHeader("User-Agent");
-        if(userAgentHeader == null || userAgentHeader.isBlank()) {
+        if (userAgentHeader == null || userAgentHeader.isBlank()) {
             throw new NoRequiredHeaderException("User-Agent");
         }
 
@@ -117,6 +81,28 @@ public class ClientDeviceServiceImpl
                 userAgentService.parseToStorageForm(userAgentHeader),
                 username
         ));
+    }
+
+    @Override
+    public List<ClientDeviceDTO> getAllAuthorizedDevices(String username) {
+        return clientDeviceRepo
+                .findByUser_Username(username)
+                .stream()
+                .map(device -> new ClientDeviceDTO(
+                        device.getPublicId(),
+                        device.getIpAddress(),
+                        device.getUserAgent(),
+                        device.getIsAuthorized()
+                )).toList();
+    }
+
+    @Override
+    public boolean authorizedDeviceExists(String ipAddress, String userAgentHeader, String username) {
+        return clientDeviceRepo.existsByIpAddressAndUserAgentAndUser_Username(
+                ipAddress,
+                userAgentService.parseToStorageForm(userAgentHeader),
+                username
+        );
     }
 
     @Override
@@ -132,6 +118,17 @@ public class ClientDeviceServiceImpl
         authLinkRepo.delete(authLink);
     }
 
+    @Override
+    public void removeAuthorizedDevice(UUID devicePublicId, String username) {
+        if (clientDeviceRepo.existsByPublicIdAndUser_Username(
+                devicePublicId,
+                username)
+        ) {
+            clientDeviceRepo.deleteByPublicId(devicePublicId);
+        } else {
+            throw new ResourceNotFoundException("Authorized device");
+        }
+    }
 
 
     private void sendDeviceAuthorizationEmail(String userEmail, ClientDevice clientDevice) {

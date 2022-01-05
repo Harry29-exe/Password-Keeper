@@ -8,4 +8,5 @@ public record LoggingHistoryResponse(
         Integer page,
         Integer elementsPerPage,
         List<LoggingEventDTO> loggingEvents
-) {}
+) {
+}

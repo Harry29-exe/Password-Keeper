@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 
 import javax.validation.ValidationException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +29,12 @@ public class AdviceValidation {
         boolean appendMsg = false;
 
         Method method = ex.getParameter().getMethod();
-        if(method != null) {
+        if (method != null) {
             Class<?> clazz = method.getDeclaringClass();
-             appendMsg = clazz.getAnnotation(RestController.class) != null;
+            appendMsg = clazz.getAnnotation(RestController.class) != null;
         }
 
-        if(appendMsg) {
+        if (appendMsg) {
             List<String> notValidFieldsNames = new ArrayList<>();
             ex.getBindingResult().getAllErrors().forEach((error) -> {
                 FieldError fieldError = (FieldError) error;

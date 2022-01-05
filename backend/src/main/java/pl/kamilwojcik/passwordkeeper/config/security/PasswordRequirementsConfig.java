@@ -11,8 +11,8 @@ public class PasswordRequirementsConfig {
 
     @Bean
     public PasswordSpec getPasswordRequirements() {
-        return new PasswordSpec(List.of('!','#','$','%','&','(',')','*','+',',','-','.','/',':',';','@','[',']','^','_','~'),
-                12, 3, 1, 2, false,1);
+        return new PasswordSpec(List.of('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '@', '[', ']', '^', '_', '~'),
+                12, 3, 1, 2, false, 1);
     }
 
 }

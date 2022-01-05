@@ -4,8 +4,10 @@ import org.springframework.lang.Nullable;
 
 public class ResourceNotFoundException extends RuntimeException {
 
-    private @Nullable String resourceName;
-    private @Nullable String resourceType;
+    private @Nullable
+    String resourceName;
+    private @Nullable
+    String resourceType;
 
     public ResourceNotFoundException(@Nullable String resourceName, @Nullable String resourceType) {
         this.resourceName = resourceName;

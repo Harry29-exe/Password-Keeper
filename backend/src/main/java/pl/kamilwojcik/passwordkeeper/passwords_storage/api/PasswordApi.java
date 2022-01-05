@@ -10,7 +10,6 @@ import pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests.DeletePasswo
 import pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests.SavePasswordRequest;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.dto.PasswordInfoDto;
 
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -56,7 +55,6 @@ public interface PasswordApi {
             @RequestBody @Valid DeletePasswordRequest request,
             @NotNull Authentication auth
     );
-
 
 
 }

@@ -12,7 +12,7 @@ public class PasswordSpecValidatorImpl implements PasswordSpecValidator {
 
     @Override
     public boolean passwordIsValid(String password, PasswordSpec requirements) {
-        if(password == null || password.isBlank()) {
+        if (password == null || password.isBlank()) {
             return false;
         }
         if (password.length() < requirements.passwordLength()) {
@@ -30,7 +30,7 @@ public class PasswordSpecValidatorImpl implements PasswordSpecValidator {
                 lowercase++;
             } else if (Character.isUpperCase(c)) {
                 uppercase++;
-            } else if (requirements.specialCharacters().contains(c)){
+            } else if (requirements.specialCharacters().contains(c)) {
                 special++;
             } else {
                 return false;

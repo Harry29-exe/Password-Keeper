@@ -15,20 +15,20 @@ public class SimpleTextValidator implements ConstraintValidator<SimpleText, Stri
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if(value == null) {
+        if (value == null) {
             return nullable;
         }
 
-        if(value.isBlank()) {
+        if (value.isBlank()) {
             return canBeBlank;
         }
 
-        for(char c : value.toCharArray()) {
-            if(!Character.isLetterOrDigit(c)) {
+        for (char c : value.toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) {
                 return false;
             }
         }
-        
+
         return true;
     }
 }

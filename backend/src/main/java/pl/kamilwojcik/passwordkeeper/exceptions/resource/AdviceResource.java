@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestControllerAdvice

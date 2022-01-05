@@ -28,8 +28,8 @@ public class UserAgentServiceImpl implements UserAgentService {
         sb.append(userAgentHeader, 0, startIndex);
 
         String stringToParse = userAgentHeader.substring(startIndex);
-        for(char c : stringToParse.toCharArray()) {
-            if(Character.isDigit(c)) {
+        for (char c : stringToParse.toCharArray()) {
+            if (Character.isDigit(c)) {
                 sb.append('X');
             }
         }
@@ -40,8 +40,8 @@ public class UserAgentServiceImpl implements UserAgentService {
     private String removeNotAllowedCharacters(String userAgentHeader) {
         StringBuilder sb = new StringBuilder();
 
-        for(char c : userAgentHeader.toCharArray()) {
-            if(Character.isLetterOrDigit(c) || allowedChars.contains(c)) {
+        for (char c : userAgentHeader.toCharArray()) {
+            if (Character.isLetterOrDigit(c) || allowedChars.contains(c)) {
                 sb.append(c);
             } else {
                 sb.append('_');

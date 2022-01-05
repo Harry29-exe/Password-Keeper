@@ -18,9 +18,9 @@ public interface PasswordStorageService {
 
     @UsernameAndStoragePasswordMatch
     String createNewPassword(PasswordInfoDto passwordInfo,
-                           @Nullable PasswordSpec requirements,
-                           String storagePassword,
-                           String username);
+                             @Nullable PasswordSpec requirements,
+                             String storagePassword,
+                             String username);
 
     @UsernameAndStoragePasswordMatch
     String readPassword(String passwordName,

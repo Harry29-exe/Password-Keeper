@@ -1,6 +1,5 @@
 package pl.kamilwojcik.passwordkeeper.exceptions.validation;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;

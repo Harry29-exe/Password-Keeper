@@ -1,7 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.authorized.devices.api;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.api.dto.LoggingHistoryPageInfo;

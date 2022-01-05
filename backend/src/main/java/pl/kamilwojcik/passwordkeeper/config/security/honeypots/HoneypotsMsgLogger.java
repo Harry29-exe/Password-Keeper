@@ -15,18 +15,18 @@ public class HoneypotsMsgLogger implements HoneypotsMsgDispatcher {
     @Override
     public void dispatchMsg(Authentication honeypotAccount, HoneypotActionType actionType) {
         var request = getRequest();
-        if(actionType == HoneypotActionType.ACCESSING_ENDPOINT) {
+        if (actionType == HoneypotActionType.ACCESSING_ENDPOINT) {
             logger.warning("Honeypot account with username: " + honeypotAccount.getName() +
                     ", is trying to access " + request.getRequestURI() +
                     " from ip: " + request.getRemoteAddr()
             );
 
-        } else if(actionType == HoneypotActionType.LOGIN_ATTEMPT) {
+        } else if (actionType == HoneypotActionType.LOGIN_ATTEMPT) {
             logger.warning("Person with ip: " + request.getRemoteAddr() +
-                            " made attempt to login on honeypot account with following username" + honeypotAccount.getName()
+                    " made attempt to login on honeypot account with following username" + honeypotAccount.getName()
             );
 
-        } else if(actionType == HoneypotActionType.SUCCESSFUL_LOGIN) {
+        } else if (actionType == HoneypotActionType.SUCCESSFUL_LOGIN) {
             logger.warning("Person with ip: " + request.getRemoteAddr() +
                     " made SUCCESSFUL attempt to login on honeypot account with following username" + honeypotAccount.getName()
             );
@@ -36,12 +36,12 @@ public class HoneypotsMsgLogger implements HoneypotsMsgDispatcher {
     }
 
     private HttpServletRequest getRequest() {
-        if(RequestContextHolder.getRequestAttributes() == null) {
+        if (RequestContextHolder.getRequestAttributes() == null) {
             throw new IllegalStateException();
         }
 
         var attribs = RequestContextHolder.getRequestAttributes();
-        if(!(attribs instanceof ServletRequestAttributes)) {
+        if (!(attribs instanceof ServletRequestAttributes)) {
             throw new IllegalStateException();
         }
 

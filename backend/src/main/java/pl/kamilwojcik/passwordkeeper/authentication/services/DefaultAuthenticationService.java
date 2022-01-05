@@ -39,12 +39,12 @@ public class DefaultAuthenticationService implements AuthenticationService {
 
     @Override
     public Authentication authenticate(String username, String password) {
-        if(!userService.exist(username)) {
+        if (!userService.exist(username)) {
             throw new AuthenticationException();
         }
 
         Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
-        if(honeypotsAccounts.isHoneypot(auth)) {
+        if (honeypotsAccounts.isHoneypot(auth)) {
             honeypotsMsg.dispatchMsg(auth, HoneypotActionType.LOGIN_ATTEMPT);
         }
 
@@ -57,13 +57,13 @@ public class DefaultAuthenticationService implements AuthenticationService {
                 username
         );
 
-        if(!isDeviceAuthorized) {
+        if (!isDeviceAuthorized) {
             throw new DeviceNotAuthorizedException();
         }
 
 
         auth = authManager.authenticate(auth);
-        if(honeypotsAccounts.isHoneypot(auth)) {
+        if (honeypotsAccounts.isHoneypot(auth)) {
             honeypotsMsg.dispatchMsg(auth, HoneypotActionType.SUCCESSFUL_LOGIN);
         }
 
@@ -74,7 +74,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
 
     private HttpServletRequest getRequest() {
         var requestAttribs = RequestContextHolder.currentRequestAttributes();
-        if(requestAttribs instanceof ServletRequestAttributes servletAttribs) {
+        if (requestAttribs instanceof ServletRequestAttributes servletAttribs) {
             return servletAttribs.getRequest();
         } else {
             throw new IllegalStateException();

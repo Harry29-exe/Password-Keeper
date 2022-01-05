@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static pl.kamilwojcik.passwordkeeper.config.security.honeypots.filters.HoneypotsLoggerFilter.FILTER_ORDER;
-
 @Component
 @Order(Integer.MAX_VALUE)
 public class HoneypotsLoggerFilter extends OncePerRequestFilter {
@@ -33,7 +31,7 @@ public class HoneypotsLoggerFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth != null && honeypotsAccountList.isHoneypot(auth)) {
+        if (auth != null && honeypotsAccountList.isHoneypot(auth)) {
 
             honeypotsMsgDispatcher.dispatchMsg(
                     auth,

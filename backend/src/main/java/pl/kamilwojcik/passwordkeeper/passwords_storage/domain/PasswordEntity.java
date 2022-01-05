@@ -6,7 +6,6 @@ import lombok.Setter;
 import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Getter
 @Setter

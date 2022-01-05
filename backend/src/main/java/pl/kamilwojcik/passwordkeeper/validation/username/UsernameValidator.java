@@ -13,11 +13,11 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Str
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
-        if(username == null || username.isBlank()) {
+        if (username == null || username.isBlank()) {
             return false;
         }
 
-        if(!StandardCharsets.US_ASCII.newEncoder().canEncode(username)) {
+        if (!StandardCharsets.US_ASCII.newEncoder().canEncode(username)) {
             return false;
         }
 

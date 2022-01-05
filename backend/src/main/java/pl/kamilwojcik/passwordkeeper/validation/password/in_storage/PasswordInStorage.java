@@ -11,7 +11,9 @@ import java.lang.annotation.*;
 public @interface PasswordInStorage {
 
     String message() default "{pl.kamilwojcik.passwordkeeper.validation.password.in_storage.PasswordInStorage.message}";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
 }

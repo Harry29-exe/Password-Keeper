@@ -9,7 +9,6 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories.Logi
 import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.LoggingEventDTO;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateLoginEvent;
 import pl.kamilwojcik.passwordkeeper.exceptions.resource.IllegalNoResourceException;
-import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceNotFoundException;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 
 import java.util.List;

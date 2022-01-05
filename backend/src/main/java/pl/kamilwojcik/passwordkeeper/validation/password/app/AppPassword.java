@@ -11,7 +11,9 @@ import java.lang.annotation.*;
 public @interface AppPassword {
 
     String message() default "{pl.kamilwojcik.passwordkeeper.validators.password.app.ValidAppPassword.message}";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
 }

@@ -5,7 +5,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.kamilwojcik.passwordkeeper.users.api.dto.CreateUserRequest;
 import pl.kamilwojcik.passwordkeeper.users.api.dto.DeleteUserRequest;
-import pl.kamilwojcik.passwordkeeper.users.services.dto.CreateUser;
 
 import javax.validation.Valid;
 

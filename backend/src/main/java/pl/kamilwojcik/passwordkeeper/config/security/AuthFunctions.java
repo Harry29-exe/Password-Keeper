@@ -29,7 +29,7 @@ public class AuthFunctions {
         if (auth == null) {
             return false;
         }
-        if(!(auth instanceof UsernamePasswordAuthenticationToken)) {
+        if (!(auth instanceof UsernamePasswordAuthenticationToken)) {
             throw new IllegalArgumentException("Authentication other than UsernamePasswordAuthenticationToken are not supported");
         }
 
@@ -38,7 +38,7 @@ public class AuthFunctions {
     }
 
     public boolean storagePasswordMatch(String storagePassword, String username) {
-        if(storagePassword == null || storagePassword.isBlank() ||
+        if (storagePassword == null || storagePassword.isBlank() ||
                 username == null || username.isBlank()) {
             return false;
         }

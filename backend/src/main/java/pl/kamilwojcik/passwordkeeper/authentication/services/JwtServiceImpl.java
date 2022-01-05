@@ -21,15 +21,13 @@ import java.util.Date;
 
 @Service
 public class JwtServiceImpl implements JwtService {
+    private static final String TOKEN_TYPE_CLAIM = "Token type";
+    private static final String AUTH_TYPE = "Auth";
+    private static final String REFRESH_TYPE = "Refresh";
     private final Algorithm authAlgorithm;
     private final Integer authExpInSec;
     private final Algorithm refreshAlgorithm;
     private final Integer refreshExpInSec;
-
-    private static final String TOKEN_TYPE_CLAIM = "Token type";
-    private static final String AUTH_TYPE = "Auth";
-    private static final String REFRESH_TYPE = "Refresh";
-
     private final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
 

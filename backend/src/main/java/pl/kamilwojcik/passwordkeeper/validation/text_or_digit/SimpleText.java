@@ -11,10 +11,13 @@ import java.lang.annotation.*;
 public @interface SimpleText {
 
     boolean nullable() default false;
+
     boolean canBeBlank() default false;
 
     String message() default "{pl.kamilwojcik.passwordkeeper.validation.text_or_digit.SimpleText.message}";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
 }

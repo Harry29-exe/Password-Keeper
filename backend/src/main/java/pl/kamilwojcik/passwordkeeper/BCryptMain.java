@@ -1,11 +1,9 @@
 package pl.kamilwojcik.passwordkeeper;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.UUID;
 
 public class BCryptMain {
 

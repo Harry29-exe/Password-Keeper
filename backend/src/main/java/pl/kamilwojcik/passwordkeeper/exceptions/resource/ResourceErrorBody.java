@@ -9,8 +9,10 @@ import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 @Setter
 public class ResourceErrorBody extends ErrorBody {
 
-    private @Nullable String resourceName;
-    private @Nullable String resourceType;
+    private @Nullable
+    String resourceName;
+    private @Nullable
+    String resourceType;
 
     public ResourceErrorBody(String errorCode, @Nullable String resourceType, @Nullable String resourceName) {
         super(errorCode);
