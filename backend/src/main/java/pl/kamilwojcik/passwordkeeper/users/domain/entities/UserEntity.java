@@ -3,6 +3,8 @@ package pl.kamilwojcik.passwordkeeper.users.domain.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.ClientDevice;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.LoginEvent;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.PasswordEntity;
 
 import javax.persistence.*;
@@ -36,6 +38,12 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<PasswordEntity> passwordsInStorage;
+
+    @OneToMany(mappedBy = "user")
+    private List<ClientDevice> devices;
+
+    @OneToMany(mappedBy = "user")
+    private List<LoginEvent> loginEvents;
 
     public UserEntity(String username, String email, String password, String storagePassword) {
         this.username = username;

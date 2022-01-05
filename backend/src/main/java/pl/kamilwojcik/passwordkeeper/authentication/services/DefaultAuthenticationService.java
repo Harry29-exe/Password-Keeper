@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.services.AuthorizedDeviceRepoService;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.services.ClientDeviceService;
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotActionType;
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsAccountList;
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsMsgDispatcher;
@@ -18,18 +18,18 @@ import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class DefaultAuthenticationService implements AuthenticationService {
-    private final AuthorizedDeviceRepoService authorizedDeviceService;
+    private final ClientDeviceService clientDeviceService;
     private final UserService userService;
     private final AuthenticationManager authManager;
     private final HoneypotsAccountList honeypotsAccounts;
     private final HoneypotsMsgDispatcher honeypotsMsg;
 
     public DefaultAuthenticationService(
-            AuthorizedDeviceRepoService authorizedDeviceService,
+            ClientDeviceService clientDeviceService,
             UserService userService, AuthenticationManager authManager,
             HoneypotsAccountList honeypotsAccounts,
             HoneypotsMsgDispatcher honeypotsMsg) {
-        this.authorizedDeviceService = authorizedDeviceService;
+        this.clientDeviceService = clientDeviceService;
         this.userService = userService;
         this.authManager = authManager;
         this.honeypotsAccounts = honeypotsAccounts;
@@ -51,7 +51,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
         var address = getRequest().getRemoteAddr();
         var client = getRequest().getHeader("User-Agent");
 
-        boolean isDeviceAuthorized = authorizedDeviceService.authorizedDeviceExists(
+        boolean isDeviceAuthorized = clientDeviceService.authorizedDeviceExists(
                 address,
                 client,
                 username

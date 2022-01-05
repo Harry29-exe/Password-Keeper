@@ -2,21 +2,21 @@ package pl.kamilwojcik.passwordkeeper.authorized.devices.api;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.AuthorizedDeviceDTO;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.services.AuthorizedDeviceRepoService;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.ClientDeviceDTO;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.services.ClientDeviceService;
 
 import java.util.List;
 
 @RestController
 public class DevicesAuthorizationAPIImpl implements DevicesAuthorizationAPI {
-    private final AuthorizedDeviceRepoService authorizedDeviceRepoService;
+    private final ClientDeviceService clientDeviceService;
 
-    public DevicesAuthorizationAPIImpl(AuthorizedDeviceRepoService authorizedDeviceRepoService) {
-        this.authorizedDeviceRepoService = authorizedDeviceRepoService;
+    public DevicesAuthorizationAPIImpl(ClientDeviceService clientDeviceService) {
+        this.clientDeviceService = clientDeviceService;
     }
 
     @Override
-    public List<AuthorizedDeviceDTO> getAllAuthorizedDevices(Authentication auth) {
+    public List<ClientDeviceDTO> getAllAuthorizedDevices(Authentication auth) {
         return null;
     }
 

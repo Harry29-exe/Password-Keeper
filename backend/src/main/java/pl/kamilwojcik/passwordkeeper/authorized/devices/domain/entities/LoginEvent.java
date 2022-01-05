@@ -3,6 +3,7 @@ package pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,19 +21,34 @@ public class LoginEvent {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, updatable = false, nullable = false)
     private UUID publicId = UUID.randomUUID();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     private Date loginDate;
 
-    @ManyToOne
-    @JoinColumn(name = "device", nullable = false, updatable = false)
-    private AuthorizedDevice device;
+    @Column(updatable = false, nullable = false)
+    private LoginEventResult result;
 
-    public LoginEvent(Date loginDate, AuthorizedDevice device) {
+    @ManyToOne
+    @JoinColumn(name = "device_id", nullable = false, updatable = false)
+    private ClientDevice device;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private UserEntity user;
+
+    public LoginEvent(Date loginDate, LoginEventResult result, ClientDevice device, UserEntity user) {
         this.loginDate = loginDate;
+        this.result = result;
         this.device = device;
+        this.user = user;
     }
+
+    public enum LoginEventResult {
+        SUCCESS,
+        FAILURE
+    }
+
 }

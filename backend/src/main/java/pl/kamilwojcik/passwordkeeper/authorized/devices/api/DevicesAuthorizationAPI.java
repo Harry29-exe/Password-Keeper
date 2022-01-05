@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.AuthorizedDeviceDTO;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.ClientDeviceDTO;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public interface DevicesAuthorizationAPI {
 
     @GetMapping
-    List<AuthorizedDeviceDTO> getAllAuthorizedDevices(Authentication auth);
+    List<ClientDeviceDTO> getAllAuthorizedDevices(Authentication auth);
 
     @GetMapping("{authorizationLink}")
     void authorizeDevice(@PathVariable String authorizationLink);

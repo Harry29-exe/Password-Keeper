@@ -12,7 +12,7 @@ public interface LoginEventRepository extends JpaRepository<LoginEvent, Long> {
 
     List<LoginEvent> findAllByDevice_User_UsernameOrderByLoginDate(String username, Pageable pageable);
 
-    Integer countAllBy(String username);
+    Integer countAllByUser_Username(String username);
 
 
 }

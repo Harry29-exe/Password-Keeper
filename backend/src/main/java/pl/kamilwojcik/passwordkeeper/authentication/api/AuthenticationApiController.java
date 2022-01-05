@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
 import pl.kamilwojcik.passwordkeeper.authentication.services.AuthenticationService;
 import pl.kamilwojcik.passwordkeeper.authentication.services.JwtService;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.services.UnauthorizedDeviceService;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateUnauthorizedDevice;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.services.ClientDeviceService;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
 
@@ -21,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class AuthenticationApiController implements AuthenticationApi {
     private final AuthenticationService authService;
     private final UserDetailsService userDetailsService;
-    private final UnauthorizedDeviceService unauthorizedDeviceService;
+    private final ClientDeviceService clientDeviceService;
     private final JwtService jwtService;
 
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
@@ -29,10 +28,10 @@ public class AuthenticationApiController implements AuthenticationApi {
     public AuthenticationApiController(
             AuthenticationService authService,
             UserDetailsService userDetailsService,
-            UnauthorizedDeviceService unauthorizedDeviceService, JwtService jwtService) throws NoSuchAlgorithmException {
+            ClientDeviceService clientDeviceService, JwtService jwtService) throws NoSuchAlgorithmException {
         this.authService = authService;
         this.userDetailsService = userDetailsService;
-        this.unauthorizedDeviceService = unauthorizedDeviceService;
+        this.clientDeviceService = clientDeviceService;
         this.jwtService = jwtService;
     }
 
@@ -42,7 +41,7 @@ public class AuthenticationApiController implements AuthenticationApi {
         try {
             authService.authenticate(requestBody.username(), requestBody.password());
         } catch (DeviceNotAuthorizedException ex) {
-           unauthorizedDeviceService.addNewUnauthorizedDevice(requestBody.username());
+           clientDeviceService.addClientDevice(requestBody.username());
         }
 
         var user = userDetailsService.loadUserByUsername(requestBody.username());

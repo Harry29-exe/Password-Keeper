@@ -7,7 +7,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AuthorizedDeviceDTO {
+public class ClientDeviceDTO {
 
     private UUID publicId;
 
@@ -15,6 +15,6 @@ public class AuthorizedDeviceDTO {
 
     private String userAgent;
 
-    private String username;
+    private Boolean isAuthorized;
 
 }

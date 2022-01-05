@@ -6,6 +6,7 @@ import lombok.Setter;
 import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,15 +15,14 @@ import java.util.UUID;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "authorized_devices", uniqueConstraints = {
+@Table(name = "client_devices", uniqueConstraints = {
         @UniqueConstraint(
                 name = "authorized_device",
                 columnNames = {"ip_address", "client_name", "user_id"}
         )
 }
 )
-
-public class AuthorizedDevice {
+public class ClientDevice {
 
     @Id
     @GeneratedValue
@@ -37,6 +37,13 @@ public class AuthorizedDevice {
     @Column(nullable = false, updatable = false, name = "client_name")
     private String userAgent;
 
+    @Column(nullable = false)
+    private Boolean isAuthorized = false;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "authorization_link_id", unique = true)
+    private DeviceAuthorizationLink authorizationLink;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
@@ -44,9 +51,19 @@ public class AuthorizedDevice {
     @OneToMany(mappedBy = "device")
     private List<LoginEvent> loginEvents;
 
-    public AuthorizedDevice(String ipAddress, String userAgent, UserEntity user) {
+    public ClientDevice(String ipAddress, String userAgent, Long activationLinkExpireTimeInSec, UserEntity user) {
         this.ipAddress = ipAddress;
         this.userAgent = userAgent;
         this.user = user;
+
+        var now = new Date();
+        this.authorizationLink = new DeviceAuthorizationLink(
+                now,
+                new Date(now.getTime() + activationLinkExpireTimeInSec * 1000),
+                this
+        );
     }
+
+
+
 }
