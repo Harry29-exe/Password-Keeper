@@ -3,8 +3,6 @@ package pl.kamilwojcik.passwordkeeper.authorized.devices.services;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingRequestHeaderException;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.AuthorizedDevice;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.UnauthorizedDevice;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories.AuthorizedDeviceRepository;
@@ -55,7 +53,7 @@ public class DevicesService
 
     @Override
     public boolean authorizedDeviceExists(String ipAddress, String userAgentHeader, String username) {
-        return authorizedDeviceRepo.existsByIpAddressAndClientNameAndUser_Username(
+        return authorizedDeviceRepo.existsByIpAddressAndUserAgentAndUser_Username(
                 ipAddress,
                 userAgentService.parseToStorageForm(userAgentHeader),
                 username

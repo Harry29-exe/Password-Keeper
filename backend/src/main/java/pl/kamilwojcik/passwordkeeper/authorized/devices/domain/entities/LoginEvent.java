@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,6 +20,9 @@ public class LoginEvent {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
+    private UUID publicId = UUID.randomUUID();
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     private Date loginDate;
@@ -27,5 +31,8 @@ public class LoginEvent {
     @JoinColumn(name = "device", nullable = false, updatable = false)
     private AuthorizedDevice device;
 
-
+    public LoginEvent(Date loginDate, AuthorizedDevice device) {
+        this.loginDate = loginDate;
+        this.device = device;
+    }
 }
