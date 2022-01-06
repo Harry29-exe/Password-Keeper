@@ -9,11 +9,32 @@ import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 @RestControllerAdvice
 public class AdviceRequest {
 
-    private final String ERROR_CODE = "Missing request attribute";
+    private final String ERROR_CODE = "MISSING_REQUEST_ATTRIBUTE";
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({NoRequiredHeaderException.class})
     public ErrorBody handleNoRequiredHeaderException(NoRequiredHeaderException ex) {
+        return new RequestErrorBody(
+                ERROR_CODE,
+                RequestErrorBody.RequestPart.HEADER,
+                ex.getHeaderName()
+        );
+    }
+
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({NoRequiredCookieException.class})
+    public ErrorBody handleNoRequiredCookie(NoRequiredCookieException ex) {
+        return new RequestErrorBody(
+                ERROR_CODE,
+                RequestErrorBody.RequestPart.COOKIE,
+                ex.getCookieName()
+        );
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({InvalidRequestException.class})
+    public ErrorBody handleGeneralInvalidRequestException(InvalidRequestException ex) {
         return new ErrorBody(ERROR_CODE);
     }
 
