@@ -1,11 +1,10 @@
 package pl.kamilwojcik.passwordkeeper.config.email;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
 
-@Profile("dev")
+//@Profile("dev")
 @Service
 public class MockEmailService implements EmailService {
 

@@ -6,9 +6,10 @@ RUN mvn -f /home/app/pom.xml clean package
 
 
 FROM openjdk:17
-COPY --from=build /home/app/target/Monitorowanie-jednostek-morskich-1.jar /usr/local/lib/mjm.jar
+COPY --from=build /home/app/target/Password-Keeper-0.4.jar /usr/local/lib/mjm.jar
 
-ENV secret=""
-ENV clientId=""
+
+
 EXPOSE 8080
-ENTRYPOINT ["java","-DMJM_secret=${secret}","-DMJM_client_id=${clientId}","-jar","/usr/local/lib/mjm.jar"]
+#todo
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-Djwt.secrets.auth=fkgpour34820htyp3498y532gh798pgbasdbgfv9320gfdjgnbkieds4gh534h31oib;","-Djwt.secrets.refresh=gnreo34i8g3p4o9hbtpo9f34gn3u48592ht4398nq03pr9vun92oytnov438ntomiwqvygot492qhvmnra79tg4yo9vmyntr42q980", "-jar", "/usr/local/lib/mjm.jar"]

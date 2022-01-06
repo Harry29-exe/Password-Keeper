@@ -1,12 +1,10 @@
 package pl.kamilwojcik.passwordkeeper.config.email;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 
-@Profile("!dev")
-@Service
+//@Profile("!dev")
+//@Service
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
 

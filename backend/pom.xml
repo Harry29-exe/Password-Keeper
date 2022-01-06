@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.kamil-wojcik</groupId>
     <artifactId>Password-Keeper</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.4</version>
     <name>Password-Keeper</name>
     <description>Password-Keeper</description>
     <properties>
