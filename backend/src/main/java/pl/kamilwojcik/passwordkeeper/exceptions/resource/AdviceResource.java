@@ -12,8 +12,8 @@ public class AdviceResource {
     private final String ERROR_CODE = "RESOURCE_NOT_FOUND";
     private final Logger logger = Logger.getLogger(AdviceResource.class.getName());
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ErrorBody handleResourceNotFound(ResourceNotFoundException ex) {
+    @ExceptionHandler(ResourceNotExistException.class)
+    public ErrorBody handleResourceNotFound(ResourceNotExistException ex) {
         return new ResourceErrorBody(ERROR_CODE, ex.getResourceType(), ex.getResourceName());
     }
 

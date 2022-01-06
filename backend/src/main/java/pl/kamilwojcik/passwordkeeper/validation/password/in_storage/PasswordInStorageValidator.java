@@ -7,7 +7,7 @@ public class PasswordInStorageValidator implements ConstraintValidator<PasswordI
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        //todo
+        //TODO-ASK
         return true;
     }
 }

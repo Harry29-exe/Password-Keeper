@@ -6,7 +6,8 @@ import java.util.List;
 
 public record LoggingHistoryResponse(
         Integer page,
-        Integer elementsPerPage,
+        Integer availablePages,
+        Integer itemsPerPage,
         List<LoggingEventDTO> loggingEvents
 ) {
 }

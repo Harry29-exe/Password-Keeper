@@ -13,13 +13,13 @@ import java.security.SecureRandom;
 public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
     private final PasswordSpecValidator passwordValidator;
     private final PasswordSpec defaultPasswordSpec;
-    //todo sprawdzić to
+    //TODO-ASK sprawdzić to
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
     private final char[] lowerCaseChars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private final char[] upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     private final char[] digitsChars = "1234567890".toCharArray();
     private final char[] specialChars = "!@#$%&*(){}[]?/_".toCharArray();
-    //todo should not it be like 64 so all chars have equal probability?
+    //TODO-ASK should not it be like 64 so all chars have equal probability?
     private final char[] allowedChars = (String.valueOf(lowerCaseChars) +
             String.valueOf(upperCaseChars) +
             String.valueOf(digitsChars) +
@@ -36,7 +36,7 @@ public class SecurePasswordDefaultCreator implements SecurePasswordCreator {
         return this.createSecurePassword(defaultPasswordSpec);
     }
 
-    //todo its not really well optimized (creating password in loop)
+    //TODO-ASK its not really well optimized (creating password in loop)
     @Override
     public String createSecurePassword(PasswordSpec passwordSpec) {
         String password = null;

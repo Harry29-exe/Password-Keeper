@@ -44,7 +44,7 @@ public interface PasswordApi {
             @NotNull Authentication auth
     );
 
-    //todo
+    //todo optional
 //    @PatchMapping
 
 //    void updatePasswordInfo()

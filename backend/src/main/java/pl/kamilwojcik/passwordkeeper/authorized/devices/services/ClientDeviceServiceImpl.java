@@ -10,7 +10,7 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.ClientDeviceDTO;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateClientDevice;
 import pl.kamilwojcik.passwordkeeper.config.email.EmailService;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredHeaderException;
-import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceNotFoundException;
+import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceNotExistException;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 import pl.kamilwojcik.passwordkeeper.utils.RequestUtils;
 
@@ -109,7 +109,7 @@ public class ClientDeviceServiceImpl
     public void authorizeDevice(String authorizationLink) {
         var authLink = authLinkRepo
                 .findByAuthorizationLink(UUID.fromString(authorizationLink))
-                .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(ResourceNotExistException::new);
 
         var device = authLink.getClientDevice();
         device.setIsAuthorized(true);
@@ -126,7 +126,7 @@ public class ClientDeviceServiceImpl
         ) {
             clientDeviceRepo.deleteByPublicId(devicePublicId);
         } else {
-            throw new ResourceNotFoundException("Authorized device");
+            throw new ResourceNotExistException("Authorized device");
         }
     }
 

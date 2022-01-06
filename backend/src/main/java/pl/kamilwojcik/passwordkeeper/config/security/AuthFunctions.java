@@ -4,9 +4,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
+import pl.kamilwojcik.passwordkeeper.validation.username.ValidUsername;
 
 @Component
+@Validated
 public class AuthFunctions {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
@@ -16,13 +19,8 @@ public class AuthFunctions {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean usernamesMatch(String username) {
-        try {
-            //todo
-//            userValidator.validateUsername(username);
-        } catch (Exception ex) {
-            return false;
-        }
+    public boolean usernamesMatch(@ValidUsername String username) {
+        //todo test this
 
         var auth = SecurityContextHolder.getContext().getAuthentication();
 

@@ -52,9 +52,7 @@ public class LoginEventServiceImpl implements LoggingEventService {
 
     @Override
     public Integer countAllUserLoggingEvents(String username) {
-//        return loginEventRepo.count;
-        //todo
-        return null;
+        return loginEventRepo.countAllByUser_Username(username);
     }
 
     @Override

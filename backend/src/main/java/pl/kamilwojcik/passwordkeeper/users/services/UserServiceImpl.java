@@ -3,6 +3,7 @@ package pl.kamilwojcik.passwordkeeper.users.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceNotExistException;
 import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 import pl.kamilwojcik.passwordkeeper.users.services.dto.CreateUser;
@@ -41,8 +42,7 @@ public class UserServiceImpl implements UserService {
         if (userRepo.existsByUsername(username)) {
             userRepo.deleteByUsername(username);
         } else {
-            //todo
-            throw new IllegalStateException();
+            throw new ResourceNotExistException();
         }
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.NotAuthorizedException;
 
 import java.nio.charset.StandardCharsets;
@@ -53,8 +54,7 @@ public class JwtServiceImpl implements JwtService {
     public String createAuthToken(UserDetails userDetails) {
         var username = userDetails.getUsername();
         if (username == null || username.isBlank()) {
-            //todo
-            throw new IllegalArgumentException();
+            throw new AuthenticationException();
         }
 
         return this.createAuthToken(userDetails.getUsername());
@@ -64,8 +64,7 @@ public class JwtServiceImpl implements JwtService {
     public String createRefreshToken(UserDetails userDetails) {
         var username = userDetails.getUsername();
         if (username == null || username.isBlank()) {
-            //todo
-            throw new IllegalArgumentException();
+            throw new AuthenticationException();
         }
 
         return this.createRefreshToken(username);
