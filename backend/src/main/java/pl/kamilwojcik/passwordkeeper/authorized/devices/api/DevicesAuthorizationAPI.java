@@ -11,16 +11,18 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.ClientDeviceDTO;
 import java.util.List;
 
 @Validated
+//@PreAuthorize("isAuthenticated()")
 @RequestMapping("device-authorization")
 public interface DevicesAuthorizationAPI {
 
     @GetMapping
     List<ClientDeviceDTO> getAllAuthorizedDevices(Authentication auth);
 
+    //    @PreAuthorize("permitAll()")
     @GetMapping("{authorizationLink}")
     void authorizeDevice(@PathVariable String authorizationLink);
 
     @DeleteMapping("{device-public-id}")
-    void deleteAuthorizedDevice(@PathVariable("device-public-id") String parameter);
+    void deleteAuthorizedDevice(@PathVariable("device-public-id") String devicePublicId, Authentication auth);
 
 }

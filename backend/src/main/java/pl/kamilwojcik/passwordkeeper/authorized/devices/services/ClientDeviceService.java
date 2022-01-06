@@ -12,10 +12,10 @@ import java.util.UUID;
 public interface ClientDeviceService {
 
     @PreAuthorize("@authFunctions.usernamesMatch(#unauthorizedDevice.username())")
-    void addClientDevice(
+    void addNewClientDevice(
             CreateClientDevice unauthorizedDevice);
 
-    void addClientDevice(String username);
+    void addNewClientDeviceBasedOnRequest(String username);
 
     void authorizeDevice(String authorizationLink);
 

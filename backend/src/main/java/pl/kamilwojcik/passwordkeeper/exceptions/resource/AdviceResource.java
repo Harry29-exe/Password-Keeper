@@ -17,6 +17,11 @@ public class AdviceResource {
         return new ResourceErrorBody(ERROR_CODE, ex.getResourceType(), ex.getResourceName());
     }
 
+    @ExceptionHandler(ResourceAlreadyExistException.class)
+    public ErrorBody generalResourceExceptionHandler(ResourceAlreadyExistException ex) {
+        return new ErrorBody(ERROR_CODE);
+    }
+
     @ExceptionHandler({IllegalNoResourceException.class})
     public ErrorBody handleIllegalNoResource(IllegalNoResourceException ex) {
         logger.warning("IllegalNoResourceException has been thrown in class: "

@@ -6,6 +6,7 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.ClientDeviceDTO;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.ClientDeviceService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class DevicesAuthorizationAPIImpl implements DevicesAuthorizationAPI {
@@ -17,16 +18,16 @@ public class DevicesAuthorizationAPIImpl implements DevicesAuthorizationAPI {
 
     @Override
     public List<ClientDeviceDTO> getAllAuthorizedDevices(Authentication auth) {
-        return null;
+        return clientDeviceService.getAllAuthorizedDevices(auth.getName());
     }
 
     @Override
     public void authorizeDevice(String authorizationLink) {
-
+        clientDeviceService.authorizeDevice(authorizationLink);
     }
 
     @Override
-    public void deleteAuthorizedDevice(String parameter) {
-
+    public void deleteAuthorizedDevice(String devicePublicId, Authentication auth) {
+        clientDeviceService.removeAuthorizedDevice(UUID.fromString(devicePublicId), auth.getName());
     }
 }

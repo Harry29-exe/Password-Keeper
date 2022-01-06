@@ -8,8 +8,10 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories.Auth
 import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories.ClientDeviceRepository;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.ClientDeviceDTO;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateClientDevice;
+import pl.kamilwojcik.passwordkeeper.config.consts.BackendAddress;
 import pl.kamilwojcik.passwordkeeper.config.email.EmailService;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredHeaderException;
+import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceAlreadyExistException;
 import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceNotExistException;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 import pl.kamilwojcik.passwordkeeper.utils.RequestUtils;
@@ -48,13 +50,24 @@ public class ClientDeviceServiceImpl
     }
 
     @Override
-    public void addClientDevice(CreateClientDevice unauthorizedDevice) {
-        var user = userRepo.getByUsername(unauthorizedDevice.username())
-                .orElseThrow(IllegalStateException::new);
-
+    public void addNewClientDevice(CreateClientDevice unauthorizedDevice) {
         var userAgent = userAgentService.parseToStorageForm(
                 unauthorizedDevice.userAgentHeader()
         );
+
+        if (clientDeviceRepo
+                .existsByIpAddressAndUserAgentAndUser_Username(
+                        unauthorizedDevice.ipAddress(),
+                        userAgent,
+                        unauthorizedDevice.username())
+        ) {
+            throw new ResourceAlreadyExistException();
+        }
+
+
+        var user = userRepo.getByUsername(unauthorizedDevice.username())
+                .orElseThrow(IllegalStateException::new);
+
 
         var entity = new ClientDevice(
                 unauthorizedDevice.ipAddress(),
@@ -69,14 +82,14 @@ public class ClientDeviceServiceImpl
     }
 
     @Override
-    public void addClientDevice(String username) {
+    public void addNewClientDeviceBasedOnRequest(String username) {
         var request = RequestUtils.getRequest();
         var userAgentHeader = request.getHeader("User-Agent");
         if (userAgentHeader == null || userAgentHeader.isBlank()) {
             throw new NoRequiredHeaderException("User-Agent");
         }
 
-        this.addClientDevice(new CreateClientDevice(
+        this.addNewClientDevice(new CreateClientDevice(
                 request.getRemoteAddr(),
                 userAgentHeader,
                 username
@@ -138,7 +151,10 @@ public class ClientDeviceServiceImpl
                         "device client: " + clientDevice.getUserAgent() + "\n" +
                         "If it was you please click in link below in other case, " +
                         "change your credentials as fast as possible.\n" +
-                        "New device authorization link: " + clientDevice.getAuthorizationLink().getAuthorizationLink(),
+                        "New device authorization link: " +
+                        BackendAddress.BACKEND_ADDRESS +
+                        "/device-authorization/" +
+                        clientDevice.getAuthorizationLink().getAuthorizationLink(),
                 userEmail);
     }
 
