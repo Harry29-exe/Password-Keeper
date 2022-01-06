@@ -78,7 +78,7 @@ public class ClientDeviceServiceImpl
 
         this.addClientDevice(new CreateClientDevice(
                 request.getRemoteAddr(),
-                userAgentService.parseToStorageForm(userAgentHeader),
+                userAgentHeader,
                 username
         ));
     }
@@ -137,8 +137,8 @@ public class ClientDeviceServiceImpl
                         "Device ip address: " + clientDevice.getIpAddress() + ", " +
                         "device client: " + clientDevice.getUserAgent() + "\n" +
                         "If it was you please click in link below in other case, " +
-                        "change your creadentials as fast as polible." +
-                        "New device authorization link: " + clientDevice.getAuthorizationLink(),
+                        "change your credentials as fast as possible.\n" +
+                        "New device authorization link: " + clientDevice.getAuthorizationLink().getAuthorizationLink(),
                 userEmail);
     }
 

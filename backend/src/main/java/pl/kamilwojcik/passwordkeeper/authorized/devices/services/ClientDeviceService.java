@@ -15,12 +15,10 @@ public interface ClientDeviceService {
     void addClientDevice(
             CreateClientDevice unauthorizedDevice);
 
-    @PreAuthorize("@authFunctions.usernamesMatch(#username)")
     void addClientDevice(String username);
 
     void authorizeDevice(String authorizationLink);
 
-    @PreAuthorize("@authFunctions.usernamesMatch(#username)")
     boolean authorizedDeviceExists(String ipAddress, String userAgentHeader, String username);
 
     @PreAuthorize("@authFunctions.usernamesMatch(#username)")

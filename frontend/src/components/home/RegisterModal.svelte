@@ -13,6 +13,7 @@
     export let isOpen = false;
 
     let username = "";
+    let email = "";
     let password = "";
     let passwordRepeat = "";
     let storagePassword = "";
@@ -33,7 +34,7 @@
         }
 
         registerState = new ComponentState(State.IN_PROGRESS);
-        UserAPI.register(new CreateUserRequest(username, password, storagePassword))
+        UserAPI.register(new CreateUserRequest(username, email, password, storagePassword))
             .then(status => {
                 if(ResponseStatusU.isError(status)) {
                     registerState = new ComponentState(State.ERROR);
@@ -57,6 +58,12 @@
         <div class="input-module">
             Username:
             <TextInput placeholder="username" bind:value={username} style={textInputStyle}/>
+        </div>
+        <Spacer style={spacerStyle}/>
+
+        <div class="input-module">
+            Email:
+            <TextInput bind:value={email} placeholder="email" style={textInputStyle}/>
         </div>
         <Spacer style={spacerStyle}/>
 

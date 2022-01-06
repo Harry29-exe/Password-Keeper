@@ -42,6 +42,7 @@ public class AuthenticationApiController implements AuthenticationApi {
             authService.authenticate(requestBody.username(), requestBody.password());
         } catch (DeviceNotAuthorizedException ex) {
             clientDeviceService.addClientDevice(requestBody.username());
+            throw new DeviceNotAuthorizedException();
         }
 
         var user = userDetailsService.loadUserByUsername(requestBody.username());

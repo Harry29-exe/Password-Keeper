@@ -7,7 +7,7 @@ import java.util.List;
 @Service
 public class UserAgentServiceImpl implements UserAgentService {
 
-    private final List<Character> allowedChars = List.of('_', '.', '/', ';', '(', ')');
+    private final List<Character> allowedChars = List.of('_', '.', '/', ';', '(', ')', ' ');
 
     @Override
     public String parseToStorageForm(String userAgentHeader) {
@@ -25,12 +25,20 @@ public class UserAgentServiceImpl implements UserAgentService {
         var startIndex = userAgentHeader.indexOf(')');
 
         StringBuilder sb = new StringBuilder();
-        sb.append(userAgentHeader, 0, startIndex);
+        String stringToParse;
+        if (startIndex > 0) {
+            sb.append(userAgentHeader, 0, startIndex + 1);
+            stringToParse = userAgentHeader.substring(startIndex + 1);
+        } else {
+            stringToParse = userAgentHeader;
+        }
 
-        String stringToParse = userAgentHeader.substring(startIndex);
+
         for (char c : stringToParse.toCharArray()) {
             if (Character.isDigit(c)) {
                 sb.append('X');
+            } else {
+                sb.append(c);
             }
         }
 
