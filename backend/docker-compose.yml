@@ -1,0 +1,39 @@
+version: "2.0"
+services:
+
+
+  postgres:
+    build:
+      context: /postgres
+    image: postgres_image
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./postgres/.env
+
+
+  backend:
+    build:
+      context: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+
+  frontend:
+    build:
+      context: ./../frontend/
+    ports:
+      - "3000:3000"
+
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
