@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.validation.text_or_digit;
+package pl.kamilwojcik.passwordkeeper.validation.text;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -23,8 +23,17 @@ public class SimpleTextValidator implements ConstraintValidator<SimpleText, Stri
             return canBeBlank;
         }
 
-        for (char c : value.toCharArray()) {
-            if (!Character.isLetterOrDigit(c)) {
+        char[] chars = value.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (Character.isWhitespace(chars[i])) {
+                //no chars at the beginning of string
+                if (i == 0 || i == chars.length - 1) {
+                    return false;
+                    //no multiple chars
+                } else if (Character.isWhitespace(chars[i - 1])) {
+                    return false;
+                }
+            } else if (!Character.isLetterOrDigit(chars[i])) {
                 return false;
             }
         }

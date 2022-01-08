@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.validation.text_or_digit;
+package pl.kamilwojcik.passwordkeeper.validation.text;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

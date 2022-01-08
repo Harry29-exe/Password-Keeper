@@ -2,7 +2,6 @@ package pl.kamilwojcik.passwordkeeper.passwords_storage.api;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests.CreateNewPasswordRequest;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests.DecodeAndGetRequest;
@@ -14,7 +13,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Validated
+
+//todo dowiedzieć się jak to w końcu działą
+//@Validated
 @RequestMapping("password-storage")
 @CrossOrigin(origins = {"http://localhost:3000"})
 @PreAuthorize("isAuthenticated()")
@@ -35,7 +36,8 @@ public interface PasswordApi {
 
     @PostMapping("get")
     String decodeAndGetPassword(
-            @RequestBody @Valid DecodeAndGetRequest request,
+            @RequestBody
+            @Valid DecodeAndGetRequest request,
             @NotNull Authentication auth
     );
 
