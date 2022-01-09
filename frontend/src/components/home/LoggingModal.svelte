@@ -9,7 +9,7 @@
     import Center from "../utils/atomic/Center.svelte";
     import {goto} from "$app/navigation";
 
-    let modalOpen = false;
+    export let modalOpen;
     let username = "";
     let password = "";
     let loginState: 'inProgress' | 'notInitialized' | 'error' = 'notInitialized';
@@ -30,10 +30,6 @@
     }
 </script>
 
-
-<Button on:click={() => modalOpen = true} size="lg">
-    Login
-</Button>
 
 {#if modalOpen}
     <Modal bind:isOpen={modalOpen}>

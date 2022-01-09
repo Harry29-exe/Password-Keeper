@@ -4,7 +4,6 @@
     import VStack from "../../../utils/atomic/VStack.svelte";
     import Spacer from "../../../utils/atomic/Spacer.svelte";
     import HStack from "../../../utils/atomic/HStack.svelte";
-    import Button from "../../../utils/atomic/Button.svelte";
     import PasswordFetcher from "./PasswordFetcher.svelte";
     import "../Password.css";
 
@@ -31,6 +30,8 @@
         </HStack>
 
         <Spacer style="margin: 10px 0 10px 0"/>
+
+
         <PasswordFetcher passwordInfo={passwordInfo}/>
 
         <HStack>

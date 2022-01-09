@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import {authStore} from "../../stores/AuthStore";
     import {goto} from "$app/navigation";
+    import Navbar from "../../components/utils/Navbar.svelte";
 
     let authenticated = false;
     onMount(() => {
@@ -15,5 +16,6 @@
 </script>
 
 {#if authenticated}
+    <Navbar/>
     <slot></slot>
 {/if}

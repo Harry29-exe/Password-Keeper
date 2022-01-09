@@ -1,13 +1,11 @@
 <script lang="ts">
-  import "./../style/Utils.css"
-  import Button from "../components/utils/atomic/Button.svelte";
-  import {goto} from "$app/navigation";
-  import Modal from "../components/utils/atomic/Modal.svelte";
-  import LoggingModule from "../components/home/LoggingModal.svelte";
-  import RegisterModal from "../components/home/RegisterModal.svelte";
+    import "./../style/Utils.css"
+    import Button from "../components/utils/atomic/Button.svelte";
+    import LoggingModule from "../components/home/LoggingModal.svelte";
+    import RegisterModal from "../components/home/RegisterModal.svelte";
 
-  let loginModal = false;
-  let registerModal = false;
+    let loginModal = false;
+    let registerModal = false;
 </script>
 
 <svelte:head>
@@ -15,11 +13,17 @@
 </svelte:head>
 
 <div class="wrapper flex-center" style="font-size: 24px">
-    <h1>
-        Password keeper
-    </h1>
 
-    <LoggingModule/>
+    <span class="text-5xl">
+        Password keeper
+    </span>
+
+    <br/><br/>
+
+    <Button class="" on:click={() => loginModal = true} size="lg">
+        Login
+    </Button>
+    <LoggingModule bind:modalOpen={loginModal}/>
 
     <div style="width: 100%; height: 20px"></div>
 
