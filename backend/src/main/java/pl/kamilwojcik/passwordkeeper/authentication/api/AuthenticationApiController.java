@@ -48,6 +48,7 @@ public class AuthenticationApiController implements AuthenticationApi {
         this.refreshTokenExpiresTimeInSec = refreshExp;
     }
 
+    //todo add login event logging
     @Override
     public void login(Boolean dontLogout, LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response) {
 
