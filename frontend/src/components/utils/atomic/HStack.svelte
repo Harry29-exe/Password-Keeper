@@ -4,14 +4,14 @@
     export {cssClass as class};
 </script>
 
-<div style={style} class={`VStack ${cssClass}`} on:click>
+<div class={`v-stack ${cssClass}`} on:click style={style}>
     <slot>
 
     </slot>
 </div>
 
 <style>
-    .VStack {
+    .v-stack {
         width: 100%;
         height: 100%;
         display: flex;
@@ -23,7 +23,7 @@
         position: relative;
     }
 
-    .VStack > * {
+    .v-stack > * {
         margin-right: 8px;
     }
 </style>

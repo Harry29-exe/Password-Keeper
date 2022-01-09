@@ -1,9 +1,11 @@
 <script>
     export let style = "";
+    let clazz = "";
+    export {clazz as class};
 </script>
 
 
-<div style={style}>
+<div class={clazz} style={style}>
     <slot></slot>
 </div>
 

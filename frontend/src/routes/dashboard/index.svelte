@@ -16,8 +16,8 @@
 
 <style>
     .wrapper {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         flex-direction: column;
         display: flex;
         justify-content: center;

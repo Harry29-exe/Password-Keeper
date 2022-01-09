@@ -1,0 +1,3 @@
+.spacer-h {
+    @apply w-full border-b-2 border-sky-600 my-5 h-1;
+}

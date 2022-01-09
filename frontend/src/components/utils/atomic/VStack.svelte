@@ -2,14 +2,14 @@
     export let style = "";
 </script>
 
-<div style={style} class="VStack">
+<div class="v-stack" style={style}>
     <slot>
 
     </slot>
 </div>
 
 <style>
-    .VStack {
+    .v-stack {
         width: 100%;
         display: flex;
         justify-content: flex-start;
@@ -19,7 +19,7 @@
         margin-left: auto;
     }
 
-    .VStack > * {
+    .v-stack > * {
         margin-top: 8px;
     }
 </style>

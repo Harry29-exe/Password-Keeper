@@ -1,7 +1,4 @@
 <script lang="ts">
-    import "./../style/Utils.css"
-    import Button from "../components/utils/atomic/Button.svelte";
-    import LoggingModule from "../components/home/LoggingModal.svelte";
     import RegisterModal from "../components/home/RegisterModal.svelte";
 
     let loginModal = false;
@@ -20,10 +17,7 @@
 
     <br/><br/>
 
-    <Button class="" on:click={() => loginModal = true} size="lg">
-        Login
-    </Button>
-    <LoggingModule bind:modalOpen={loginModal}/>
+
 
     <div style="width: 100%; height: 20px"></div>
 
@@ -35,8 +29,8 @@
 
 <style>
     .wrapper {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         flex-direction: column;
     }
 

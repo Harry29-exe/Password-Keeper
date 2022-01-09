@@ -1,10 +1,13 @@
 <script>
-	import '../app.css';
-	import {onMount} from 'svelte';
+    import '../app.css';
+    import "./../style/Utils.css";
+    import "./../style/StyleComponents.css";
+    import {onMount} from 'svelte';
+    import Navbar from "../components/utils/Navbar.svelte";
 
-	onMount(() => {
-	});
+    onMount(() => {
+    });
 </script>
 
-
+<Navbar/>
 <slot/>

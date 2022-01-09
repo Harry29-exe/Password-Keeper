@@ -5,3 +5,17 @@
     justify-content: center;
     align-items: center;
 }
+
+.center {
+    @apply flex justify-center items-center;
+}
+
+.v-stack {
+    @apply flex justify-start items-center flex-col;
+    @apply mx-auto relative;
+}
+
+.h-stack {
+    @apply flex justify-start items-center;
+    @apply relative;
+}

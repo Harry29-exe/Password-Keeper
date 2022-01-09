@@ -26,24 +26,13 @@
 <style>
 
     .Button {
-        @apply rounded-sm shadow-md hover:shadow-xl;
+        @apply rounded-sm shadow-md hover:shadow-xl bg-sky-800;
+        @apply hover:cursor-pointer hover:bg-sky-600;
         display: flex;
         justify-content: center;
         align-items: center;
 
         /*box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4);*/
-    }
-
-    .Button:hover {
-        cursor: pointer;
-    }
-
-    .Primary {
-        background: var(--primary-800);
-    }
-
-    .Primary:hover {
-        background: var(--primary-600);
     }
 
     .Success {
