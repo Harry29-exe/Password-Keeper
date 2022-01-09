@@ -1,13 +1,13 @@
-package pl.kamilwojcik.passwordkeeper.authorized.devices.services;
+package pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.services;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.LoggingEventDTO;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateLoginEvent;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.dto.LoggingEventDTO;
 
 import java.util.List;
 
-public interface LoggingEventService {
+public interface LoginEventService {
 
     @PreAuthorize("@authFunctions.usernamesMatch(#loginEvent.username)")
     void addNewLoggingEvent(CreateLoginEvent loginEvent);

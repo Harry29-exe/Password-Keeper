@@ -3,7 +3,7 @@ package pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.LoginEvent.LoginEventResult;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain.LoginEvent.LoginEventResult;
 
 import java.util.Date;
 import java.util.UUID;

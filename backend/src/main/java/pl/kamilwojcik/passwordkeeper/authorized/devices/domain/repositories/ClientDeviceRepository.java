@@ -15,7 +15,9 @@ public interface ClientDeviceRepository extends JpaRepository<ClientDevice, Long
 
     Optional<ClientDevice> findByPublicIdAndUser_Username(UUID publicId, String username);
 
-    boolean existsByIpAddressAndUserAgentAndUser_Username(
+    Optional<ClientDevice> findByIpAddressAndUserAgentAndUser_Username(String ipAddress, String userAgent, String username);
+
+    boolean existsByIpAddressAndUserAgentAndUser_UsernameAndIsAuthorizedIsTrue(
             String ipAddress,
             String userAgent,
             String username);

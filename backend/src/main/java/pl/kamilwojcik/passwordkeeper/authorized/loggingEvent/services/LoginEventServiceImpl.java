@@ -1,13 +1,13 @@
-package pl.kamilwojcik.passwordkeeper.authorized.devices.services;
+package pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.services;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.LoginEvent;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories.ClientDeviceRepository;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories.LoginEventRepository;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.LoggingEventDTO;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateLoginEvent;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain.LoginEvent;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain.LoginEventRepository;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.dto.LoggingEventDTO;
 import pl.kamilwojcik.passwordkeeper.exceptions.resource.IllegalNoResourceException;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class LoginEventServiceImpl implements LoggingEventService {
+public class LoginEventServiceImpl implements LoginEventService {
     private final UserRepository userRepo;
     private final ClientDeviceRepository authorizedDeviceRepo;
     private final LoginEventRepository loginEventRepo;

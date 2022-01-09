@@ -2,7 +2,7 @@ package pl.kamilwojcik.passwordkeeper.authentication.api;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.authentication.api.dto.LoginRequest;
 import pl.kamilwojcik.passwordkeeper.config.consts.CorsAddresses;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public interface AuthenticationApi {
 
     @PostMapping("/login")
-    void login(@RequestBody @Valid LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response);
+    void login(@RequestParam(defaultValue = "false") Boolean dontLogout, @RequestBody @Valid LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response);
 
     @GetMapping("/logout")
     void logout(HttpServletResponse response);

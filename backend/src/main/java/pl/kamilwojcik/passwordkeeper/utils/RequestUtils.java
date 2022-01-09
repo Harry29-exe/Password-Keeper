@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RequestUtils {
 
-    public static HttpServletRequest getRequest() {
+    public static HttpServletRequest getCurrentRequest() {
         var requestAttribs = RequestContextHolder.getRequestAttributes();
         if (requestAttribs instanceof ServletRequestAttributes servletAttribs) {
             return servletAttribs.getRequest();

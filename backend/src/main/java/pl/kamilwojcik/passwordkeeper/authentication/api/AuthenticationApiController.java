@@ -1,13 +1,15 @@
 package pl.kamilwojcik.passwordkeeper.authentication.api;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RestController;
-import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.authentication.api.dto.LoginRequest;
 import pl.kamilwojcik.passwordkeeper.authentication.services.AuthenticationService;
 import pl.kamilwojcik.passwordkeeper.authentication.services.JwtService;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.ClientDeviceService;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.InvalidRequestException;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredHeaderException;
 
@@ -30,25 +32,30 @@ public class AuthenticationApiController implements AuthenticationApi {
 
     private final String REFRESH_TOKEN_COOKIE_NAME = "Refresh-Token";
     private final String REFRESH_TOKEN_PATH = "/refresh";
+    private final Integer refreshTokenExpiresTimeInSec;
 
     public AuthenticationApiController(
             AuthenticationService authService,
             UserDetailsService userDetailsService,
-            ClientDeviceService clientDeviceService, JwtService jwtService) throws NoSuchAlgorithmException {
+            ClientDeviceService clientDeviceService,
+            JwtService jwtService,
+            @Value("${jwt.config.refresh.exp_in_sec}") Integer refreshExp
+    ) throws NoSuchAlgorithmException {
         this.authService = authService;
         this.userDetailsService = userDetailsService;
         this.clientDeviceService = clientDeviceService;
         this.jwtService = jwtService;
+        this.refreshTokenExpiresTimeInSec = refreshExp;
     }
 
     @Override
-    public void login(LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response) {
+    public void login(Boolean dontLogout, LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response) {
 
         try {
             authService.authenticate(requestBody.username(), requestBody.password());
-        } catch (DeviceNotAuthorizedException ex) {
-            clientDeviceService.addNewClientDeviceBasedOnRequest(requestBody.username());
-            throw new DeviceNotAuthorizedException();
+        } catch (UnknownDeviceException | DeviceNotAuthorizedException ex) {
+            clientDeviceService.addNewDeviceAuthorizationRequest(requestBody.username());
+            throw ex;
         }
 
         var user = userDetailsService.loadUserByUsername(requestBody.username());
@@ -58,7 +65,7 @@ public class AuthenticationApiController implements AuthenticationApi {
         response.setHeader("Authorization", authToken);
 
         var refreshToken = jwtService.createRefreshToken(user);
-        this.addRefreshTokenCookie(refreshToken, response);
+        this.addRefreshTokenCookie(refreshToken, response, !dontLogout);
 
         this.delayLogin();
     }
@@ -87,7 +94,7 @@ public class AuthenticationApiController implements AuthenticationApi {
         var refreshToken = getRefreshToken(request);
         var newRefreshToken = jwtService.refreshRefreshToken(refreshToken.getValue());
 
-        addRefreshTokenCookie(newRefreshToken, response);
+        addRefreshTokenCookie(newRefreshToken, response, false);
     }
 
     private Cookie getRefreshToken(HttpServletRequest request) {
@@ -114,12 +121,20 @@ public class AuthenticationApiController implements AuthenticationApi {
         }
     }
 
-    private void addRefreshTokenCookie(String refreshToken, HttpServletResponse response) {
+    private void addRefreshTokenCookie(
+            String refreshToken,
+            HttpServletResponse response,
+            boolean shouldExpireAtSessionEnd
+    ) {
         Cookie cookie = new Cookie("Refresh-Token", refreshToken);
         cookie.setPath(REFRESH_TOKEN_PATH);
         cookie.setHttpOnly(true);
         //todo for production
         cookie.setSecure(false);
+
+        if (!shouldExpireAtSessionEnd) {
+            cookie.setMaxAge(refreshTokenExpiresTimeInSec);
+        }
 
         response.addCookie(cookie);
     }

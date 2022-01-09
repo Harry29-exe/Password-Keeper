@@ -17,6 +17,8 @@ public class ClientDeviceDTO {
 
     private String userAgent;
 
+    private String username;
+
     private Boolean isAuthorized;
 
 }

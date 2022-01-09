@@ -1,17 +1,17 @@
-package pl.kamilwojcik.passwordkeeper.authorized.devices.api;
+package pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.api;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.api.dto.LoggingHistoryResponse;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.services.LoggingEventService;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.services.LoginEventService;
 
 @RestController
 public class DevicesLoggingHistoryAPIImpl implements DevicesLoggingHistoryAPI {
-    private final LoggingEventService loggingEventService;
+    private final LoginEventService loginEventService;
 
-    public DevicesLoggingHistoryAPIImpl(LoggingEventService loggingEventService) {
-        this.loggingEventService = loggingEventService;
+    public DevicesLoggingHistoryAPIImpl(LoginEventService loginEventService) {
+        this.loginEventService = loginEventService;
     }
 
     @Override
@@ -19,10 +19,10 @@ public class DevicesLoggingHistoryAPIImpl implements DevicesLoggingHistoryAPI {
             Integer page,
             Integer itemsPerPage,
             Authentication auth) {
-        var events = loggingEventService.getLoggingEvents(
+        var events = loginEventService.getLoggingEvents(
                 auth.getName(), PageRequest.of(page, itemsPerPage));
 
-        var eventsCount = loggingEventService.countAllUserLoggingEvents(
+        var eventsCount = loginEventService.countAllUserLoggingEvents(
                 auth.getName()
         );
 

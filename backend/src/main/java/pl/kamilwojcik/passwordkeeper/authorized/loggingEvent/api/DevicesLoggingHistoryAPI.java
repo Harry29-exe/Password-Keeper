@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.authorized.devices.api;
+package pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.api;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;

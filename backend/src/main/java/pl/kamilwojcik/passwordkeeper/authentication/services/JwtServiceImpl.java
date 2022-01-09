@@ -14,8 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.services.ClientDeviceService;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.NotAuthorizedException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -25,6 +27,10 @@ public class JwtServiceImpl implements JwtService {
     private static final String TOKEN_TYPE_CLAIM = "Token type";
     private static final String AUTH_TYPE = "Auth";
     private static final String REFRESH_TYPE = "Refresh";
+    private static final String DEVICE_PUB_ID = "Device public id";
+
+    private final ClientDeviceService clientDeviceService;
+
     private final Algorithm authAlgorithm;
     private final Integer authExpInSec;
     private final Algorithm refreshAlgorithm;
@@ -32,10 +38,12 @@ public class JwtServiceImpl implements JwtService {
     private final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
 
-    public JwtServiceImpl(@Value("${jwt.secrets.auth}") String authSecret,
+    public JwtServiceImpl(ClientDeviceService clientDeviceService,
+                          @Value("${jwt.secrets.auth}") String authSecret,
                           @Value("${jwt.secrets.refresh}") String refreshSecret,
                           @Value("${jwt.config.auth.exp_in_sec}") Integer authExp,
                           @Value("${jwt.config.refresh.exp_in_sec}") Integer refreshExp) {
+        this.clientDeviceService = clientDeviceService;
 
         if (authSecret.getBytes(StandardCharsets.UTF_8).length < (256 / 8)) {
             throw new IllegalArgumentException("Auth secret must be at least 256 bit long");
@@ -57,7 +65,7 @@ public class JwtServiceImpl implements JwtService {
             throw new AuthenticationException();
         }
 
-        return this.createAuthToken(userDetails.getUsername());
+        return this.createAuthToken(userDetails.getUsername(), AUTH_TYPE);
     }
 
     @Override
@@ -67,7 +75,7 @@ public class JwtServiceImpl implements JwtService {
             throw new AuthenticationException();
         }
 
-        return this.createRefreshToken(username);
+        return this.createAuthToken(username, REFRESH_TYPE);
     }
 
     @Override
@@ -80,7 +88,7 @@ public class JwtServiceImpl implements JwtService {
         var token = validateRefreshToken(refreshToken);
         var sub = token.getSubject();
 
-        return this.createAuthToken(sub);
+        return this.createAuthToken(sub, AUTH_TYPE);
     }
 
     @Override
@@ -88,57 +96,70 @@ public class JwtServiceImpl implements JwtService {
         var token = validateRefreshToken(refreshToken);
         var sub = token.getSubject();
 
-        return createRefreshToken(sub);
+        return createAuthToken(sub, REFRESH_TYPE);
     }
 
-    private String createAuthToken(@NonNull String subject) {
+    private String createAuthToken(@NonNull String subject, @NonNull String tokenType) {
         var now = new Date();
-        var exp = new Date(now.getTime() + this.authExpInSec * 1000);
+        var exp = new Date(now.getTime() +
+                1000L * (tokenType.equals(AUTH_TYPE) ? this.authExpInSec : this.refreshExpInSec)
+        );
+
+        var currentDevice = clientDeviceService.getCurrentDevice(subject)
+                .orElseThrow(UnknownDeviceException::new);
 
         return JWT.create()
-                .withClaim(TOKEN_TYPE_CLAIM, AUTH_TYPE)
+                .withClaim(TOKEN_TYPE_CLAIM, tokenType)
                 .withSubject(subject)
+                .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
                 .withIssuedAt(now)
                 .withExpiresAt(exp)
                 .sign(this.authAlgorithm);
     }
 
-    private String createRefreshToken(@NonNull String subject) {
-        var now = new Date();
-        var exp = new Date(now.getTime() + this.refreshExpInSec * 1000);
+//    private String createAuthToken(@NonNull String subject) {
+//        var now = new Date();
+//        var exp = new Date(now.getTime() + this.refreshExpInSec * 1000);
+//
+//        return JWT.create()
+//                .withClaim(TOKEN_TYPE_CLAIM, REFRESH_TYPE)
+//                .withSubject(subject)
+//                .withIssuedAt(now)
+//                .withExpiresAt(exp)
+//                .sign(refreshAlgorithm);
+//    }
 
-        return JWT.create()
-                .withClaim(TOKEN_TYPE_CLAIM, REFRESH_TYPE)
-                .withSubject(subject)
-                .withIssuedAt(now)
-                .withExpiresAt(exp)
-                .sign(refreshAlgorithm);
-    }
 
     private DecodedJWT validateRefreshToken(String refreshToken) {
         return validateJWT(refreshToken, refreshAlgorithm, REFRESH_TYPE);
     }
 
-    private DecodedJWT validateJWT(String refreshToken, Algorithm refreshAlgorithm, String refreshType) {
+    private DecodedJWT validateJWT(String refreshToken, Algorithm algorithm, String tokenType) {
         try {
             var token = JWT.decode(refreshToken);
             var sub = token.getSubject();
             if (sub == null || sub.isBlank()) {
                 throw new JWTVerificationException("Subject can not be black or null");
             }
-            JWTVerifier verifier = JWT.require(refreshAlgorithm)
-                    .withClaim(TOKEN_TYPE_CLAIM, refreshType)
+            var currentDevice = clientDeviceService.getCurrentDevice(sub)
+                    .orElseThrow(UnknownDeviceException::new);
+
+
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withClaim(TOKEN_TYPE_CLAIM, tokenType)
+                    .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
                     .withSubject(sub)
                     .build();
 
             verifier.verify(token);
 
             return token;
+
         } catch (JWTDecodeException ex) {
-            this.logNonJwtCompatibleTokenValue(refreshToken, refreshType);
+            this.logNonJwtCompatibleTokenValue(refreshToken, tokenType);
             throw new NotAuthorizedException();
         } catch (JWTVerificationException ex) {
-            this.logInvalidJwtToken(refreshToken, ex.getMessage(), refreshType);
+            this.logInvalidJwtToken(refreshToken, ex.getMessage(), tokenType);
             throw new NotAuthorizedException();
         }
     }

@@ -6,20 +6,38 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.ClientDeviceDTO;
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateClientDevice;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Transactional
 public interface ClientDeviceService {
 
     @PreAuthorize("@authFunctions.usernamesMatch(#unauthorizedDevice.username())")
-    void addNewClientDevice(
+    void createNewDeviceAndSendEmail(
             CreateClientDevice unauthorizedDevice);
 
-    void addNewClientDeviceBasedOnRequest(String username);
+    /**
+     * based on information given in request creates new device and sends authorization email
+     * or if it already exists and authorization link is expired recreates authorization link and
+     * resends authorization email
+     *
+     * @param username username of user that new device should be created for
+     */
+    void addNewDeviceAuthorizationRequest(String username);
 
+    /**
+     * authorize device based on unique long and random authorizationLink
+     *
+     * @param authorizationLink - link which is sent to user's email
+     */
     void authorizeDevice(String authorizationLink);
 
-    boolean authorizedDeviceExists(String ipAddress, String userAgentHeader, String username);
+    Optional<ClientDeviceDTO> findByDeviceConstraint(String ipAddress, String userAgentHeader, String username);
+
+    @PreAuthorize("isAuthenticated()")
+    Optional<ClientDeviceDTO> getCurrentDevice();
+
+    Optional<ClientDeviceDTO> getCurrentDevice(String username);
 
     @PreAuthorize("@authFunctions.usernamesMatch(#username)")
     List<ClientDeviceDTO> getAllAuthorizedDevices(String username);

@@ -1,8 +1,9 @@
-package pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities;
+package pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.ClientDevice;
 import pl.kamilwojcik.passwordkeeper.users.domain.entities.UserEntity;
 
 import javax.persistence.*;

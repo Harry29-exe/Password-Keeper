@@ -2,7 +2,7 @@ package pl.kamilwojcik.passwordkeeper.authentication.api.AuthenticationApiMethod
 
 import org.junit.jupiter.api.Test;
 import pl.kamilwojcik.passwordkeeper.authentication.api.AuthenticationApiTestTemplate;
-import pl.kamilwojcik.passwordkeeper.authentication.dto.value.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.authentication.api.dto.LoginRequest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pl.kamilwojcik.passwordkeeper.authentication.utils.DefaultUsersCredentials.USER1_PASSWORD;

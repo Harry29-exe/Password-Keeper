@@ -12,6 +12,7 @@ import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsAccountL
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsMsgDispatcher;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.users.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,11 +52,12 @@ public class DefaultAuthenticationService implements AuthenticationService {
         var address = getRequest().getRemoteAddr();
         var client = getRequest().getHeader("User-Agent");
 
-        boolean isDeviceAuthorized = clientDeviceService.authorizedDeviceExists(
-                address,
-                client,
-                username
-        );
+        boolean isDeviceAuthorized = clientDeviceService.findByDeviceConstraint(
+                        address,
+                        client,
+                        username)
+                .orElseThrow(UnknownDeviceException::new)
+                .getIsAuthorized();
 
         if (!isDeviceAuthorized) {
             throw new DeviceNotAuthorizedException();

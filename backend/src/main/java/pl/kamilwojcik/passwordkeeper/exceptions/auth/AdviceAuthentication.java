@@ -12,18 +12,21 @@ import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 @RestControllerAdvice
 public class AdviceAuthentication {
 
-    private final String ERROR_CODE = "INVALID_CREDENTIALS";
+    private final String CREDENTIALS_ERROR_CODE = "INVALID_CREDENTIALS";
+    private final String UNKNOWN_DEVICE = "UNKNOWN_DEVICE";
+
 
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({AuthenticationException.class})
     public ErrorBody handleAuthenticationException(AuthenticationException ex) {
-        return new ErrorBody(ERROR_CODE);
+        return new ErrorBody(CREDENTIALS_ERROR_CODE);
     }
+
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN)
     @ExceptionHandler({NotAuthorizedException.class})
     public ErrorBody handleAuthorizationException(NotAuthorizedException ex) {
-        return new ErrorBody(ERROR_CODE);
+        return new ErrorBody(CREDENTIALS_ERROR_CODE);
     }
 
 
@@ -33,7 +36,7 @@ public class AdviceAuthentication {
             JWTDecodeException.class,
             JWTVerificationException.class})
     public ErrorBody handleJwtException(Exception ex) {
-        return new ErrorBody(ERROR_CODE);
+        return new ErrorBody(CREDENTIALS_ERROR_CODE);
     }
 
 
@@ -42,8 +45,15 @@ public class AdviceAuthentication {
             DeviceNotAuthorizedException.class
     })
     public ErrorBody handleUnauthorizedDevice(DeviceNotAuthorizedException ex) {
-        return new ErrorBody(ERROR_CODE);
+        return new ErrorBody(CREDENTIALS_ERROR_CODE);
     }
 
 
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({UnknownDeviceException.class})
+    public ErrorBody handleUnknownDeviceException(UnknownDeviceException ex) {
+        return new ErrorBody(UNKNOWN_DEVICE);
+    }
+
 }
+

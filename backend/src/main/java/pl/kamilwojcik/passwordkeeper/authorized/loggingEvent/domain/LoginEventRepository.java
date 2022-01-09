@@ -1,9 +1,8 @@
-package pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories;
+package pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.LoginEvent;
 
 import java.util.List;
 

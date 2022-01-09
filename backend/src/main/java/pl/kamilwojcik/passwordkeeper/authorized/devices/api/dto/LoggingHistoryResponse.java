@@ -1,6 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.authorized.devices.api.dto;
 
-import pl.kamilwojcik.passwordkeeper.authorized.devices.dto.LoggingEventDTO;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.dto.LoggingEventDTO;
 
 import java.util.List;
 

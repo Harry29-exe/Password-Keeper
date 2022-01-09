@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.authentication.dto.value;
+package pl.kamilwojcik.passwordkeeper.authentication.api.dto;
 
 import pl.kamilwojcik.passwordkeeper.validation.password.app.AppPassword;
 
