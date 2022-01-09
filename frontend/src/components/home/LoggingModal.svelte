@@ -14,10 +14,11 @@
     let password = "";
     let loginState: 'inProgress' | 'notInitialized' | 'error' = 'notInitialized';
     let errorMsg = "Bad username or password";
+    let dontLogout = false;
 
     const onLoginClick = () => {
         loginState = 'inProgress';
-        authStore.login(username, password)
+        authStore.login(username, password, dontLogout)
             .then(status => {
                 if(ResponseStatusU.isOk(status)) {
                     modalOpen = false;
@@ -46,8 +47,13 @@
             <div>
                 Password:
                 <TextInput bind:value={password} placeholder="Password"
-                       style="font-size: 1.3rem" type="password"/>
+                           style="font-size: 1.3rem" type="password"/>
             </div>
+
+            <Center style="position: relative">
+                Do not logout me
+                <input type="checkbox" bind:checked={dontLogout} style="width: 20px; height: 20px; margin: 10px">
+            </Center>
 
             <div>
                 <Button on:click={onLoginClick} size="lg" style="margin-top: 20px">

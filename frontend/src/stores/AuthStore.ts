@@ -29,7 +29,10 @@ export class AuthHolder {
 }
 
 interface AuthStore extends Readable<AuthHolder> {
-    login: (username: string, password: string) => Promise<ResponseStatus>
+    login: (username: string, password: string, dontLogout?: boolean) => Promise<ResponseStatus>,
+    logout: () => Promise<ResponseStatus>,
+    refreshAuth: () => Promise<ResponseStatus>,
+    refreshRefresh: () => Promise<ResponseStatus>
 }
 
 function createAuthStore(): AuthStore {
@@ -38,15 +41,42 @@ function createAuthStore(): AuthStore {
 
     return {
         subscribe: subscribe,
-        login: (username: string, password: string): Promise<ResponseStatus> => {
-            return AuthApi.login(username, password)
+        login: (username: string, password: string, dontLogout: boolean): Promise<ResponseStatus> => {
+            return AuthApi.login(username, password, dontLogout)
                 .then(response => {
+                    console.log('login response')
                     if (ResponseStatusU.isOk(response.status)) {
-                        set(new AuthHolder(true, response.authToken, username))
+                        console.log('auth = true')
+                        set(new AuthHolder(true, response.authToken as string, username))
                     }
                     return response.status
                 })
         },
+
+        logout: (): Promise<ResponseStatus> => {
+            return AuthApi.logout().then(status => {
+                if (ResponseStatusU.isOk(status)) {
+                    set(new AuthHolder(false, undefined));
+                }
+
+                return status;
+            })
+        },
+
+        refreshAuth: (): Promise<ResponseStatus> => {
+            return AuthApi.refreshAuthToken()
+                .then(response => {
+                    if (ResponseStatusU.isOk(response.status)) {
+                        set(new AuthHolder(true, response.authToken as string));
+                    }
+
+                    return response.status;
+                })
+        },
+
+        refreshRefresh: (): Promise<ResponseStatus> => {
+            return AuthApi.refreshRefreshToken();
+        }
 
     };
 }

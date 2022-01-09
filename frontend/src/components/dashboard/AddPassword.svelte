@@ -1,15 +1,15 @@
 <script lang="ts">
-    import VStack from "../../utils/atomic/VStack.svelte";
-    import Button from "../../utils/atomic/Button.svelte";
-    import Modal from "../../utils/atomic/Modal.svelte";
-    import TextInput from "../../utils/atomic/TextInput.svelte";
-    import Spacer from "../../utils/atomic/Spacer.svelte";
-    import HStack from "../../utils/atomic/HStack.svelte";
-    import {PasswordAPI} from "../../../logic/password-storage-api/PasswordAPI";
-    import {SavePasswordRequestDTO} from "../../../logic/password-storage-api/SavePasswordRequestDTO";
-    import {authStore} from "../../../stores/AuthStore";
-    import {ResponseStatusU} from "../../../logic/ResponseStatus";
-    import {CreateNewPasswordRequestDTO} from "../../../logic/password-storage-api/CreateNewPasswordRequestDTO";
+    import VStack from "../utils/atomic/VStack.svelte";
+    import Button from "../utils/atomic/Button.svelte";
+    import Modal from "../utils/atomic/Modal.svelte";
+    import TextInput from "../utils/atomic/TextInput.svelte";
+    import Spacer from "../utils/atomic/Spacer.svelte";
+    import HStack from "../utils/atomic/HStack.svelte";
+    import {PasswordAPI} from "../../logic/password-storage-api/PasswordAPI";
+    import {SavePasswordRequestDTO} from "../../logic/password-storage-api/SavePasswordRequestDTO";
+    import {authStore} from "../../stores/AuthStore";
+    import {ResponseStatusU} from "../../logic/ResponseStatus";
+    import {CreateNewPasswordRequestDTO} from "../../logic/password-storage-api/CreateNewPasswordRequestDTO";
 
     let isOpen = false;
 
