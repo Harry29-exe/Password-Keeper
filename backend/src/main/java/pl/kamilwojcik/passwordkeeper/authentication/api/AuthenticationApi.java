@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-@CrossOrigin(origins = CorsAddresses.FRONTEND_ADDRESS, exposedHeaders = "Authorization", methods = {RequestMethod.POST, RequestMethod.OPTIONS})
+@CrossOrigin(origins = CorsAddresses.FRONTEND_ADDRESS, exposedHeaders = "Authorization", allowCredentials = "true", methods = {RequestMethod.POST, RequestMethod.OPTIONS})
 public interface AuthenticationApi {
 
     @PostMapping("/login")

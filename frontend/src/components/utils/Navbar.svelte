@@ -1,11 +1,15 @@
 <script lang="ts">
     import {authStore} from "../../stores/AuthStore";
     import {goto} from "$app/navigation";
+    import AccountButton from "./AccountButton.svelte";
+
+    let activePage: string = "Home";
 
     type Page = [string, string]
     const pages: Page[] = [
         ["Home", "/"],
-        ["About", "/about"]
+        ["About", "/about"],
+        ["Dashboard", "/dashboard"]
     ]
 
     const authPages: Page[] = [
@@ -13,16 +17,17 @@
         ["Register", "/register"]
     ]
 
-    function onLinkClick(page: Page) {
-        goto(page[1])
+    function onLinkClick(newPage: Page) {
+        activePage = newPage[0];
+        goto(newPage[1]);
     }
-
 </script>
 
 
 <div class="navbar">
     {#each pages as page, index}
-        <div class="link" on:click={() => onLinkClick(page)}>
+        <div on:click={() => onLinkClick(page)} class:current-page={activePage === page[0]}
+             class="link">
             {page[0]}
         </div>
         {#if index < pages.length - 1}
@@ -35,13 +40,16 @@
 
     {#if !$authStore.isAuthenticated}
         {#each authPages as page, index}
-            <div class="link" on:click={() => onLinkClick(page)}>
+            <div on:click={() => onLinkClick(page)} class:current-page={activePage === page[0]}
+                 class="link">
                 {page[0]}
             </div>
-            {#if index < pages.length - 1}
+            {#if index < authPages.length - 1}
                 <div class="link-spacer"></div>
             {/if}
         {/each}
+    {:else}
+        <AccountButton/>
     {/if}
 
 </div>
@@ -50,16 +58,21 @@
 
 <style>
     .navbar {
-        @apply w-full h-16 flex justify-start items-center bg-sky-700 p-4;
+        @apply w-full h-16 p-4 flex justify-start items-center bg-primary-900;
+        @apply shadow-xl;
     }
 
     .link {
         @apply text-3xl;
-        @apply hover:text-sky-200 hover:underline hover:cursor-pointer;
+        @apply hover:text-primary-200 hover:underline hover:cursor-pointer;
+    }
+
+    .current-page {
+        @apply underline decoration-secondary-300 font-bold ;
     }
 
     .link-spacer {
-        @apply border-r-2 border-white w-1 h-full mx-2;
+        @apply border-r-2 border-white w-1 h-full mx-4;
     }
 
 

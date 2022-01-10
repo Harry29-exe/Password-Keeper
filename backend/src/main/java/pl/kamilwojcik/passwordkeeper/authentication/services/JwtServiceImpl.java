@@ -65,7 +65,7 @@ public class JwtServiceImpl implements JwtService {
             throw new AuthenticationException();
         }
 
-        return this.createAuthToken(userDetails.getUsername(), AUTH_TYPE);
+        return this.createJWT(userDetails.getUsername(), AUTH_TYPE);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class JwtServiceImpl implements JwtService {
             throw new AuthenticationException();
         }
 
-        return this.createAuthToken(username, REFRESH_TYPE);
+        return this.createJWT(username, REFRESH_TYPE);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class JwtServiceImpl implements JwtService {
         var token = validateRefreshToken(refreshToken);
         var sub = token.getSubject();
 
-        return this.createAuthToken(sub, AUTH_TYPE);
+        return this.createJWT(sub, AUTH_TYPE);
     }
 
     @Override
@@ -96,14 +96,21 @@ public class JwtServiceImpl implements JwtService {
         var token = validateRefreshToken(refreshToken);
         var sub = token.getSubject();
 
-        return createAuthToken(sub, REFRESH_TYPE);
+        return createJWT(sub, REFRESH_TYPE);
     }
 
-    private String createAuthToken(@NonNull String subject, @NonNull String tokenType) {
+    private String createJWT(@NonNull String subject, @NonNull String tokenType) {
         var now = new Date();
         var exp = new Date(now.getTime() +
                 1000L * (tokenType.equals(AUTH_TYPE) ? this.authExpInSec : this.refreshExpInSec)
         );
+
+        Algorithm algorithm;
+        if (tokenType.equals(REFRESH_TYPE)) {
+            algorithm = refreshAlgorithm;
+        } else {
+            algorithm = authAlgorithm;
+        }
 
         var currentDevice = clientDeviceService.getCurrentDevice(subject)
                 .orElseThrow(UnknownDeviceException::new);
@@ -111,24 +118,11 @@ public class JwtServiceImpl implements JwtService {
         return JWT.create()
                 .withClaim(TOKEN_TYPE_CLAIM, tokenType)
                 .withSubject(subject)
-                .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
+//                .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
                 .withIssuedAt(now)
                 .withExpiresAt(exp)
-                .sign(this.authAlgorithm);
+                .sign(algorithm);
     }
-
-//    private String createAuthToken(@NonNull String subject) {
-//        var now = new Date();
-//        var exp = new Date(now.getTime() + this.refreshExpInSec * 1000);
-//
-//        return JWT.create()
-//                .withClaim(TOKEN_TYPE_CLAIM, REFRESH_TYPE)
-//                .withSubject(subject)
-//                .withIssuedAt(now)
-//                .withExpiresAt(exp)
-//                .sign(refreshAlgorithm);
-//    }
-
 
     private DecodedJWT validateRefreshToken(String refreshToken) {
         return validateJWT(refreshToken, refreshAlgorithm, REFRESH_TYPE);
@@ -147,7 +141,7 @@ public class JwtServiceImpl implements JwtService {
 
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim(TOKEN_TYPE_CLAIM, tokenType)
-                    .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
+//                    .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
                     .withSubject(sub)
                     .build();
 

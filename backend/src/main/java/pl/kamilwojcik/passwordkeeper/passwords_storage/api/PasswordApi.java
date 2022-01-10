@@ -13,11 +13,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static pl.kamilwojcik.passwordkeeper.config.consts.CorsAddresses.FRONTEND_ADDRESS;
+
 
 //todo dowiedzieć się jak to w końcu działą
 //@Validated
 @RequestMapping("password-storage")
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = {FRONTEND_ADDRESS})
 @PreAuthorize("isAuthenticated()")
 public interface PasswordApi {
 

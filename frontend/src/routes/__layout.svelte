@@ -4,8 +4,12 @@
     import "./../style/StyleComponents.css";
     import {onMount} from 'svelte';
     import Navbar from "../components/utils/Navbar.svelte";
+    import {authStore} from "../stores/AuthStore";
 
     onMount(() => {
+        if (!$authStore.isAuthenticated) {
+            authStore.refreshAuth();
+        }
     });
 </script>
 

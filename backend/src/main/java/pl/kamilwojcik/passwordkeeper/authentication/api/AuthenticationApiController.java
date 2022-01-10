@@ -1,6 +1,7 @@
 package pl.kamilwojcik.passwordkeeper.authentication.api;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RestController;
 import pl.kamilwojcik.passwordkeeper.authentication.api.dto.LoginRequest;
@@ -10,7 +11,7 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.services.ClientDeviceSer
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
-import pl.kamilwojcik.passwordkeeper.exceptions.request.InvalidRequestException;
+import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredCookieException;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredHeaderException;
 
 import javax.servlet.http.Cookie;
@@ -30,8 +31,8 @@ public class AuthenticationApiController implements AuthenticationApi {
 
     private final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
-    private final String REFRESH_TOKEN_COOKIE_NAME = "Refresh-Token";
-    private final String REFRESH_TOKEN_PATH = "/refresh";
+    public static final String REFRESH_TOKEN_COOKIE_NAME = "Refresh-Token";
+    public static final String REFRESH_TOKEN_PATH = "/api/refresh";
     private final Integer refreshTokenExpiresTimeInSec;
 
     public AuthenticationApiController(
@@ -99,7 +100,12 @@ public class AuthenticationApiController implements AuthenticationApi {
     }
 
     private Cookie getRefreshToken(HttpServletRequest request) {
-        var refreshToken = Arrays.stream(request.getCookies())
+        var cookies = request.getCookies();
+        if (cookies == null) {
+            throw new NoRequiredCookieException(REFRESH_TOKEN_COOKIE_NAME);
+        }
+
+        var refreshToken = Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME))
                 .findFirst()
                 .orElseThrow(() -> new NoRequiredHeaderException(REFRESH_TOKEN_COOKIE_NAME));
@@ -110,16 +116,16 @@ public class AuthenticationApiController implements AuthenticationApi {
     }
 
     private void validateRefreshTokenCookie(Cookie cookie) {
-        boolean isValid = cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME) &&
-                cookie.getPath().equals(REFRESH_TOKEN_PATH) &&
-                !cookie.getValue().isBlank() &&
-                cookie.isHttpOnly() &&
-                //todo not for production
-                !cookie.getSecure();
-
-        if (!isValid) {
-            throw new InvalidRequestException();
-        }
+//        boolean isValid = cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME) &&
+//                cookie.getPath().equals(REFRESH_TOKEN_PATH) &&
+//                !cookie.getValue().isBlank() &&
+//                cookie.isHttpOnly() &&
+//                //todo not for production
+//                !cookie.getSecure();
+//
+//        if (!isValid) {
+//            throw new InvalidRequestException();
+//        }
     }
 
     private void addRefreshTokenCookie(
@@ -127,17 +133,20 @@ public class AuthenticationApiController implements AuthenticationApi {
             HttpServletResponse response,
             boolean shouldExpireAtSessionEnd
     ) {
-        Cookie cookie = new Cookie("Refresh-Token", refreshToken);
-        cookie.setPath(REFRESH_TOKEN_PATH);
-        cookie.setHttpOnly(true);
-        //todo for production
-        cookie.setSecure(false);
+        var cookie = ResponseCookie.from(REFRESH_TOKEN_COOKIE_NAME, refreshToken)
+                .httpOnly(true)
+                .path(REFRESH_TOKEN_PATH)
+                .secure(true)
+                .sameSite("None")
+                .maxAge(refreshTokenExpiresTimeInSec)
+                .build();
 
-        if (!shouldExpireAtSessionEnd) {
-            cookie.setMaxAge(refreshTokenExpiresTimeInSec);
-        }
+        //todo
+//        if (!shouldExpireAtSessionEnd) {
+//            cookie.setMaxAge(refreshTokenExpiresTimeInSec);
+//        }
 
-        response.addCookie(cookie);
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     private void delayLogin() {

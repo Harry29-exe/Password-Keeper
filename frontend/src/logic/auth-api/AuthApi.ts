@@ -19,7 +19,8 @@ export class AuthApi {
         return fetch(`${BACKEND_ADDRESS}/login${dontLogout ? "?dontLogout=true" : ""}`, {
             method: 'post',
             body: JSON.stringify({username: username, password: password}),
-            headers: {"Content-Type": "application/json"}
+            headers: {"Content-Type": "application/json"},
+            credentials: 'include'
         }).then(response => {
             return new LoginResponse(
                 ResponseStatusU.getResponseStatus(response.status),
@@ -29,13 +30,15 @@ export class AuthApi {
 
     public static async logout(): Promise<ResponseStatus> {
         return fetch(`${BACKEND_ADDRESS}/logout`, {
-            method: 'post'
+            method: 'post',
+            credentials: 'include'
         }).then(response => response.ok ? ResponseStatus.OK : ResponseStatus.CLIENT_ERROR);
     }
 
     public static async refreshAuthToken(): Promise<LoginResponse> {
         return fetch(`${BACKEND_ADDRESS}/refresh/auth-token`, {
-            method: 'post'
+            method: 'post',
+            credentials: 'include'
         }).then(response => {
             if (!response.ok) {
                 return new LoginResponse(ResponseStatus.CLIENT_ERROR, null);
@@ -47,7 +50,8 @@ export class AuthApi {
 
     public static async refreshRefreshToken(): Promise<ResponseStatus> {
         return fetch(`${BACKEND_ADDRESS}/refresh/refresh-token`, {
-            method: 'post'
+            method: 'post',
+            credentials: 'include'
         }).then(response => response.ok ? ResponseStatus.OK : ResponseStatus.CLIENT_ERROR);
     }
 

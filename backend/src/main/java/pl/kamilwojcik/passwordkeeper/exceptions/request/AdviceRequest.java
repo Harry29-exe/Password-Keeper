@@ -1,11 +1,13 @@
 package pl.kamilwojcik.passwordkeeper.exceptions.request;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 
+@Order(0)
 @RestControllerAdvice
 public class AdviceRequest {
 
@@ -23,7 +25,7 @@ public class AdviceRequest {
 
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({NoRequiredCookieException.class})
+    @ExceptionHandler(NoRequiredCookieException.class)
     public ErrorBody handleNoRequiredCookie(NoRequiredCookieException ex) {
         return new RequestErrorBody(
                 ERROR_CODE,

@@ -40,10 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .httpBasic().disable()
                 //todo why? dlaczego bez tego nie działa /logout
-                .logout().disable()
-                .formLogin().disable();
+                .logout().disable();
     }
 
     @Override

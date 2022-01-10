@@ -35,6 +35,16 @@ interface AuthStore extends Readable<AuthHolder> {
     refreshRefresh: () => Promise<ResponseStatus>
 }
 
+function parseJwt(token) {
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
 function createAuthStore(): AuthStore {
     const {subscribe, set, update} = writable<AuthHolder>();
     set(new AuthHolder(false));
@@ -56,7 +66,7 @@ function createAuthStore(): AuthStore {
         logout: (): Promise<ResponseStatus> => {
             return AuthApi.logout().then(status => {
                 if (ResponseStatusU.isOk(status)) {
-                    set(new AuthHolder(false, undefined));
+                    set(new AuthHolder(false, undefined, undefined));
                 }
 
                 return status;
@@ -67,7 +77,8 @@ function createAuthStore(): AuthStore {
             return AuthApi.refreshAuthToken()
                 .then(response => {
                     if (ResponseStatusU.isOk(response.status)) {
-                        set(new AuthHolder(true, response.authToken as string));
+                        let token = parseJwt(response.authToken);
+                        set(new AuthHolder(true, response.authToken as string, token.sub));
                     }
 
                     return response.status;

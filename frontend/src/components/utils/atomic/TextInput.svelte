@@ -29,9 +29,9 @@
 
 <style>
     input {
-        @apply my-2 p-2 text-xl shadow-md bg-gray-800 border-2 border-sky-600;
+        @apply my-2 p-2 text-xl shadow-md bg-gray-800 border-2 border-primary-600;
         @apply transition-[border-color];
-        @apply focus-visible:border-sky-300 focus-visible:outline-0 rounded;
+        @apply focus-visible:border-primary-300 focus-visible:outline-0 rounded;
         width: 100%;
     }
 </style>
