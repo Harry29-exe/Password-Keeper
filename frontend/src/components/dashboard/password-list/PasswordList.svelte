@@ -35,10 +35,10 @@
 </script>
 
 
-<VStack style="width: 60%; margin-right: auto; margin-left: auto">
+<div class="v-stack w-[60%]">
 
     <!--Header-->
-    <HStack style="width: 100%; height: auto; font-size: 1.5rem; padding: 5px; box-sizing: border-box">
+    <div class="h-stack w-full text-2xl font-semibold p-2">
         <div style="width: 50%">Password name</div>
         <div style="width: 30%">Password url</div>
         <Center style="width: 20%">
@@ -46,7 +46,7 @@
                 refresh
             </Button>
         </Center>
-    </HStack>
+    </div>
 
     {#each passwordList as passwordInfo}
         <Spacer/>
@@ -55,4 +55,4 @@
     <Spacer/>
 
 
-</VStack>
+</div>

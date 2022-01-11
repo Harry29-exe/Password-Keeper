@@ -1,5 +1,6 @@
 <script lang="ts">
     import {authStore} from "../../stores/AuthStore";
+    import {goto} from "$app/navigation";
 
     export let isOpen;
 
@@ -7,15 +8,27 @@
     const logout = () => {
         authStore.logout();
     }
+
+    const goToDashboard = () => {
+        goto("/dashboard");
+    }
+
+    const goToSettings = () => goto("/settings");
 </script>
 
 
 {#if isOpen}
     <div class="menu-wrapper v-stack" on:click={e => e.stopPropagation()}>
 
-        <div class="menu-option">Dashboard</div>
-        <div class="menu-option">Settings</div>
-        <div class="menu-option" on:click={logout}>Logout</div>
+        <div class="menu-option" on:click={goToDashboard}>
+            Dashboard
+        </div>
+        <div class="menu-option" on:click={goToSettings}>
+            Settings
+        </div>
+        <div class="menu-option" on:click={logout}>
+            Logout
+        </div>
 
 
     </div>

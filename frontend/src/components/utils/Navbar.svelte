@@ -2,6 +2,8 @@
     import {authStore} from "../../stores/AuthStore";
     import {goto} from "$app/navigation";
     import AccountButton from "./AccountButton.svelte";
+    import {onDestroy, onMount} from "svelte";
+    import {page} from "$app/stores";
 
     let activePage: string = "Home";
 
@@ -18,15 +20,19 @@
     ]
 
     function onLinkClick(newPage: Page) {
-        activePage = newPage[0];
         goto(newPage[1]);
     }
+
+    $: {
+        activePage = $page.url.pathname;
+    }
+
 </script>
 
 
 <div class="navbar">
     {#each pages as page, index}
-        <div on:click={() => onLinkClick(page)} class:current-page={activePage === page[0]}
+        <div on:click={() => onLinkClick(page)} class:current-page={activePage === page[1]}
              class="link">
             {page[0]}
         </div>
@@ -40,7 +46,7 @@
 
     {#if !$authStore.isAuthenticated}
         {#each authPages as page, index}
-            <div on:click={() => onLinkClick(page)} class:current-page={activePage === page[0]}
+            <div on:click={() => onLinkClick(page)} class:current-page={activePage === page[1]}
                  class="link">
                 {page[0]}
             </div>

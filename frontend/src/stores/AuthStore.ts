@@ -4,18 +4,18 @@ import {ResponseStatus, ResponseStatusU} from "../logic/ResponseStatus";
 import {AuthApi} from "../logic/auth-api/AuthApi";
 
 export class AuthHolder {
-    protected _isAuthenticated: boolean = false;
+    protected _isAuthenticated? = false;
     protected _authToken?: string = undefined;
     protected _username?: string = undefined;
 
 
-    constructor(isAuthenticated: boolean, authToken?: string , username?: string ) {
+    constructor(isAuthenticated?: boolean, authToken?: string , username?: string ) {
         this._isAuthenticated = isAuthenticated;
         this._authToken = authToken;
         this._username = username;
     }
 
-    get isAuthenticated(): boolean {
+    get isAuthenticated(): boolean | undefined {
         return this._isAuthenticated;
     }
 
@@ -36,9 +36,9 @@ interface AuthStore extends Readable<AuthHolder> {
 }
 
 function parseJwt(token) {
-    let base64Url = token.split('.')[1];
-    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 
@@ -77,7 +77,7 @@ function createAuthStore(): AuthStore {
             return AuthApi.refreshAuthToken()
                 .then(response => {
                     if (ResponseStatusU.isOk(response.status)) {
-                        let token = parseJwt(response.authToken);
+                        const token = parseJwt(response.authToken);
                         set(new AuthHolder(true, response.authToken as string, token.sub));
                     }
 
