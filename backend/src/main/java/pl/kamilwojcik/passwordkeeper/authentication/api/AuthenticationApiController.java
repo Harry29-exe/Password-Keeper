@@ -74,13 +74,16 @@ public class AuthenticationApiController implements AuthenticationApi {
 
     @Override
     public void logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, "");
-        cookie.setPath("/refresh");
-        cookie.setHttpOnly(true);
-        //todo not for production
-        cookie.setSecure(false);
+        var cookie = ResponseCookie
+                .from(REFRESH_TOKEN_COOKIE_NAME, "")
+                .httpOnly(true)
+                .path(REFRESH_TOKEN_PATH)
+                .httpOnly(true)
+                .secure(true)
+                .maxAge(0L)
+                .build();
 
-        response.addCookie(cookie);
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     @Override
@@ -110,22 +113,14 @@ public class AuthenticationApiController implements AuthenticationApi {
                 .findFirst()
                 .orElseThrow(() -> new NoRequiredHeaderException(REFRESH_TOKEN_COOKIE_NAME));
 
-        validateRefreshTokenCookie(refreshToken);
+        if(refreshToken == null ||
+                refreshToken.getValue() == null ||
+                refreshToken.getValue().isBlank()
+        ) {
+            throw new NoRequiredCookieException(REFRESH_TOKEN_COOKIE_NAME);
+        }
 
         return refreshToken;
-    }
-
-    private void validateRefreshTokenCookie(Cookie cookie) {
-//        boolean isValid = cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME) &&
-//                cookie.getPath().equals(REFRESH_TOKEN_PATH) &&
-//                !cookie.getValue().isBlank() &&
-//                cookie.isHttpOnly() &&
-//                //todo not for production
-//                !cookie.getSecure();
-//
-//        if (!isValid) {
-//            throw new InvalidRequestException();
-//        }
     }
 
     private void addRefreshTokenCookie(
@@ -138,13 +133,8 @@ public class AuthenticationApiController implements AuthenticationApi {
                 .path(REFRESH_TOKEN_PATH)
                 .secure(true)
                 .sameSite("None")
-                .maxAge(refreshTokenExpiresTimeInSec)
+                .maxAge(shouldExpireAtSessionEnd? -1: refreshTokenExpiresTimeInSec)
                 .build();
-
-        //todo
-//        if (!shouldExpireAtSessionEnd) {
-//            cookie.setMaxAge(refreshTokenExpiresTimeInSec);
-//        }
 
         response.addHeader("Set-Cookie", cookie.toString());
     }
@@ -157,7 +147,6 @@ public class AuthenticationApiController implements AuthenticationApi {
         } catch (InterruptedException ex) {
             throw new AuthenticationException();
         }
-
     }
 
 
