@@ -74,16 +74,7 @@ public class AuthenticationApiController implements AuthenticationApi {
 
     @Override
     public void logout(HttpServletResponse response) {
-        var cookie = ResponseCookie
-                .from(REFRESH_TOKEN_COOKIE_NAME, "")
-                .httpOnly(true)
-                .path(REFRESH_TOKEN_PATH)
-                .httpOnly(true)
-                .secure(true)
-                .maxAge(0L)
-                .build();
-
-        response.addHeader("Set-Cookie", cookie.toString());
+        addDeleteRefreshTokenCookie(response);
     }
 
     @Override
@@ -128,16 +119,31 @@ public class AuthenticationApiController implements AuthenticationApi {
             HttpServletResponse response,
             boolean shouldExpireAtSessionEnd
     ) {
-        var cookie = ResponseCookie.from(REFRESH_TOKEN_COOKIE_NAME, refreshToken)
-                .httpOnly(true)
+        var cookie = ResponseCookie
+                .from(REFRESH_TOKEN_COOKIE_NAME, refreshToken)
                 .path(REFRESH_TOKEN_PATH)
-                .secure(true)
                 .sameSite("None")
-                .maxAge(shouldExpireAtSessionEnd? -1: refreshTokenExpiresTimeInSec)
+                .httpOnly(true)
+                .secure(true)
+                .maxAge(shouldExpireAtSessionEnd ? -1 : refreshTokenExpiresTimeInSec)
                 .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
     }
+
+    private void addDeleteRefreshTokenCookie(HttpServletResponse response) {
+        var cookie = ResponseCookie
+                .from(REFRESH_TOKEN_COOKIE_NAME, "")
+                .path(REFRESH_TOKEN_PATH)
+                .sameSite("None")
+                .httpOnly(true)
+                .secure(true)
+                .maxAge(0L)
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+    }
+
 
     private void delayLogin() {
         var randomTimeout = secureRandom.nextInt(0, 201);
