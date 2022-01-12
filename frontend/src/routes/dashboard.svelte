@@ -7,7 +7,8 @@
 <Protected>
 
     <div class="wrapper">
-        <h1 class="center text-4xl my-10">Welcome to dashboard</h1>
+
+        <h1 class="center text-4xl my-10 font-bold">Welcome to dashboard</h1>
 
 
         <PasswordList/>

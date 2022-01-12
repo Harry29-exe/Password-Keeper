@@ -1,27 +1,33 @@
 <script lang="ts">
-    import HStack from "../../utils/atomic/HStack.svelte";
     import type {PasswordInfoDTO} from "../../../logic/password-storage-api/PasswordInfoDTO.js";
     import Button from "../../utils/atomic/Button.svelte";
-    import Center from "../../utils/atomic/Center.svelte";
     import PasswordModal from "./modal/PasswordModal.svelte";
 
     export let passwordInfo: PasswordInfoDTO;
     let isOpen = false;
 </script>
 
-<HStack style="width: 100%; height: auto; font-size: 1.5rem; padding: 5px; box-sizing: border-box">
-    <div style="width: 50%; max-width: 50%;" class="overflow-hidden">
+<div class="flex items-center md:justify-between flex-col md:flex-row  w-full text-2xl p-2">
+    <div class="overflow-hidden w-4/12 row-part">
         {passwordInfo.passwordName}
     </div>
-    <div style="width: 30%; max-width: 30%;" class="overflow-hidden">
+    <div class="overflow-hidden w-6/12 row-part">
         {passwordInfo.passwordUrl}
     </div>
-    <Center style="width: 20%; height: 100%">
+    <div class="center w-2/12 row-part">
         <Button size="md" style="width: 100px" on:click={() => isOpen = true}>
             view
         </Button>
-    </Center>
+    </div>
 
-</HStack>
+</div>
 
 <PasswordModal passwordInfo={passwordInfo} bind:isOpen/>
+
+
+<style>
+    .row-part {
+        @apply min-w-full text-center  py-3;
+        @apply md:min-w-0 md:text-left md:py-0;
+    }
+</style>
