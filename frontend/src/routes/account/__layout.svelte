@@ -14,5 +14,7 @@
 
 
 <Protected>
-    <slot></slot>
+
+    <slot/>
+
 </Protected>

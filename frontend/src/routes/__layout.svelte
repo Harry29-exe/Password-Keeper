@@ -14,4 +14,5 @@
 </script>
 
 <Navbar/>
+
 <slot/>
