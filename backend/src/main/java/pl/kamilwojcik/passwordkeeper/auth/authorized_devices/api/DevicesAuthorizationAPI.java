@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.dto.ClientDeviceDTO;
+import pl.kamilwojcik.passwordkeeper.config.CrossOriginController;
 
 import java.util.List;
 
 @Validated
-//@PreAuthorize("isAuthenticated()")
 @RequestMapping("device-authorization")
-public interface DevicesAuthorizationAPI {
+public interface DevicesAuthorizationAPI extends CrossOriginController {
 
     @GetMapping
     List<ClientDeviceDTO> getAllAuthorizedDevices(Authentication auth);

@@ -3,6 +3,7 @@ package pl.kamilwojcik.passwordkeeper.passwords_storage.api;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import pl.kamilwojcik.passwordkeeper.config.CrossOriginController;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests.CreateNewPasswordRequest;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests.DecodeAndGetRequest;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.api.requests.DeletePasswordRequest;
@@ -13,15 +14,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import static pl.kamilwojcik.passwordkeeper.config.consts.CorsAddresses.FRONTEND_ADDRESS;
 
-
-//todo dowiedzieć się jak to w końcu działą
-//@Validated
 @RequestMapping("password-storage")
-@CrossOrigin(origins = {FRONTEND_ADDRESS})
 @PreAuthorize("isAuthenticated()")
-public interface PasswordApi {
+public interface PasswordApi extends CrossOriginController {
 
     @PutMapping("save-password")
     void saveNewPassword(

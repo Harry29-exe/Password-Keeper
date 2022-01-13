@@ -1,17 +1,14 @@
 package pl.kamilwojcik.passwordkeeper.auth.loggingEvent.api;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.api.dto.LoginHistoryResponse;
-
-import static pl.kamilwojcik.passwordkeeper.config.consts.CorsAddresses.FRONTEND_ADDRESS;
+import pl.kamilwojcik.passwordkeeper.config.CrossOriginController;
 
 @RequestMapping("login-history")
-@CrossOrigin(origins = FRONTEND_ADDRESS)
-public interface DevicesLoginHistoryAPI {
+public interface DevicesLoginHistoryAPI extends CrossOriginController {
 
     @GetMapping
     LoginHistoryResponse getLoggingHistory(
