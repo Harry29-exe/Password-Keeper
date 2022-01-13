@@ -15,18 +15,18 @@ services:
 
   backend:
     build:
-      context: ./
+      context: .
     ports:
       - "8080:8080"
     depends_on:
       - postgres
 
 
-  #  frontend:
-  #    build:
-  #      context: ./../frontend/
-  #    ports:
-  #      - "3000:3000"
+  frontend:
+    build:
+      context: ../frontend/
+    ports:
+      - "3000:3000"
 
 
   nginx:
@@ -37,4 +37,4 @@ services:
       - "443:443"
     depends_on:
       - backend
-#      - frontend
+      - frontend
