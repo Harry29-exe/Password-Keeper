@@ -51,7 +51,7 @@ public class PasswordStorageDefaultCypher implements PasswordStorageCypher {
             return new String(decodedPassword);
 
         } catch (Exception ex) {
-            throw new IllegalStateException("Could not create Cypher");
+            throw new IllegalStateException("Could not create Cypher", ex);
         }
     }
 

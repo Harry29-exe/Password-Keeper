@@ -43,8 +43,7 @@ public class AuthFunctions {
         var user = userRepo.findByUsername(username)
                 .orElseThrow();
 
-        var inputEncryptedPassword = passwordEncoder.encode(storagePassword);
-        return inputEncryptedPassword.equals(user.getStoragePassword());
+        return passwordEncoder.matches(storagePassword, user.getStoragePassword());
     }
 
 }

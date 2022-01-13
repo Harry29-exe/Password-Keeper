@@ -3,7 +3,7 @@ package pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.api;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.api.dto.LoggingHistoryResponse;
+import pl.kamilwojcik.passwordkeeper.authorized.devices.api.dto.LoginHistoryResponse;
 import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.services.LoginEventService;
 
 @RestController
@@ -15,7 +15,7 @@ public class DevicesLoggingHistoryAPIImpl implements DevicesLoggingHistoryAPI {
     }
 
     @Override
-    public LoggingHistoryResponse getLoggingHistory(
+    public LoginHistoryResponse getLoggingHistory(
             Integer page,
             Integer itemsPerPage,
             Authentication auth) {
@@ -26,7 +26,7 @@ public class DevicesLoggingHistoryAPIImpl implements DevicesLoggingHistoryAPI {
                 auth.getName()
         );
 
-        return new LoggingHistoryResponse(
+        return new LoginHistoryResponse(
                 page,
                 (int) Math.floor(((double) eventsCount) / itemsPerPage),
                 itemsPerPage,

@@ -20,12 +20,14 @@ create table device_authorization_link
 );
 create table login_events
 (
-    id         int8      not null,
-    login_date timestamp not null,
-    public_id  uuid      not null,
-    result     int4      not null,
-    device_id  int8      not null,
-    user_id    int8      not null,
+    id         int8         not null,
+    ip_address varchar(255) not null,
+    login_date timestamp    not null,
+    public_id  uuid         not null,
+    result     int4         not null,
+    user_agent varchar(500),
+    device_id  int8,
+    user_id    int8         not null,
     primary key (id)
 );
 create table passwords_storage

@@ -7,7 +7,7 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.repositories.Clie
 import pl.kamilwojcik.passwordkeeper.authorized.devices.services.dto.CreateLoginEvent;
 import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain.LoginEvent;
 import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain.LoginEventRepository;
-import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.dto.LoggingEventDTO;
+import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.dto.LoginEventDTO;
 import pl.kamilwojcik.passwordkeeper.exceptions.resource.IllegalNoResourceException;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
 
@@ -33,19 +33,31 @@ public class LoginEventServiceImpl implements LoginEventService {
         var user = userRepo.findByUsername(loginEvent.getUsername())
                 .orElseThrow(IllegalNoResourceException::new);
 
-        var device = authorizedDeviceRepo
-                .findByPublicIdAndUser_Username(
-                        loginEvent.getDevicePublicId(),
-                        loginEvent.getUsername())
-                .orElseThrow(IllegalNoResourceException::new);
+        LoginEvent entity;
+        if (loginEvent.getDevicePublicId() != null) {
+            var device = authorizedDeviceRepo
+                    .findByPublicIdAndUser_Username(
+                            loginEvent.getDevicePublicId(),
+                            loginEvent.getUsername())
+                    .orElseThrow(IllegalNoResourceException::new);
 
+            entity = new LoginEvent(
+                    loginEvent.getLoginDate(),
+                    loginEvent.getResult(),
+                    device,
+                    loginEvent.getIpAddress(),
+                    user
+            );
+        } else {
+            entity = new LoginEvent(
+                    loginEvent.getLoginDate(),
+                    loginEvent.getResult(),
+                    loginEvent.getUserAgent(),
+                    loginEvent.getIpAddress(),
+                    user
+            );
+        }
 
-        var entity = new LoginEvent(
-                loginEvent.getLoginDate(),
-                loginEvent.getResult(),
-                device,
-                user
-        );
 
         loginEventRepo.save(entity);
     }
@@ -56,13 +68,13 @@ public class LoginEventServiceImpl implements LoginEventService {
     }
 
     @Override
-    public List<LoggingEventDTO> getLoggingEvents(String username, Pageable pageable) {
+    public List<LoginEventDTO> getLoggingEvents(String username, Pageable pageable) {
         var loginEvents = loginEventRepo.findAllByDevice_User_UsernameOrderByLoginDate(
                 username, pageable
         );
 
         return loginEvents.stream()
-                .map(loginEvent -> new LoggingEventDTO(
+                .map(loginEvent -> new LoginEventDTO(
                         loginEvent.getPublicId(),
                         loginEvent.getLoginDate(),
                         loginEvent.getDevice().getPublicId()

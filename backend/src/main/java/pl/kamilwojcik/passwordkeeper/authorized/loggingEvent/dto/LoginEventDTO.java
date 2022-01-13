@@ -10,10 +10,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class LoggingEventDTO {
+public class LoginEventDTO {
 
     private UUID publicId;
     private Date loginDate;
+    //todo
     private UUID devicePublicId;
 
 }
