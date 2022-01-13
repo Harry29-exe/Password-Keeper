@@ -1,4 +1,12 @@
 create sequence hibernate_sequence start 1 increment 1;
+create table account_lock
+(
+    id          int8      not null,
+    locked_from timestamp not null,
+    locked_to   timestamp not null,
+    user_id     int8,
+    primary key (id)
+);
 create table client_devices
 (
     id                    int8         not null,
@@ -69,6 +77,8 @@ alter table if exists user_entity
     add constraint UK_7dlp7qss3gjetumusoq0vn6je unique (public_id);
 alter table if exists user_entity
     add constraint UK_2jsk4eakd0rmvybo409wgwxuw unique (username);
+alter table if exists account_lock
+    add constraint FKsmulqkm9935chcib7gkx6qhc7 foreign key (user_id) references user_entity;
 alter table if exists client_devices
     add constraint FKp4od3xmphj0s9upht9mpqax1c foreign key (authorization_link_id) references device_authorization_link;
 alter table if exists client_devices

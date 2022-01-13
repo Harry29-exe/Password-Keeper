@@ -3,8 +3,8 @@ package pl.kamilwojcik.passwordkeeper.users.domain.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.kamilwojcik.passwordkeeper.authorized.devices.domain.entities.ClientDevice;
-import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.domain.LoginEvent;
+import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.domain.entities.ClientDevice;
+import pl.kamilwojcik.passwordkeeper.auth.loggingEvent.domain.LoginEvent;
 import pl.kamilwojcik.passwordkeeper.passwords_storage.domain.PasswordEntity;
 
 import javax.persistence.*;
