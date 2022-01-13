@@ -3,7 +3,7 @@
     import "./../style/Utils.css";
     import "./../style/StyleComponents.css";
     import {onMount} from 'svelte';
-    import Navbar from "../components/utils/Navbar.svelte";
+    import Navbar from "../components/navigation/Navbar.svelte";
     import {authStore} from "../stores/AuthStore";
 
     onMount(() => {

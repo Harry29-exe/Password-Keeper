@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import Protected from "../components/utils/Protected.svelte";
+    import Protected from "../../components/utils/Protected.svelte";
 </script>
 
 

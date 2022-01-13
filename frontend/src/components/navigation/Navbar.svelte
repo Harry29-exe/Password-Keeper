@@ -2,12 +2,11 @@
     import {authStore} from "../../stores/AuthStore";
     import {goto} from "$app/navigation";
     import AccountButton from "./AccountButton.svelte";
-    import {onDestroy, onMount} from "svelte";
     import {page} from "$app/stores";
+    import {Page} from "./Page";
 
     let activePage: string = "Home";
 
-    type Page = [string, string]
     const pages: Page[] = [
         ["Home", "/"],
         ["About", "/about"],
@@ -64,8 +63,8 @@
 
 <style>
     .navbar {
-        @apply w-full h-16 p-4 flex justify-start items-center bg-primary-900;
-        @apply shadow-xl;
+        @apply w-full h-16 p-4 z-10 flex justify-start items-center bg-primary-900;
+        @apply relative shadow-md shadow-background-700;
     }
 
     .link {

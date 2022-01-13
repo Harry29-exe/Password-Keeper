@@ -4,21 +4,21 @@
 
     export let isOpen;
 
+    const goToDashboard = () => goto("/dashboard");
 
-    const logout = () => {
-        authStore.logout();
-    }
+    const logout = () => authStore.logout();
 
-    const goToDashboard = () => {
-        goto("/dashboard");
-    }
+    const goToSettings = () => goto("/account/settings");
 
-    const goToSettings = () => goto("/settings");
 </script>
 
 
 {#if isOpen}
     <div class="menu-wrapper v-stack" on:click={e => e.stopPropagation()}>
+
+        <div class="menu-option" on:click={goToSettings}>
+            {$authStore.username}
+        </div>
 
         <div class="menu-option" on:click={goToDashboard}>
             Dashboard
