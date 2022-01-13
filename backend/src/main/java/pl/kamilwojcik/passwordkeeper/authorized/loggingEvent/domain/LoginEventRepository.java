@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface LoginEventRepository extends JpaRepository<LoginEvent, Long> {
 
-    List<LoginEvent> findAllByDevice_User_UsernameOrderByLoginDate(String username, Pageable pageable);
+    List<LoginEvent> findAllByUser_UsernameOrderByLoginDate(String username, Pageable pageable);
 
     Integer countAllByUser_Username(String username);
 

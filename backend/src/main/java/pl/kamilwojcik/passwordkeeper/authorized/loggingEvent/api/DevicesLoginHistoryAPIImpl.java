@@ -7,10 +7,11 @@ import pl.kamilwojcik.passwordkeeper.authorized.devices.api.dto.LoginHistoryResp
 import pl.kamilwojcik.passwordkeeper.authorized.loggingEvent.services.LoginEventService;
 
 @RestController
-public class DevicesLoggingHistoryAPIImpl implements DevicesLoggingHistoryAPI {
+public class DevicesLoginHistoryAPIImpl implements DevicesLoginHistoryAPI {
     private final LoginEventService loginEventService;
 
-    public DevicesLoggingHistoryAPIImpl(LoginEventService loginEventService) {
+    public DevicesLoginHistoryAPIImpl(LoginEventService loginEventService) {
+
         this.loginEventService = loginEventService;
     }
 
@@ -20,7 +21,7 @@ public class DevicesLoggingHistoryAPIImpl implements DevicesLoggingHistoryAPI {
             Integer itemsPerPage,
             Authentication auth) {
         var events = loginEventService.getLoggingEvents(
-                auth.getName(), PageRequest.of(page, itemsPerPage));
+                auth.getName(), PageRequest.of(page - 1, itemsPerPage));
 
         var eventsCount = loginEventService.countAllUserLoggingEvents(
                 auth.getName()

@@ -14,7 +14,8 @@ public class LoginEventDTO {
 
     private UUID publicId;
     private Date loginDate;
-    //todo
+    private String ipAddress;
+    private String userAgent;
     private UUID devicePublicId;
 
 }

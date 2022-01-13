@@ -69,15 +69,30 @@ public class LoginEventServiceImpl implements LoginEventService {
 
     @Override
     public List<LoginEventDTO> getLoggingEvents(String username, Pageable pageable) {
-        var loginEvents = loginEventRepo.findAllByDevice_User_UsernameOrderByLoginDate(
+        var loginEvents = loginEventRepo.findAllByUser_UsernameOrderByLoginDate(
                 username, pageable
         );
 
         return loginEvents.stream()
-                .map(loginEvent -> new LoginEventDTO(
-                        loginEvent.getPublicId(),
-                        loginEvent.getLoginDate(),
-                        loginEvent.getDevice().getPublicId()
-                )).toList();
+                .map(this::mapLoginEvent)
+                .toList();
     }
+
+    private LoginEventDTO mapLoginEvent(LoginEvent loginEvent) {
+        var device = loginEvent.getDevice();
+        var userAgent = device == null ?
+                loginEvent.getUserAgent()
+                : device.getUserAgent();
+        var devicePubId = device == null ? null : device.getPublicId();
+
+
+        return new LoginEventDTO(
+                loginEvent.getPublicId(),
+                loginEvent.getLoginDate(),
+                loginEvent.getIpAddress(),
+                userAgent,
+                devicePubId
+        );
+    }
+
 }
