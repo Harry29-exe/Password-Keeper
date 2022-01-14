@@ -16,7 +16,10 @@ import static pl.kamilwojcik.passwordkeeper.config.consts.CorsAddresses.FRONTEND
 public interface AuthenticationApi {
 
     @PostMapping("/login")
-    void login(@RequestParam(defaultValue = "false") Boolean dontLogout, @RequestBody @Valid LoginRequest requestBody, HttpServletRequest request, HttpServletResponse response);
+    void login(@RequestParam(defaultValue = "false") Boolean dontLogout,
+               @RequestBody @Valid LoginRequest requestBody,
+               HttpServletRequest request,
+               HttpServletResponse response);
 
     @PostMapping("/logout")
     void logout(HttpServletResponse response);

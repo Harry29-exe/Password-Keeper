@@ -1,12 +1,13 @@
 package pl.kamilwojcik.passwordkeeper.utils;
 
+import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
 
-public class RequestUtils {
+public class CurrentRequestUtils {
 
     public static HttpServletRequest getCurrentRequest() {
         var requestAttribs = RequestContextHolder.getRequestAttributes();
@@ -17,8 +18,18 @@ public class RequestUtils {
         }
     }
 
+    @Nullable
     public static String getPreProxyIp() {
-        return getCurrentRequest().getHeader("X-Real-IP");
+        var ip = getCurrentRequest().getHeader("X-Real-IP");
+        System.out.println("\n\n" + ip + "\n\n");
+
+
+        return ip;
+    }
+
+    @Nullable
+    public static String getHeader(String header) {
+        return getCurrentRequest().getHeader(header);
     }
 
 

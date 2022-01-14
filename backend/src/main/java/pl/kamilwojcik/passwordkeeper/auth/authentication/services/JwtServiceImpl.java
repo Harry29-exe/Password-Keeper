@@ -13,11 +13,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.services.ClientDeviceService;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.NotAuthorizedException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
+import pl.kamilwojcik.passwordkeeper.utils.CurrentRequestUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -165,8 +165,8 @@ public class JwtServiceImpl implements JwtService {
                     invalidJWT + " as jwt " + tokenType + "token");
             return;
         }
-        var request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        var address = request.getRemoteAddr();
+
+        var address = CurrentRequestUtils.getPreProxyIp();
         logger.warn("Client with following ip: " + address +
                 "tried pass following string: " + invalidJWT +
                 " as jwt " + tokenType + "token");
@@ -180,8 +180,7 @@ public class JwtServiceImpl implements JwtService {
                     rejectReason);
             return;
         }
-        var request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        var address = request.getRemoteAddr();
+        var address = CurrentRequestUtils.getPreProxyIp();
         logger.warn("Client with following ip: " + address +
                 "tried to use following invalid jwt token: " + invalidJWT + " as jwt " + tokenType +
                 "token , token was rejected because of the following reason: " + rejectReason);

@@ -17,7 +17,7 @@ import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredHeaderExceptio
 import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceAlreadyExistException;
 import pl.kamilwojcik.passwordkeeper.exceptions.resource.ResourceNotExistException;
 import pl.kamilwojcik.passwordkeeper.users.domain.repositories.UserRepository;
-import pl.kamilwojcik.passwordkeeper.utils.RequestUtils;
+import pl.kamilwojcik.passwordkeeper.utils.CurrentRequestUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -88,12 +88,12 @@ public class ClientDeviceServiceImpl
 
     @Override
     public void addNewDeviceAuthorizationRequest(String username) {
-        var request = RequestUtils.getCurrentRequest();
+        var request = CurrentRequestUtils.getCurrentRequest();
         var userAgentHeader = request.getHeader("User-Agent");
         if (userAgentHeader == null || userAgentHeader.isBlank()) {
             throw new NoRequiredHeaderException("User-Agent");
         }
-        String ipAddress = request.getRemoteAddr();
+        String ipAddress = CurrentRequestUtils.getPreProxyIp();
         String userAgent = userAgentService.parseToStorageForm(userAgentHeader);
 
         var existingDevice = clientDeviceRepo.findByIpAddressAndUserAgentAndUser_Username(
@@ -161,13 +161,12 @@ public class ClientDeviceServiceImpl
 
     @Override
     public Optional<ClientDeviceDTO> getCurrentDevice(String username) {
-        var request = RequestUtils.getCurrentRequest();
-        var userAgentHeader = request.getHeader("User-Agent");
+        var userAgentHeader = CurrentRequestUtils.getHeader("User-Agent");
         if (userAgentHeader == null) {
             return Optional.empty();
         }
 
-        var ipAddress = request.getRemoteAddr();
+        var ipAddress = CurrentRequestUtils.getPreProxyIp();
         var userAgent = userAgentService.parseToStorageForm(userAgentHeader);
 
         return clientDeviceRepo.findByIpAddressAndUserAgentAndUser_Username(

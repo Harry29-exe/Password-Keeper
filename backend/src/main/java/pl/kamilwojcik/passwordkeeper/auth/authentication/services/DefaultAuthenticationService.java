@@ -18,7 +18,7 @@ import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.users.services.UserService;
-import pl.kamilwojcik.passwordkeeper.utils.RequestUtils;
+import pl.kamilwojcik.passwordkeeper.utils.CurrentRequestUtils;
 
 @Service
 public class DefaultAuthenticationService implements AuthenticationService {
@@ -85,8 +85,8 @@ public class DefaultAuthenticationService implements AuthenticationService {
             honeypotsMsg.dispatchMsg(auth, HoneypotActionType.LOGIN_ATTEMPT);
         }
 
-        var currentRequest = RequestUtils.getCurrentRequest();
-        var address = currentRequest.getRemoteAddr();
+        var currentRequest = CurrentRequestUtils.getCurrentRequest();
+        var address = CurrentRequestUtils.getPreProxyIp();
         var client = currentRequest.getHeader("User-Agent");
 
         boolean isDeviceAuthorized = clientDeviceService.findByDeviceConstraint(
@@ -112,7 +112,6 @@ public class DefaultAuthenticationService implements AuthenticationService {
 
 
     private void createLoginEvent(LoginEventResult eventResult, String username) {
-        var request = RequestUtils.getCurrentRequest();
         var clientDevice =
                 clientDeviceService.getCurrentDevice(username);
 
@@ -120,13 +119,13 @@ public class DefaultAuthenticationService implements AuthenticationService {
                 clientDeviceDTO -> new CreateLoginEvent(
                         eventResult,
                         clientDeviceDTO.getPublicId(),
-                        request.getRemoteAddr(),
+                        CurrentRequestUtils.getPreProxyIp(),
                         username
                 )).orElseGet(
                 () -> new CreateLoginEvent(
                         eventResult,
-                        userAgentService.parseToStorageForm(request.getHeader("User-Agent")),
-                        request.getRemoteAddr(),
+                        userAgentService.parseToStorageForm(CurrentRequestUtils.getHeader("User-Agent")),
+                        CurrentRequestUtils.getPreProxyIp(),
                         username
                 ));
 
