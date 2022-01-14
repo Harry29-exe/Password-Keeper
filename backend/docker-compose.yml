@@ -7,8 +7,8 @@ services:
       context: ./postgres
     image: postgres_image
     container_name: postgres-container
-    ports:
-      - "5432:5432"
+    #    ports:
+    #      - "5432:5432"
     env_file:
       - ./postgres/.env
 
@@ -16,8 +16,8 @@ services:
   backend:
     build:
       context: .
-    ports:
-      - "8080:8080"
+    #    ports:
+    #      - "8080:8080"
     depends_on:
       - postgres
 
@@ -25,16 +25,17 @@ services:
   frontend:
     build:
       context: ../frontend/
-    ports:
-      - "3000:3000"
+  #    ports:
+  #      - "3000:3000"
 
 
   nginx:
     build:
       context: ./nginx
     ports:
-      - "80:80"
+      #      - "80:80"
       - "443:443"
+      - "4430:4430"
     depends_on:
       - backend
       - frontend

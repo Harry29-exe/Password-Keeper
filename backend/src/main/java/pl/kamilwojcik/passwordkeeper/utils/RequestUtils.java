@@ -17,5 +17,9 @@ public class RequestUtils {
         }
     }
 
+    public static String getPreProxyIp() {
+        return getCurrentRequest().getHeader("X-Real-IP");
+    }
+
 
 }
