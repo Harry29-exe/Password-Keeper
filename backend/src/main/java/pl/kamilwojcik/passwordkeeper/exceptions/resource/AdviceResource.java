@@ -1,11 +1,15 @@
 package pl.kamilwojcik.passwordkeeper.exceptions.resource;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 
 import java.util.logging.Logger;
 
+import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODULE_HANDLER;
+
+@Order(MODULE_HANDLER)
 @RestControllerAdvice
 public class AdviceResource {
 

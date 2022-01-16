@@ -1,5 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.exceptions.error.server;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -8,6 +9,9 @@ import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 
 import java.util.logging.Logger;
 
+import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODULE_HANDLER;
+
+@Order(MODULE_HANDLER)
 @RestControllerAdvice
 public class AdviceServerError {
     private final Logger logger = Logger.getLogger(AdviceServerError.class.getName());

@@ -1,5 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.exceptions.validation;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,6 +15,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODULE_HANDLER;
+
+@Order(MODULE_HANDLER)
 @RestControllerAdvice
 public class AdviceValidation {
     private final String ERROR_CODE = "INPUT_VALUES_CONSTRAINT_VIOLATION";

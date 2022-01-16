@@ -20,11 +20,7 @@ public class CurrentRequestUtils {
 
     @Nullable
     public static String getPreProxyIp() {
-        var ip = getCurrentRequest().getHeader("X-Real-IP");
-        System.out.println("\n\n" + ip + "\n\n");
-
-
-        return ip;
+        return getCurrentRequest().getHeader("X-Real-IP");
     }
 
     @Nullable
