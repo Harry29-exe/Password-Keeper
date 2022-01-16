@@ -4,18 +4,21 @@ services:
 
   postgres:
     build:
-      context: ./postgres
+      context: postgres
     image: postgres_image
     container_name: postgres-container
     #    ports:
     #      - "5432:5432"
     env_file:
-      - ./postgres/.env
+      - postgres/.env
 
 
   backend:
     build:
-      context: .
+      context: backend
+    container_name: pk-api
+    env_file:
+      - backend/.env
     #    ports:
     #      - "8080:8080"
     depends_on:
@@ -24,16 +27,17 @@ services:
 
   frontend:
     build:
-      context: ../frontend/
+      context: frontend
+    container_name: pk-web-app
   #    ports:
   #      - "3000:3000"
 
 
   nginx:
     build:
-      context: ./nginx
+      context: nginx
+    container_name: pk-proxy
     ports:
-      #      - "80:80"
       - "443:443"
       - "4430:4430"
     depends_on:
