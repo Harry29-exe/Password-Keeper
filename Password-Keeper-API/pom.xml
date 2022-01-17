@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.kamil-wojcik</groupId>
-    <artifactId>Password-Keeper</artifactId>
-    <version>0.4</version>
-    <name>Password-Keeper</name>
-    <description>Password-Keeper</description>
+    <artifactId>Password-Keeper-API</artifactId>
+    <version>0.9</version>
+    <name>Password-Keeper-API</name>
+    <description>Password-Keeper-API</description>
     <properties>
         <java.version>17</java.version>
     </properties>
