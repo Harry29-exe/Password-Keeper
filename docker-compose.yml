@@ -15,10 +15,10 @@ services:
 
   backend:
     build:
-      context: backend
+      context: Password-Keeper-API
     container_name: pk-api
     env_file:
-      - backend/.env
+      - Password-Keeper-API/.env
     #    ports:
     #      - "8080:8080"
     depends_on:
@@ -27,7 +27,7 @@ services:
 
   frontend:
     build:
-      context: frontend
+      context: Password-Keeper-WebApp
     container_name: pk-web-app
   #    ports:
   #      - "3000:3000"

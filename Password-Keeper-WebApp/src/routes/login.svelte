@@ -1,12 +1,12 @@
 <script lang="ts">
     import Button from "../components/utils/atomic/Button.svelte";
     import {authStore} from "../stores/AuthStore";
-    import {ResponseStatusU} from "../logic/ResponseStatus";
     import {goto} from "$app/navigation";
     import VStack from "../components/utils/atomic/VStack.svelte";
     import TextInput from "../components/utils/atomic/TextInput.svelte";
     import Center from "../components/utils/atomic/Center.svelte";
     import CircularProgress from "../components/utils/atomic/CircularProgress.svelte";
+    import {AuthApiCode} from "../logic/auth-api/AuthApi";
 
     let username = "";
     let password = "";
@@ -18,10 +18,16 @@
         loginState = 'inProgress';
         authStore.login(username, password, dontLogout)
             .then(status => {
-                if (ResponseStatusU.isOk(status)) {
+                if (status == AuthApiCode.OK) {
                     goto("/dashboard");
                 } else {
                     loginState = 'error';
+                    if(status == AuthApiCode.UNKNOWN_DEVICE) {
+                        errorMsg = "It's look like you are logging first time from this device. " +
+                            "Please check your email for device authorization message";
+                    } else {
+                        errorMsg = "Bad username or password";
+                    }
                 }
             });
     }

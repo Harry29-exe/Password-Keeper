@@ -1,6 +1,13 @@
 import {BACKEND_ADDRESS} from "../BackendAddress";
 import {ResponseStatus, ResponseStatusU} from "../ResponseStatus";
 
+
+export enum AuthApiCode {
+    UNKNOWN_DEVICE = "UNKNOWN_DEVICE",
+    INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
+    OK = "OK"
+}
+
 export class LoginResponse {
     public status: ResponseStatus;
     public authToken: string | null;
@@ -14,17 +21,13 @@ export class LoginResponse {
 
 export class AuthApi {
 
-    public static async login(username: string, password: string, dontLogout?: boolean): Promise<LoginResponse> {
+    public static async login(username: string, password: string, dontLogout?: boolean): Promise<Response> {
         console.log('logging')
         return fetch(`${BACKEND_ADDRESS}/login${dontLogout ? "?dontLogout=true" : ""}`, {
             method: 'post',
             body: JSON.stringify({username: username, password: password}),
             headers: {"Content-Type": "application/json"},
             credentials: 'include'
-        }).then(response => {
-            return new LoginResponse(
-                ResponseStatusU.getResponseStatus(response.status),
-                response.headers.get("Authorization") as string | null)
         });
     }
 
