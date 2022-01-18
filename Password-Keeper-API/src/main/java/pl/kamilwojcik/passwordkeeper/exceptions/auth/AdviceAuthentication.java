@@ -17,7 +17,7 @@ import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODU
 public class AdviceAuthentication {
 
     private final String CREDENTIALS_ERROR_CODE = "INVALID_CREDENTIALS";
-    private final String UNKNOWN_DEVICE = "UNKNOWN_DEVICE";
+    private final String UNKNOWN_DEVICE_ERROR_CODE = "UNKNOWN_DEVICE";
 
 
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
@@ -56,7 +56,7 @@ public class AdviceAuthentication {
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({UnknownDeviceException.class})
     public ErrorBody handleUnknownDeviceException(UnknownDeviceException ex) {
-        return new ErrorBody(UNKNOWN_DEVICE);
+        return new ErrorBody(UNKNOWN_DEVICE_ERROR_CODE);
     }
 
 }

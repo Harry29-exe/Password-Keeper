@@ -6,7 +6,7 @@ RUN mvn -f /home/app/pom.xml clean package
 
 
 FROM openjdk:17
-COPY --from=build /home/app/target/Password-Keeper-0.4.jar /usr/local/lib/mjm.jar
+COPY --from=build /home/app/target/Password-Keeper-API-0.9.jar /usr/local/lib/mjm.jar
 
 
 
