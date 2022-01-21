@@ -12,8 +12,6 @@ import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorCode.BAD_REQUEST;
 @ModuleExceptionHandler
 public class AdviceRequest extends ExceptionHandlerPrototype {
 
-    private final String ERROR_CODE = "MISSING_REQUEST_ATTRIBUTE";
-
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({NoRequiredHeaderException.class})
     public ErrorBody handleNoRequiredHeaderException(NoRequiredHeaderException ex) {

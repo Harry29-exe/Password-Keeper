@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.lang.annotation.*;
 
-@Order(Integer.MAX_VALUE)
+@Order(Integer.MIN_VALUE)
 @RestControllerAdvice
 @Documented
 @Target(ElementType.TYPE)

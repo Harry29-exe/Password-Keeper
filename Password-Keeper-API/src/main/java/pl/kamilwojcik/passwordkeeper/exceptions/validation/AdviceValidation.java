@@ -25,6 +25,7 @@ public class AdviceValidation extends ExceptionHandlerPrototype {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ErrorBody handleArgumentNotValidException(MethodArgumentNotValidException ex) {
+//        System.out.println("\n"+ex.getMessage()+"\n");
         return BAD_REQUEST.toErrorBody();
         //todo if controller return bad request otherwise print exception stack trace
 //        boolean appendMsg = false;
