@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.api.dto.LoginHistoryResponse;
-import pl.kamilwojcik.passwordkeeper.config.CrossOriginController;
+import pl.kamilwojcik.passwordkeeper.config.DefaultCors;
 
+@DefaultCors
 @RequestMapping("login-history")
-public interface DevicesLoginHistoryAPI extends CrossOriginController {
+public interface DevicesLoginHistoryAPI {
 
     @GetMapping
     LoginHistoryResponse getLoggingHistory(

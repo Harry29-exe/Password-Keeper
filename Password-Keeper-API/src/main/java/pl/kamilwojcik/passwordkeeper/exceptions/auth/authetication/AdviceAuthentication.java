@@ -1,4 +1,4 @@
-package pl.kamilwojcik.passwordkeeper.exceptions.auth;
+package pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTDecodeException;
@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
+import pl.kamilwojcik.passwordkeeper.exceptions.ExceptionHandlerPrototype;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 
 import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODULE_HANDLER;
 
 @Order(MODULE_HANDLER)
 @RestControllerAdvice
-public class AdviceAuthentication {
+public class AdviceAuthentication extends ExceptionHandlerPrototype {
 
     private final String CREDENTIALS_ERROR_CODE = "INVALID_CREDENTIALS";
     private final String UNKNOWN_DEVICE_ERROR_CODE = "UNKNOWN_DEVICE";
@@ -28,8 +31,8 @@ public class AdviceAuthentication {
 
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN)
-    @ExceptionHandler({NotAuthorizedException.class})
-    public ErrorBody handleAuthorizationException(NotAuthorizedException ex) {
+    @ExceptionHandler({JwtValidationException.class})
+    public ErrorBody handleAuthorizationException(JwtValidationException ex) {
         return new ErrorBody(CREDENTIALS_ERROR_CODE);
     }
 

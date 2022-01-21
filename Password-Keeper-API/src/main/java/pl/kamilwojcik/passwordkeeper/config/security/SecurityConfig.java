@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationProvider authProvider;
 
+
     public SecurityConfig(
             PasswordEncoder passwordEncoder,
             UserDetailsService userDetailsService
@@ -36,10 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .cors()
                 .and()
                 //todo why? dlaczego bez tego nie działa /logout
                 .logout().disable();

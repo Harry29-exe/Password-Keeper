@@ -1,15 +1,17 @@
 package pl.kamilwojcik.passwordkeeper.auth.authentication.api;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.kamilwojcik.passwordkeeper.auth.authentication.api.dto.LoginRequest;
+import pl.kamilwojcik.passwordkeeper.config.DefaultCors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import static pl.kamilwojcik.passwordkeeper.config.consts.CorsAddresses.FRONTEND_ADDRESS;
-
-@CrossOrigin(origins = {FRONTEND_ADDRESS, "https://192.168.0.185:4430"},
+@DefaultCors(
         exposedHeaders = "Authorization",
         allowCredentials = "true",
         methods = {RequestMethod.POST, RequestMethod.OPTIONS})

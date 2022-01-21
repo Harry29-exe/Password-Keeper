@@ -8,9 +8,9 @@ import pl.kamilwojcik.passwordkeeper.auth.authentication.api.dto.LoginRequest;
 import pl.kamilwojcik.passwordkeeper.auth.authentication.services.AuthenticationService;
 import pl.kamilwojcik.passwordkeeper.auth.authentication.services.JwtService;
 import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.services.ClientDeviceService;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredCookieException;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredHeaderException;
 
@@ -22,6 +22,11 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+//@CrossOrigin(
+//        origins = {FRONTEND_ADDRESS, "https://192.168.0.185:4430"},
+//        exposedHeaders = "Authorization",
+//        allowCredentials = "true",
+//        methods = {RequestMethod.POST, RequestMethod.OPTIONS})
 @RestController
 public class AuthenticationApiController implements AuthenticationApi {
     private final AuthenticationService authService;
