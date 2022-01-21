@@ -1,22 +1,11 @@
 <script lang="ts">
     import TextInput from "../components/utils/atomic/TextInput.svelte";
-    import Spacer from "../components/utils/atomic/Spacer.svelte";
     import {ComponentState, State} from "../components/utils/ComponentState";
     import {UserAPI} from "../logic/user-api/UserAPI";
     import {CreateUserRequest} from "../logic/user-api/CreateUserRequest";
     import {ResponseStatusU} from "../logic/ResponseStatus";
     import Button from "../components/utils/atomic/Button.svelte";
     import Center from "../components/utils/atomic/Center.svelte";
-
-    let username = "";
-    let email = "";
-    let password = "";
-    let passwordRepeat = "";
-    let storagePassword = "";
-    let storagePasswordRepeat = "";
-
-    let registerState = new ComponentState(State.NOT_INITIALIZED);
-    let errorMsg = "";
 
     const onRegister = () => {
         if (password !== passwordRepeat) {
@@ -39,8 +28,17 @@
             })
     }
 
+    let username = "";
+    let email = "";
+    let password = "";
+    let passwordRepeat = "";
+    let storagePassword = "";
+    let storagePasswordRepeat = "";
+
+    let registerState = new ComponentState(State.NOT_INITIALIZED);
+    let errorMsg = "";
+
     const textInputStyle = "font-size: 1.3rem";
-    const spacerStyle = "margin-top: 30px; margin-bottom: 30px";
 </script>
 
 
@@ -51,13 +49,13 @@
         Username:
         <TextInput bind:value={username} placeholder="username" style={textInputStyle}/>
     </div>
-    <div class="spacer-h"></div>
+    <div class="spacer-h-md"/>
 
     <div class="input-module">
         Email:
         <TextInput bind:value={email} placeholder="email" style={textInputStyle}/>
     </div>
-    <div class="spacer-h"></div>
+    <div class="spacer-h-md"/>
 
 
     <div class="input-module">
@@ -70,7 +68,7 @@
         <TextInput bind:value={passwordRepeat} placeholder="repeat password"
                    style={textInputStyle} type="password"/>
     </div>
-    <Spacer style={spacerStyle}/>
+    <dvi class="spacer-h-md"/>
 
 
     <div class="input-module">
@@ -83,7 +81,7 @@
         <TextInput bind:value={storagePasswordRepeat} placeholder="repeat storage password"
                    style={textInputStyle} type="password"/>
     </div>
-    <Spacer style={spacerStyle}/>
+    <div class="spacer-h-md"/>
 
     <Button on:click={onRegister} size="lg" style="margin-bottom: 30px">
         Register

@@ -16,6 +16,6 @@
 }
 
 .h-stack {
-    @apply flex justify-start items-center;
+    @apply flex justify-start items-center w-full;
     @apply relative;
 }

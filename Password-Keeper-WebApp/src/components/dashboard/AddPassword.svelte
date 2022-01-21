@@ -1,10 +1,7 @@
 <script lang="ts">
-    import VStack from "../utils/atomic/VStack.svelte";
     import Button from "../utils/atomic/Button.svelte";
     import Modal from "../utils/atomic/Modal.svelte";
     import TextInput from "../utils/atomic/TextInput.svelte";
-    import Spacer from "../utils/atomic/Spacer.svelte";
-    import HStack from "../utils/atomic/HStack.svelte";
     import {PasswordAPI} from "../../logic/password-storage-api/PasswordAPI";
     import {SavePasswordRequestDTO} from "../../logic/password-storage-api/SavePasswordRequestDTO";
     import {authStore} from "../../stores/AuthStore";
@@ -68,14 +65,14 @@
 
 
 <Modal bind:isOpen style="min-height: 70vh; min-width: 50vw">
-    <VStack style="margin: 10px 50px 50px 50px; min-width: 300px; width: 80%; font-size: 1.5rem;">
+    <div class="v-stack m-10 mt-2.5 min-w-[300px] w-4/5 text-2xl">
         <h1>Add new password</h1>
-        <TextInput bind:value={passwordName} placeholder="Password name" />
-        <TextInput bind:value={passwordUrl} placeholder="Optional password url" />
-        <Spacer/>
+        <TextInput bind:value={passwordName} placeholder="Password name"/>
+        <TextInput bind:value={passwordUrl} placeholder="Optional password url"/>
+        <div class="spacer-h"/>
 
 
-        <HStack class="hover-pointer" on:click={switchActionType}>
+        <div class="hover-pointer h-stack" on:click={switchActionType}>
             <input type="checkbox" style="width: 20px; height: 20px"
                    checked={!addPasswordMode} on:click={e => {
                        e.stopPropagation();
@@ -84,7 +81,7 @@
             <span style="flex-grow: 5; text-align: center">
                 Generate password for me
             </span>
-        </HStack>
+        </div>
 
         <TextInput bind:value={newPassword} placeholder="New Password"
                    type="password" disabled={!addPasswordMode}/>
@@ -92,18 +89,12 @@
                    type="password" disabled={!addPasswordMode}/>
 
 
-        <Spacer />
+        <div class="spacer-h"/>
         <TextInput bind:value={storagePassword} placeholder="Your storage password" type="password"/>
 
 
         <Button style="margin-top: 20px" size="lg" on:click={onAddPassword}>
             Add password
         </Button>
-    </VStack>
+    </div>
 </Modal>
-
-<style>
-    :global(.hover-pointer:hover) {
-        cursor: pointer;
-    }
-</style>

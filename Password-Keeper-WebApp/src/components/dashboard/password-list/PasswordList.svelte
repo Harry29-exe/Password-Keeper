@@ -1,7 +1,6 @@
 <!--suppress ALL -->
 <script lang="ts">
     import {PasswordInfoDTO} from "../../../logic/password-storage-api/PasswordInfoDTO";
-    import Spacer from "../../utils/atomic/Spacer.svelte";
     import Password from "./Password.svelte";
     import Button from "../../utils/atomic/Button.svelte";
     import {ComponentState, State} from "../../utils/ComponentState";
@@ -50,7 +49,7 @@
     <div class="w-11/12">
         {#each passwordList as passwordInfo}
             <Password passwordInfo={passwordInfo}/>
-            <Spacer/>
+            <div class="spacer-h"/>
         {/each}
     </div>
 

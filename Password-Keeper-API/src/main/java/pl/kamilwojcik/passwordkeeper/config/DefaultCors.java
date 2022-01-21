@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 public @interface DefaultCors {
 
     @AliasFor(annotation = CrossOrigin.class)
-    String[] origins() default {"https://localhost:4430", "https://192.168.0.185:4430"};
+    String[] origins() default {"https://localhost:4430", "https://192.168.0.185:4430", "http://localhost:3000"};
 
     @AliasFor(annotation = CrossOrigin.class)
     String[] allowedHeaders() default {"Authorization", "Content-Type"};

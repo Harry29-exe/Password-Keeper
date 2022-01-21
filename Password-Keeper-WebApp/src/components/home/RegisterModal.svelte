@@ -1,10 +1,8 @@
 <script lang="ts">
     import {ComponentState, State} from "../utils/ComponentState";
     import Modal from "../utils/atomic/Modal.svelte";
-    import VStack from "../utils/atomic/VStack.svelte";
     import TextInput from "../utils/atomic/TextInput.svelte";
     import Button from "../utils/atomic/Button.svelte";
-    import Spacer from "../utils/atomic/Spacer.svelte";
     import Center from "../utils/atomic/Center.svelte";
     import {UserAPI} from "../../logic/user-api/UserAPI";
     import {CreateUserRequest} from "../../logic/user-api/CreateUserRequest";
@@ -44,28 +42,28 @@
     }
 
     const textInputStyle = "font-size: 1.3rem";
-    const spacerStyle = "margin-top: 30px; margin-bottom: 30px";
 </script>
+
 
 <Button on:click={() => isOpen = true} size="lg">
     Register
 </Button>
 
 <Modal bind:isOpen>
-    <VStack style="font-size: 1.5rem; width: 70%; margin: auto">
+    <div class="v-stack w-3/4 m-auto text-2xl">
         <h1>Register</h1>
 
         <div class="input-module">
             Username:
             <TextInput placeholder="username" bind:value={username} style={textInputStyle}/>
         </div>
-        <Spacer style={spacerStyle}/>
+        <div class="spacer-h spacer"/>
 
         <div class="input-module">
             Email:
             <TextInput bind:value={email} placeholder="email" style={textInputStyle}/>
         </div>
-        <Spacer style={spacerStyle}/>
+        <div class="spacer-h spacer"/>
 
 
         <div class="input-module">
@@ -78,7 +76,7 @@
             <TextInput placeholder="repeat password" bind:value={passwordRepeat}
                        style={textInputStyle} type="password"/>
         </div>
-        <Spacer style={spacerStyle}/>
+        <div class="spacer-h spacer"/>
 
 
         <div class="input-module">
@@ -91,7 +89,7 @@
             <TextInput placeholder="repeat storage password" bind:value={storagePasswordRepeat}
                        style={textInputStyle} type="password"/>
         </div>
-        <Spacer style={spacerStyle}/>
+        <div class="spacer-h spacer"/>
 
         <Button on:click={onRegister} size="lg" style="margin-bottom: 30px">
             Register
@@ -108,7 +106,7 @@
         {/if}
 
 
-    </VStack>
+    </div>
 </Modal>
 
 
@@ -116,5 +114,10 @@
 <style>
     .input-module {
         width: 100%;
+    }
+
+    .spacer {
+        margin-top: 30px;
+        margin-bottom: 30px
     }
 </style>

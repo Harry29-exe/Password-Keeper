@@ -1,13 +1,12 @@
 <script lang="ts">
     import {PasswordInfoDTO} from "../../../../logic/password-storage-api/PasswordInfoDTO";
-    import HStack from "../../../utils/atomic/HStack.svelte";
     import Button from "../../../utils/atomic/Button.svelte";
-    import VStack from "../../../utils/atomic/VStack.svelte";
     import "../Password.css";
     import TextInput from "../../../utils/atomic/TextInput.svelte";
     import CircularProgress from "../../../utils/atomic/CircularProgress.svelte";
     import {PasswordAPI} from "../../../../logic/password-storage-api/PasswordAPI";
     import {authStore} from "../../../../stores/AuthStore";
+    import {fly} from "svelte/transition";
 
 
     export let passwordInfo: PasswordInfoDTO;
@@ -32,18 +31,18 @@
     }
 </script>
 
-<VStack>
-    <HStack>
+<div class="v-stack w-full">
+    <div class="h-stack">
         <div class="label">Password:</div>
 
         {#if passwordShowState === 'not-initialized'}
             <Button style="position: absolute; right: 0; width: 200px"
-                on:click={() => passwordShowState = 'passwordInput'}>
+                    on:click={() => passwordShowState = 'passwordInput'}>
                 Show
             </Button>
         {:else}
-            <Button style="position: absolute; right: 0; width: 200px"
-                on:click={() => {
+            <Button class="absolute right-0 w-[200px]"
+                    on:click={() => {
                     passwordShowState = 'not-initialized';
                     storagePassword = "";
                 }}>
@@ -51,15 +50,17 @@
             </Button>
         {/if}
 
-    </HStack>
+    </div>
 
     {#if passwordShowState === 'passwordInput'}
-        <span style="margin-top: 20px">Enter storage password:</span>
-        <HStack >
-            <TextInput bind:value={storagePassword} type="password" placeholder="Storage password"
-                style="margin-right: 10px; font-size: 1.2rem"/>
-            <Button style="min-width: 200px; height: 2rem" on:click={onPasswordFetch}>Get password</Button>
-        </HStack>
+        <div class="v-stack w-full" transition:fly={{duration: 250}}>
+            <span style="margin-top: 20px">Enter storage password:</span>
+            <div class="h-stack">
+                <TextInput bind:value={storagePassword} type="password" placeholder="Storage password"
+                           style="margin-right: 10px; font-size: 1.2rem"/>
+                <Button style="min-width: 200px; height: 2rem" on:click={onPasswordFetch}>Get password</Button>
+            </div>
+        </div>
     {:else if passwordShowState === 'initialized'}
         <CircularProgress/>
     {:else if passwordShowState === 'finished'}
@@ -67,4 +68,4 @@
     {/if}
 
 
-</VStack>
+</div>

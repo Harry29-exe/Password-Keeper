@@ -2,11 +2,11 @@
     import Button from "../components/utils/atomic/Button.svelte";
     import {authStore} from "../stores/AuthStore";
     import {goto} from "$app/navigation";
-    import VStack from "../components/utils/atomic/VStack.svelte";
     import TextInput from "../components/utils/atomic/TextInput.svelte";
     import Center from "../components/utils/atomic/Center.svelte";
     import CircularProgress from "../components/utils/atomic/CircularProgress.svelte";
     import {AuthApiCode} from "../logic/auth-api/AuthApi";
+    import {fade} from "svelte/transition";
 
     let username = "";
     let password = "";
@@ -22,14 +22,17 @@
                     goto("/dashboard");
                 } else {
                     loginState = 'error';
-                    if(status == AuthApiCode.UNKNOWN_DEVICE) {
+                    if (status == AuthApiCode.UNKNOWN_DEVICE) {
                         errorMsg = "It's look like you are logging first time from this device. " +
                             "Please check your email for device authorization message";
                     } else {
                         errorMsg = "Bad username or password";
                     }
                 }
-            });
+            }).catch(reason => {
+            loginState = 'error';
+            errorMsg = "We could not authenticate you, please try later.";
+        })
     }
 </script>
 
@@ -65,8 +68,8 @@
     </div>
 
     {#if loginState === 'error'}
-        <VStack style="background-color: var(--gray-800)">
+        <div class="bg-primary-800 rounded-sm shadow-sm p-4" transition:fade>
             {errorMsg}
-        </VStack>
+        </div>
     {/if}
 </div>
