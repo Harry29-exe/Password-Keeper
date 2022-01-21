@@ -1,26 +1,25 @@
-package pl.kamilwojcik.passwordkeeper.exceptions.auth;
+package pl.kamilwojcik.passwordkeeper.exceptions.auth.authorization;
 
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
+import pl.kamilwojcik.passwordkeeper.exceptions.ExceptionHandlerPrototype;
+import pl.kamilwojcik.passwordkeeper.exceptions.ModuleExceptionHandler;
 
-import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODULE_HANDLER;
+import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorCode.ACCESS_DENIED;
 
-@Order(MODULE_HANDLER)
-@RestControllerAdvice
-public class AdviceAuthorization {
-
-    private final String AUTHORIZATION_EXCEPTION = "AUTHORIZATION_EXCEPTION";
+@ModuleExceptionHandler
+public class AdviceAuthorization extends ExceptionHandlerPrototype {
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler({AccessDeniedException.class})
     public ErrorBody handleAccessDeniedException(AccessDeniedException ex) {
-        return new ErrorBody(AUTHORIZATION_EXCEPTION);
+        logException(ex);
+        return ACCESS_DENIED.toErrorBody();
     }
+
 
 
 }

@@ -3,37 +3,24 @@ package pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 import pl.kamilwojcik.passwordkeeper.exceptions.ExceptionHandlerPrototype;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
+import pl.kamilwojcik.passwordkeeper.exceptions.ModuleExceptionHandler;
 
-import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODULE_HANDLER;
+import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorCode.AUTHENTICATION_FAILED;
 
-@Order(MODULE_HANDLER)
-@RestControllerAdvice
+@ModuleExceptionHandler
 public class AdviceAuthentication extends ExceptionHandlerPrototype {
-
-    private final String CREDENTIALS_ERROR_CODE = "INVALID_CREDENTIALS";
-    private final String UNKNOWN_DEVICE_ERROR_CODE = "UNKNOWN_DEVICE";
 
 
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({AuthenticationException.class})
+    @ExceptionHandler({AuthenticationException.class, JwtValidationException.class})
     public ErrorBody handleAuthenticationException(AuthenticationException ex) {
-        return new ErrorBody(CREDENTIALS_ERROR_CODE);
-    }
-
-
-    @ResponseStatus(code = HttpStatus.FORBIDDEN)
-    @ExceptionHandler({JwtValidationException.class})
-    public ErrorBody handleAuthorizationException(JwtValidationException ex) {
-        return new ErrorBody(CREDENTIALS_ERROR_CODE);
+        logException(ex);
+        return AUTHENTICATION_FAILED.toErrorBody();
     }
 
 
@@ -43,7 +30,8 @@ public class AdviceAuthentication extends ExceptionHandlerPrototype {
             JWTDecodeException.class,
             JWTVerificationException.class})
     public ErrorBody handleJwtException(Exception ex) {
-        return new ErrorBody(CREDENTIALS_ERROR_CODE);
+        logException(ex);
+        return AUTHENTICATION_FAILED.toErrorBody();
     }
 
 
@@ -52,14 +40,16 @@ public class AdviceAuthentication extends ExceptionHandlerPrototype {
             DeviceNotAuthorizedException.class
     })
     public ErrorBody handleUnauthorizedDevice(DeviceNotAuthorizedException ex) {
-        return new ErrorBody(CREDENTIALS_ERROR_CODE);
+        logException(ex);
+        return AUTHENTICATION_FAILED.toErrorBody();
     }
 
 
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({UnknownDeviceException.class})
     public ErrorBody handleUnknownDeviceException(UnknownDeviceException ex) {
-        return new ErrorBody(UNKNOWN_DEVICE_ERROR_CODE);
+        logException(ex);
+        return AUTHENTICATION_FAILED.toErrorBody();
     }
 
 }

@@ -1,6 +1,7 @@
 package pl.kamilwojcik.passwordkeeper.users.api;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 @DefaultCors
 @Validated
 @RequestMapping("/users")
+@PreAuthorize("isAuthenticated()")
 public interface UserApi {
 
     @PutMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)

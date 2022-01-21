@@ -1,5 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.auth.loggingEvent.api;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import pl.kamilwojcik.passwordkeeper.config.DefaultCors;
 
 @DefaultCors
 @RequestMapping("login-history")
+@PreAuthorize("isAuthenticated()")
 public interface DevicesLoginHistoryAPI {
 
     @GetMapping

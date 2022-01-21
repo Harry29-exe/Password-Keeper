@@ -1,36 +1,37 @@
 package pl.kamilwojcik.passwordkeeper.exceptions.resource;
 
-import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
+import pl.kamilwojcik.passwordkeeper.exceptions.ExceptionHandlerPrototype;
+import pl.kamilwojcik.passwordkeeper.exceptions.ModuleExceptionHandler;
 
-import java.util.logging.Logger;
+import static java.lang.String.format;
+import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorCode.BAD_REQUEST;
+import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorCode.NO_RESOURCE;
 
-import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorHandlerPriority.MODULE_HANDLER;
-
-@Order(MODULE_HANDLER)
-@RestControllerAdvice
-public class AdviceResource {
-
-    private final String ERROR_CODE = "RESOURCE_NOT_FOUND";
-    private final Logger logger = Logger.getLogger(AdviceResource.class.getName());
+@ModuleExceptionHandler
+public class AdviceResource extends ExceptionHandlerPrototype {
 
     @ExceptionHandler(ResourceNotExistException.class)
     public ErrorBody handleResourceNotFound(ResourceNotExistException ex) {
-        return new ResourceErrorBody(ERROR_CODE, ex.getResourceType(), ex.getResourceName());
+        return handleException(ex, NO_RESOURCE);
     }
 
     @ExceptionHandler(ResourceAlreadyExistException.class)
     public ErrorBody generalResourceExceptionHandler(ResourceAlreadyExistException ex) {
-        return new ErrorBody(ERROR_CODE);
+        return handleException(ex, NO_RESOURCE);
     }
 
     @ExceptionHandler({IllegalNoResourceException.class})
     public ErrorBody handleIllegalNoResource(IllegalNoResourceException ex) {
-        logger.warning("IllegalNoResourceException has been thrown in class: "
-                + ex.getStackTrace()[0].getClassName() + ex.getStackTrace()[0].getMethodName());
-        return new ErrorBody(ERROR_CODE);
+        logError(
+                format("IllegalNoResourceException has been thrown in class: %s in method: %s",
+                        ex.getStackTrace()[0].getClassName(),
+                        ex.getStackTrace()[0].getMethodName()),
+                ex
+        );
+
+        return BAD_REQUEST.toErrorBody();
     }
 
 }

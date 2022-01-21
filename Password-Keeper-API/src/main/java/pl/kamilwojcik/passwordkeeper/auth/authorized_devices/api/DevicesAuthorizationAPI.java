@@ -1,5 +1,6 @@
 package pl.kamilwojcik.passwordkeeper.auth.authorized_devices.api;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,13 +18,14 @@ import java.util.List;
 public interface DevicesAuthorizationAPI {
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     List<ClientDeviceDTO> getAllAuthorizedDevices(Authentication auth);
 
-    //    @PreAuthorize("permitAll()")
     @GetMapping("{authorizationLink}")
     void authorizeDevice(@PathVariable String authorizationLink);
 
     @DeleteMapping("{device-public-id}")
+    @PreAuthorize("isAuthenticated()")
     void deleteAuthorizedDevice(@PathVariable("device-public-id") String devicePublicId, Authentication auth);
 
 }

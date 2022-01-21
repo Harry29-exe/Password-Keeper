@@ -9,7 +9,7 @@ public class ErrorBody {
 
     private String errorCode;
 
-    public ErrorBody(String errorCode) {
-        this.errorCode = errorCode;
+    public ErrorBody(ErrorCode errorCode) {
+        this.errorCode = errorCode.name();
     }
 }

@@ -14,9 +14,9 @@ import pl.kamilwojcik.passwordkeeper.auth.loggingEvent.services.LoginEventServic
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotActionType;
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsAccountList;
 import pl.kamilwojcik.passwordkeeper.config.security.honeypots.HoneypotsMsgDispatcher;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.AuthenticationException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.DeviceNotAuthorizedException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.users.services.UserService;
 import pl.kamilwojcik.passwordkeeper.utils.CurrentRequestUtils;
 

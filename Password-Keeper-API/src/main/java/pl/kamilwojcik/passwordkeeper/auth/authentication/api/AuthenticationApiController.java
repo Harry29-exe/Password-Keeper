@@ -8,9 +8,9 @@ import pl.kamilwojcik.passwordkeeper.auth.authentication.api.dto.LoginRequest;
 import pl.kamilwojcik.passwordkeeper.auth.authentication.services.AuthenticationService;
 import pl.kamilwojcik.passwordkeeper.auth.authentication.services.JwtService;
 import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.services.ClientDeviceService;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.DeviceNotAuthorizedException;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.AuthenticationException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.DeviceNotAuthorizedException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredCookieException;
 import pl.kamilwojcik.passwordkeeper.exceptions.request.NoRequiredHeaderException;
 

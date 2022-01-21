@@ -14,9 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import pl.kamilwojcik.passwordkeeper.auth.authorized_devices.services.ClientDeviceService;
-import pl.kamilwojcik.passwordkeeper.exceptions.auth.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.AuthenticationException;
 import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.JwtValidationException;
+import pl.kamilwojcik.passwordkeeper.exceptions.auth.authetication.UnknownDeviceException;
 import pl.kamilwojcik.passwordkeeper.utils.CurrentRequestUtils;
 
 import java.nio.charset.StandardCharsets;

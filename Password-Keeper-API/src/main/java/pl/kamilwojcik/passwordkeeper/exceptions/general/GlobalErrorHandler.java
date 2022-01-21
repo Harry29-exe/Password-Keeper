@@ -1,21 +1,20 @@
-package pl.kamilwojcik.passwordkeeper.exceptions.error.server;
+package pl.kamilwojcik.passwordkeeper.exceptions.general;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.kamilwojcik.passwordkeeper.exceptions.ErrorBody;
 import pl.kamilwojcik.passwordkeeper.exceptions.ExceptionHandlerPrototype;
-import pl.kamilwojcik.passwordkeeper.exceptions.ModuleExceptionHandler;
+import pl.kamilwojcik.passwordkeeper.exceptions.GlobalExceptionHandler;
 
 import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorCode.BAD_REQUEST;
 
+@GlobalExceptionHandler
+public class GlobalErrorHandler extends ExceptionHandlerPrototype {
 
-@ModuleExceptionHandler
-public class AdviceServerError extends ExceptionHandlerPrototype {
-
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalStateException.class)
-    public ErrorBody handleIllegalStateException(IllegalStateException ex) {
+    @ExceptionHandler({Exception.class})
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorBody handleUnhandledExceptions(Exception ex) {
         this.logError(
                 "Illegal state exception was throw with " +
                         "probably indicated some sort of bug,",
@@ -23,6 +22,5 @@ public class AdviceServerError extends ExceptionHandlerPrototype {
 
         return BAD_REQUEST.toErrorBody();
     }
-
 
 }
