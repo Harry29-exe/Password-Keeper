@@ -27,6 +27,7 @@ public class JwtServiceImpl implements JwtService {
     private static final String TOKEN_TYPE_CLAIM = "Token type";
     private static final String AUTH_TYPE = "Auth";
     private static final String REFRESH_TYPE = "Refresh";
+    private static final String DOMAIN = "Domain";
     private static final String DEVICE_PUB_ID = "Device public id";
 
     private final ClientDeviceService clientDeviceService;
@@ -118,6 +119,7 @@ public class JwtServiceImpl implements JwtService {
         return JWT.create()
                 .withClaim(TOKEN_TYPE_CLAIM, tokenType)
                 .withSubject(subject)
+                .withClaim(DOMAIN, CurrentRequestUtils.getHeader("Origin"))
 //                .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
                 .withIssuedAt(now)
                 .withExpiresAt(exp)
@@ -135,12 +137,11 @@ public class JwtServiceImpl implements JwtService {
             if (sub == null || sub.isBlank()) {
                 throw new JWTVerificationException("Subject can not be black or null");
             }
-            var currentDevice = clientDeviceService.getCurrentDevice(sub)
-                    .orElseThrow(UnknownDeviceException::new);
 
 
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim(TOKEN_TYPE_CLAIM, tokenType)
+                    .withClaim(DOMAIN, CurrentRequestUtils.getHeader("Origin"))
 //                    .withClaim(DEVICE_PUB_ID, currentDevice.getPublicId().toString())
                     .withSubject(sub)
                     .build();

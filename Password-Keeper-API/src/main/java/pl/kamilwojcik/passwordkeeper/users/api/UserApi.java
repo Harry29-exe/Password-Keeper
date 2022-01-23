@@ -16,12 +16,13 @@ import javax.validation.Valid;
 @DefaultCors
 @Validated
 @RequestMapping("/users")
-@PreAuthorize("isAuthenticated()")
+
 public interface UserApi {
 
     @PutMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     void registerNewUser(@RequestBody @Valid CreateUserRequest request);
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("delete")
     void deleteUser(@RequestBody @Valid DeleteUserRequest request);
 
