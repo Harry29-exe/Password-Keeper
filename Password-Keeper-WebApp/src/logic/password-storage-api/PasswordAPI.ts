@@ -1,8 +1,8 @@
 import {PasswordInfoDTO} from "./PasswordInfoDTO";
 import {BACKEND_ADDRESS} from "../BackendAddress";
 import {SavePasswordRequestDTO} from "./SavePasswordRequestDTO";
-import {ResponseStatus, ResponseStatusU} from "../ResponseStatus";
 import {CreateNewPasswordRequestDTO} from "./CreateNewPasswordRequestDTO";
+import {ErrorCode} from "../ErrorCode";
 
 export class PasswordAPI {
     private static readonly API_ADDRESS = BACKEND_ADDRESS + "/password-storage"
@@ -13,7 +13,7 @@ export class PasswordAPI {
             headers: {"Authorization": authToken}
         }).then(response => {
             if(!response.ok) {
-                return Promise.reject("Server returned: " + response.status);
+                return Promise.reject(PasswordAPI.mapRejectStatus(response.status));
             }
 
             return response.json();
@@ -38,7 +38,7 @@ export class PasswordAPI {
             })
         }).then(response => {
             if(!response.ok) {
-                return Promise.reject("Server returned: " + response.status);
+                return Promise.reject(PasswordAPI.mapRejectStatus(response.status));
             }
 
             return response.text();
@@ -48,7 +48,7 @@ export class PasswordAPI {
     public static async saveNewPassword(
         requestBody: SavePasswordRequestDTO,
         authToken: string
-    ): Promise<ResponseStatus> {
+    ) {
 
         return fetch(`${this.API_ADDRESS}/save-password`, {
             method: 'put',
@@ -57,14 +57,19 @@ export class PasswordAPI {
                 'Authorization': authToken
             },
             body: JSON.stringify(requestBody)
-        }).then(response => ResponseStatusU.getResponseStatus(response.status))
+        }).then(response => {
+            if (response.ok) {
+                return;
+            }
+            return Promise.reject(PasswordAPI.mapRejectStatus(response.status));
+        });
 
     }
 
     public static async createNewPassword(
         requestBody: CreateNewPasswordRequestDTO,
         authToken: string
-    ): Promise<ResponseStatus> {
+    ) {
 
         return fetch(`${this.API_ADDRESS}/create-password`, {
             method: 'put',
@@ -73,8 +78,25 @@ export class PasswordAPI {
                 'Authorization': authToken
             },
             body: JSON.stringify(requestBody)
-        }).then(response => ResponseStatusU.getResponseStatus(response.status))
+        }).then(response => {
+            if (response.ok) {
+                return;
+            }
+            return Promise.reject(PasswordAPI.mapRejectStatus(response.status));
+        })
 
+    }
+
+
+    private static mapRejectStatus(status: number): ErrorCode {
+        switch (status) {
+            case 403:
+                return ErrorCode.ACCESS_DENIED;
+            case 400:
+                return ErrorCode.BAD_REQUEST;
+            default:
+                return ErrorCode.UNDEFINED;
+        }
     }
 
 }

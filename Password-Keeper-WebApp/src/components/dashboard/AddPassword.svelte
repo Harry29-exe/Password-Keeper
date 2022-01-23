@@ -1,19 +1,15 @@
 <script lang="ts">
-    import Button from "../utils/atomic/Button.svelte";
     import Modal from "../utils/atomic/Modal.svelte";
     import TextInput from "../utils/atomic/TextInput.svelte";
     import {PasswordAPI} from "../../logic/password-storage-api/PasswordAPI";
     import {SavePasswordRequestDTO} from "../../logic/password-storage-api/SavePasswordRequestDTO";
     import {authStore} from "../../stores/AuthStore";
-    import {ResponseStatusU} from "../../logic/ResponseStatus";
     import {CreateNewPasswordRequestDTO} from "../../logic/password-storage-api/CreateNewPasswordRequestDTO";
     import {popupStore} from "../../stores/PopupStore";
+    import {ErrorCode} from "../../logic/ErrorCode";
 
-    let addPasswordMode = true;
-    const switchActionType = () => {
-        addPasswordMode = !addPasswordMode;
-    }
 
+    const generalError = "We could not save your password. Try later or refresh a page.";
     const savePasswordDTO = (): SavePasswordRequestDTO =>
         new SavePasswordRequestDTO(
             storagePassword, newPassword,
@@ -23,6 +19,23 @@
     const createPasswordDTO = (): CreateNewPasswordRequestDTO =>
         new CreateNewPasswordRequestDTO(storagePassword, passwordName, passwordUrl);
 
+    const handleReject = (reason: any) => {
+        if (!(typeof reason === "number")) {
+            popupStore.danger(generalError);
+        }
+
+        switch (reason) {
+            case ErrorCode.ACCESS_DENIED:
+                popupStore.danger("Please check if storage password is correct.");
+                break;
+            case ErrorCode.BAD_REQUEST:
+                popupStore.danger("Some of your input is incorrect.");
+                break;
+            default:
+                popupStore.danger(generalError);
+        }
+    }
+
     const onAddPassword = () => {
         if (newPassword !== newPasswordRepeat) {
             popupStore.danger("New password and new password repeat fields does not match ");
@@ -30,28 +43,22 @@
             PasswordAPI.saveNewPassword(
                 savePasswordDTO(),
                 $authStore.authToken as string
-            ).then(status => {
-                if (ResponseStatusU.isOk(status)) {
-                    popupStore.success("Password has been saved");
-                } else {
-                    popupStore.danger("We could not save your password. Try later or refresh a page.");
-                }
-            })
+            ).then(() => popupStore.success("Password has been saved")
+            ).catch(reason => handleReject(reason));
         } else {
             PasswordAPI.createNewPassword(
                 createPasswordDTO(),
                 $authStore.authToken as string
-            ).then(status => {
-                if (ResponseStatusU.isOk(status)) {
-                    console.log('ok')
-                } else {
-                    console.log('not ok')
-                }
-            })
+            ).then(() => popupStore.success("Password has been generated and saved. Click refresh to view your new password")
+            ).catch(reason => handleReject(reason));
         }
     }
 
     let isOpen = false;
+
+    let addPasswordMode: boolean = true;
+    const switchActionType = () => addPasswordMode = !addPasswordMode;
+
 
     let passwordName = "";
     let passwordUrl = "";
@@ -62,10 +69,9 @@
 </script>
 
 
-<Button on:click={() => isOpen = true} size="lg"
-        style="width: auto; padding: 10px; margin-top: 30px">
+<button class="btn-primary-lg mt-10" on:click={() => isOpen = true}>
     Add new Password
-</Button>
+</button>
 
 
 <Modal bind:isOpen style="min-height: 70vh; min-width: 50vw">

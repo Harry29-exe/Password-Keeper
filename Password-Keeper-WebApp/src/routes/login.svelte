@@ -1,39 +1,50 @@
 <script lang="ts">
-    import Button from "../components/utils/atomic/Button.svelte";
     import {authStore} from "../stores/AuthStore";
     import {goto} from "$app/navigation";
     import TextInput from "../components/utils/atomic/TextInput.svelte";
-    import Center from "../components/utils/atomic/Center.svelte";
     import CircularProgress from "../components/utils/atomic/CircularProgress.svelte";
-    import {AuthApiCode} from "../logic/auth-api/AuthApi";
     import {fade} from "svelte/transition";
+    import {ErrorBody} from "../logic/ErrorBody";
+    import {ErrorCode} from "../logic/ErrorCode";
+    import {popupStore} from "../stores/PopupStore";
 
     let username = "";
     let password = "";
-    let loginState: 'inProgress' | 'notInitialized' | 'error' = 'notInitialized';
+    let inProgress: boolean = false;
     let errorMsg = "Bad username or password";
     let dontLogout = false;
 
     const onLoginClick = () => {
-        loginState = 'inProgress';
+        inProgress = true;
         authStore.login(username, password, dontLogout)
-            .then(status => {
-                if (status == AuthApiCode.OK) {
-                    goto("/dashboard");
-                } else {
-                    loginState = 'error';
-                    if (status == AuthApiCode.UNKNOWN_DEVICE) {
-                        errorMsg = "It's look like you are logging first time from this device. " +
-                            "Please check your email for device authorization message";
-                    } else {
-                        errorMsg = "Bad username or password";
-                    }
+            .then(() => {
+                goto("/dashboard");
+                inProgress = false;
+            })
+            .catch((reason: ErrorBody) => {
+                switch (reason.errorCode) {
+                    case ErrorCode.BAD_CREDENTIALS:
+                        popupStore.danger("Bad username or password");
+                        break;
+                    case ErrorCode.AUTHENTICATION_FAILED:
+                        popupStore.danger("We could not log you. This is most likely because your device is not authorized. " +
+                            "In such case you should receive email with authorization link. (In this preview email is printed to console)");
+                        break;
+                    default:
+                        popupStore.danger("We could not log you in. This is most likely because you account is locked because of too many unsuccessful " +
+                            "login attempts, please try later or write to our support");
                 }
-            }).catch(reason => {
-            loginState = 'error';
-            errorMsg = "We could not authenticate you, please try later.";
-        })
+                inProgress = false;
+            })
     }
+
+    // loginState = 'error';
+    // if (status == AuthApiCode.UNKNOWN_DEVICE) {
+    //     errorMsg = "It's look like you are logging first time from this device. " +
+    //         "Please check your email for device authorization message";
+    // } else {
+    //     errorMsg = "Bad username or password";
+    // }
 </script>
 
 
@@ -50,26 +61,22 @@
                    placeholder="Password" type="password"/>
     </div>
 
-    <Center style="position: relative">
+    <div class="center relative">
         Do not logout me
-        <input bind:checked={dontLogout} style="width: 20px; height: 20px; margin: 10px" type="checkbox">
-    </Center>
-
-    <div>
-        <Button on:click={onLoginClick} size="lg" style="margin-top: 20px">
-            Login
-        </Button>
-
-        <Center style="margin: 20px">
-            {#if loginState === 'inProgress'}
-                <CircularProgress/>
-            {/if}
-        </Center>
+        <input bind:checked={dontLogout} class="w-6 h-6 m-5" type="checkbox">
     </div>
 
-    {#if loginState === 'error'}
-        <div class="bg-primary-800 rounded-sm shadow-sm p-4" transition:fade>
-            {errorMsg}
-        </div>
-    {/if}
+    <div>
+        <button class="mt-8 btn-primary-lg" on:click={onLoginClick}>
+            Login
+        </button>
+
+        {#if inProgress}
+            <div class="center mt-8" transition:fade>
+                <CircularProgress/>
+            </div>
+        {/if}
+
+    </div>
+
 </div>

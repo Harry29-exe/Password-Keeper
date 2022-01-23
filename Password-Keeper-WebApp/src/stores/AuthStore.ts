@@ -1,8 +1,6 @@
 import type {Readable, Subscriber, Unsubscriber, Updater} from "svelte/store";
 import {writable} from "svelte/store";
-import {ResponseStatus, ResponseStatusU} from "../logic/ResponseStatus";
-import {AuthApi, AuthApiCode} from "../logic/auth-api/AuthApi";
-import {ErrorBody} from "../logic/ErrorBody";
+import {AuthApi} from "../logic/auth-api/AuthApi";
 
 export class AuthHolder {
     public readonly isAuthenticated?: boolean;
@@ -27,16 +25,19 @@ export class AuthHolder {
 }
 
 interface AuthStore extends Readable<AuthHolder> {
-    login: (username: string, password: string, dontLogout?: boolean) => Promise<AuthApiCode>,
-    logout: () => Promise<ResponseStatus>,
-    refreshAuth: () => Promise<ResponseStatus>,
-    refreshRefresh: () => Promise<ResponseStatus>
+    login: (username: string, password: string, dontLogout?: boolean) => Promise<void>,
+    logout: () => Promise<void>,
+    refreshAuth: () => Promise<void>,
+    refreshRefresh: () => Promise<void>
 }
 
-class AuthStoreImpl implements AuthStore {
+
+class AuthStoreImpl implements Readable<AuthHolder> {
     protected sub: (run: Subscriber<AuthHolder>, invalidate?: any) => Unsubscriber;
     protected set: (value: AuthHolder) => void;
     protected update: (update: Updater<AuthHolder>) => void;
+
+    protected state: number;
 
     constructor() {
         const {subscribe, set, update} = writable<AuthHolder>();
@@ -51,44 +52,42 @@ class AuthStoreImpl implements AuthStore {
         return this.sub;
     }
 
-    public login(username: string, password: string, dontLogout: boolean): Promise<AuthApiCode> {
-    return AuthApi.login(username, password, dontLogout)
-        .then(response => {
-            if (response.ok) {
-                this.set(new AuthHolder(true, response.headers.get("Authorization") as string, username));
-                return AuthApiCode.OK;
-            }
-
-            return response.json().then(errorBody => {
-                return (errorBody as ErrorBody).errorCode as AuthApiCode;
-            });
-        })
-    }
-
-    public logout(): Promise<ResponseStatus> {
-        return AuthApi.logout().then(status => {
-            if (ResponseStatusU.isOk(status)) {
-                this.set(AuthHolder.empty());
-            }
-
-            return status;
-        })
-    }
-
-    public refreshAuth(): Promise<ResponseStatus> {
-        return AuthApi.refreshAuthToken()
+    public login(username: string, password: string, dontLogout: boolean): Promise<void> {
+        return AuthApi.login(username, password, dontLogout)
             .then(response => {
-                if (ResponseStatusU.isOk(response.status)) {
-                    const token = parseJwt(response.authToken);
-                    this.set(AuthHolder.from(response.authToken as string, token.sub));
-                }
-
-                return response.status;
+                this.set(new AuthHolder(true, response.headers.get("Authorization") as string, username));
+                this.state += 1;
+                this.setAutoRefresh();
             })
     }
 
-    public refreshRefresh(): Promise<ResponseStatus> {
+    public logout(): Promise<void> {
+        return AuthApi.logout()
+            .then(() => {
+                this.set(AuthHolder.empty());
+                this.state++;
+            })
+    }
+
+    public refreshAuth(): Promise<void> {
+        return AuthApi.refreshAuthToken()
+            .then(token => {
+                const decodeToken = parseJwt(token)
+                this.set(AuthHolder.from(token as string, decodeToken.sub));
+            })
+    }
+
+    public refreshRefresh(): Promise<void> {
         return AuthApi.refreshRefreshToken();
+    }
+
+    private setAutoRefresh() {
+        let currentState = this.state;
+        setTimeout(() => {
+            if (this.state === currentState) {
+                this.refreshAuth().then(this.setAutoRefresh)
+            }
+        }, 600_000);
     }
 
 }
