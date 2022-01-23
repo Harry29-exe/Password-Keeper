@@ -11,6 +11,7 @@ public enum ErrorCode {
      * auth
      */
     AUTHENTICATION_FAILED,
+    BAD_CREDENTIALS,
     UNKNOWN_DEVICE,
     ACCESS_DENIED,
 
