@@ -18,7 +18,7 @@
 
 
 <div class="navbar">
-
+    <div class="navbar-bg"></div>
     {#each pages as page, index}
         <div on:click={() => onLinkClick(page)} class:current-page={activePage === page[1]}
              class="link">
@@ -32,12 +32,17 @@
 
 <style>
     .navbar {
-        @apply w-full h-12 p-4 z-0 flex justify-start items-center bg-primary-900;
+        @apply relative w-full h-9 p-4 z-0 flex justify-start items-center;
         @apply shadow-xl;
     }
 
+    .navbar-bg {
+        @apply w-full h-full absolute top-0 left-0 z-[-1] bg-gradient-to-r opacity-50
+        from-primary-600 to-primary-900;
+    }
+
     .link {
-        @apply text-2xl mr-6;
+        @apply text-xl mr-6;
         @apply hover:text-primary-200 hover:underline hover:cursor-pointer;
     }
 

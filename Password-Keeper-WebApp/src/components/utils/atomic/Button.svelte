@@ -19,7 +19,7 @@
 </script>
 
 
-<div class={`${clazz} ${buttonType} ${size} Button`}
+<div class={` ${buttonType} Button ${clazz}`}
      on:click={e => onClick(e)} style={style}>
     <slot></slot>
 </div>
@@ -27,8 +27,10 @@
 <style>
 
     .Button {
-        @apply rounded-sm shadow-md hover:shadow-xl bg-primary-800;
+        @apply rounded-sm shadow-md hover:shadow-xl bg-primary-800 px-4 py-2;
         @apply hover:cursor-pointer hover:bg-primary-600;
+
+        @apply font-semibold text-xl;
         display: flex;
         justify-content: center;
         align-items: center;

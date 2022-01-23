@@ -1,11 +1,11 @@
 <script lang="ts">
-    import {PasswordInfoDTO} from "../../../../logic/password-storage-api/PasswordInfoDTO";
-    import Button from "../../../utils/atomic/Button.svelte";
-    import "../Password.css";
-    import TextInput from "../../../utils/atomic/TextInput.svelte";
-    import CircularProgress from "../../../utils/atomic/CircularProgress.svelte";
-    import {PasswordAPI} from "../../../../logic/password-storage-api/PasswordAPI";
-    import {authStore} from "../../../../stores/AuthStore";
+    import {PasswordInfoDTO} from "../../../logic/password-storage-api/PasswordInfoDTO";
+    import Button from "../../utils/atomic/Button.svelte";
+    import "./Password.css";
+    import TextInput from "../../utils/atomic/TextInput.svelte";
+    import CircularProgress from "../../utils/atomic/CircularProgress.svelte";
+    import {PasswordAPI} from "../../../logic/password-storage-api/PasswordAPI";
+    import {authStore} from "../../../stores/AuthStore";
     import {fly} from "svelte/transition";
 
 

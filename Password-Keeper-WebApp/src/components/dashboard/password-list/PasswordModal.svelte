@@ -1,8 +1,8 @@
 <script lang="ts">
-    import {PasswordInfoDTO} from "../../../../logic/password-storage-api/PasswordInfoDTO";
-    import Modal from "../../../utils/atomic/Modal.svelte";
+    import {PasswordInfoDTO} from "../../../logic/password-storage-api/PasswordInfoDTO";
+    import Modal from "../../utils/atomic/Modal.svelte";
     import PasswordFetcher from "./PasswordFetcher.svelte";
-    import "../Password.css";
+    import "./Password.css";
 
     export let passwordInfo: PasswordInfoDTO;
     export let isOpen;

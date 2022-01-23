@@ -8,18 +8,10 @@
     import {ResponseStatusU} from "../../logic/ResponseStatus";
     import {CreateNewPasswordRequestDTO} from "../../logic/password-storage-api/CreateNewPasswordRequestDTO";
 
-    let isOpen = false;
-
     let addPasswordMode = true;
     const switchActionType = () => {
         addPasswordMode = !addPasswordMode;
     }
-
-    let passwordName = "";
-    let passwordUrl = "";
-    let newPassword = "";
-    let newPasswordRepeat = "";
-    let storagePassword = "";
 
     const onAddPassword = () => {
         if(newPassword !== newPasswordRepeat) {
@@ -47,7 +39,7 @@
                     passwordUrl
                 ), $authStore.authToken as string
             ).then(status => {
-                if(ResponseStatusU.isOk(status)) {
+                if (ResponseStatusU.isOk(status)) {
                     console.log('ok')
                 } else {
                     console.log('not ok')
@@ -55,6 +47,15 @@
             })
         }
     }
+
+    let isOpen = false;
+
+    let passwordName = "";
+    let passwordUrl = "";
+    let newPassword = "";
+    let newPasswordRepeat = "";
+    let storagePassword = "";
+
 </script>
 
 
@@ -65,36 +66,43 @@
 
 
 <Modal bind:isOpen style="min-height: 70vh; min-width: 50vw">
+
+    <div class="text-3xl font-bold" slot="header">
+        Add new password
+    </div>
+
     <div class="v-stack m-10 mt-2.5 min-w-[300px] w-4/5 text-2xl">
-        <h1>Add new password</h1>
+
         <TextInput bind:value={passwordName} placeholder="Password name"/>
         <TextInput bind:value={passwordUrl} placeholder="Optional password url"/>
-        <div class="spacer-h"/>
+        <div class="spacer-h"></div>
 
 
         <div class="hover-pointer h-stack" on:click={switchActionType}>
-            <input type="checkbox" style="width: 20px; height: 20px"
+            <input class="w-5 h-5" type="checkbox"
                    checked={!addPasswordMode} on:click={e => {
                        e.stopPropagation();
                        switchActionType();
                    }}/>
-            <span style="flex-grow: 5; text-align: center">
+            <span class="text-center flex-grow">
                 Generate password for me
             </span>
         </div>
 
         <TextInput bind:value={newPassword} placeholder="New Password"
-                   type="password" disabled={!addPasswordMode}/>
+                   disabled={!addPasswordMode} name="storage password" type="password"/>
         <TextInput bind:value={newPasswordRepeat} placeholder="Repeat new Password"
-                   type="password" disabled={!addPasswordMode}/>
+                   disabled={!addPasswordMode} name="storage password" type="password"/>
 
 
-        <div class="spacer-h"/>
-        <TextInput bind:value={storagePassword} placeholder="Your storage password" type="password"/>
+        <div class="spacer-h"></div>
+        <TextInput bind:value={storagePassword} placeholder="Your storage password"
+                   type="password"/>
 
 
         <Button style="margin-top: 20px" size="lg" on:click={onAddPassword}>
             Add password
         </Button>
+
     </div>
 </Modal>

@@ -5,16 +5,20 @@
     import {CreateUserRequest} from "../logic/user-api/CreateUserRequest";
     import {ResponseStatusU} from "../logic/ResponseStatus";
     import Button from "../components/utils/atomic/Button.svelte";
-    import Center from "../components/utils/atomic/Center.svelte";
+    import {MsgType, popupStore} from "../stores/PopupStore";
+
+    const errorTitle = "We could not register you";
+    const tryLatter = "We could not register you, try later or with different username";
+    const differentStoragePasswords = "Storage password and repeat storage password field are different";
+    const differentPasswords = "Password and repeat password field are different";
 
     const onRegister = () => {
         if (password !== passwordRepeat) {
-            registerState = new ComponentState(State.ERROR);
-            errorMsg = "Password and repeat password field are different";
+            popupStore.setMsg(errorMsg, differentPasswords, MsgType.DANGER);
             return;
+
         } else if (storagePassword !== storagePasswordRepeat) {
-            registerState = new ComponentState(State.ERROR);
-            errorMsg = "Storage password and repeat storage password field are different";
+            popupStore.setMsg(errorMsg, differentStoragePasswords, MsgType.DANGER);
             return;
         }
 
@@ -22,8 +26,10 @@
         UserAPI.register(new CreateUserRequest(username, email, password, storagePassword))
             .then(status => {
                 if (ResponseStatusU.isError(status)) {
-                    registerState = new ComponentState(State.ERROR);
-                    errorMsg = "We could not register you, try later or with different username";
+                    popupStore.setMsg(errorTitle, tryLatter, MsgType.DANGER);
+
+                } else if (ResponseStatusU.isOk(status)) {
+                    popupStore.setMsg("Success", "You have been registered. Please precede to login page");
                 }
             })
     }
@@ -60,7 +66,7 @@
 
     <div class="input-module">
         Password: (it is used for logging to service)
-        <TextInput bind:value={password} placeholder="password"
+        <TextInput autocomplete="new-password" bind:value={password} placeholder="Enter password"
                    style={textInputStyle} type="password"/>
     </div>
     <div class="input-module">
@@ -86,17 +92,6 @@
     <Button on:click={onRegister} size="lg" style="margin-bottom: 30px">
         Register
     </Button>
-
-    {#if registerState.isError()}
-        <Center style="color: var(--warning-400)">
-            {errorMsg}
-        </Center>
-    {:else if registerState.isFinishedSuccessfully()}
-        <Center style="color: var(--success-400)">
-            You have successfully register, please close this dialog and login
-        </Center>
-    {/if}
-
 
 </div>
 

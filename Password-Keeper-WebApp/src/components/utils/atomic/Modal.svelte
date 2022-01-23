@@ -1,19 +1,35 @@
 <script lang="ts">
-  import Button from "./Button.svelte";
+    import Button from "./Button.svelte";
+    import {fly, scale} from "svelte/transition";
 
-  export let isOpen: boolean;
-  export let style: string = "";
+    export let isOpen: boolean;
+    export let style: string = "";
+
+    let overlayMouseDown = false;
+
+    function close() {
+        if (overlayMouseDown) {
+            isOpen = false;
+        }
+        overlayMouseDown = false;
+    }
 </script>
 
+
 {#if isOpen}
-<div class="overlay"  on:click={() => isOpen = false}>
-    <div class="modal" on:click={e => e.stopPropagation()} style={style}>
-        <Button style="position: absolute; right: 10px; top: 10px; width: 40px"
-                on:click={() => isOpen = false}>
-            X
-        </Button>
-        <slot></slot>
-    </div>
+    <div class="overlay" on:mousedown={() => overlayMouseDown = true} on:mouseup={close} transition:fly>
+        <div class="modal" on:mousedown={e => e.stopPropagation()} style={style} transition:scale>
+            <Button class="absolute top-4 right-4 w-12 h-8 text-2xl font-bold"
+                    on:click={() => isOpen = false}>
+                X
+            </Button>
+            <div class="center my-4 font-semibold w-full min-h-[30px]">
+                <slot name="header"/>
+            </div>
+            <div>
+                <slot></slot>
+            </div>
+        </div>
 </div>
 {/if}
 
@@ -46,17 +62,5 @@
         border-radius: 3px;
         box-shadow: 3px 3px 5px 2px rgba(0,0,0, 0.4);
 
-        transform-origin: top;
-        animation: modal-in 0.2s ease-in 0s;
-
-    }
-
-    @keyframes modal-in {
-        0% {
-            transform: scale(0);
-        }
-        100% {
-            transform: scale(1.0);
-        }
     }
 </style>

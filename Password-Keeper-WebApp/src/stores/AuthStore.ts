@@ -104,4 +104,4 @@ function parseJwt(token) {
 }
 
 
-export const authStore = new AuthStoreImpl();
+export const authStore: AuthStore = new AuthStoreImpl();

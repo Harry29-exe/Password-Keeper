@@ -5,8 +5,8 @@
     export let style = "";
     export let value = "";
     export let placeholder = "";
-    export let name = "";
-    export let autocomplete = false;
+    export let name = "_";
+    export let autocomplete = "_";
     export let type: "password" | "text" = "text"
     export let disabled = false;
 
