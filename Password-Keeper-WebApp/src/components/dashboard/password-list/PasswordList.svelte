@@ -1,13 +1,15 @@
 <!--suppress ALL -->
 <script lang="ts">
     import {PasswordInfoDTO} from "../../../logic/password-storage-api/PasswordInfoDTO";
-    import Password from "./Password.svelte";
+    import Password from "./PasswordRow.svelte";
     import Button from "../../utils/atomic/Button.svelte";
     import {ComponentState, State} from "../../utils/ComponentState";
     import {onMount} from "svelte";
     import {authStore} from "../../../stores/AuthStore";
     import {PasswordAPI} from "../../../logic/password-storage-api/PasswordAPI";
+    import {MsgType, popupStore} from "../../../stores/PopupStore";
 
+    let firstFetch = true;
     let passwordList: PasswordInfoDTO[] = [];
     let passwordsFetchStatus: ComponentState = new ComponentState(State.IN_PROGRESS);
 
@@ -19,10 +21,15 @@
         PasswordAPI.getPasswords($authStore.authToken as string)
             .then(passwords => {
                 passwordList = passwords;
-                passwordsFetchStatus = new ComponentState(State.FINISHED_SUCCESSFULLY);
+                if (firstFetch) {
+                    firstFetch = false;
+                    return;
+                }
+                popupStore.setMsg("Updated", "Password list has been updated", MsgType.SUCCESS);
             })
             .catch(reason => {
                 passwordsFetchStatus = new ComponentState(State.ERROR, "Could not fetch passwords, try latter");
+                popupStore.setMsg("Fail", "We could not fetch password list try reload page, or try later")
             })
     }
 

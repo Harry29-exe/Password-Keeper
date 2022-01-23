@@ -5,7 +5,7 @@
     import {onMount} from 'svelte';
     import Navbar from "../components/navigation/Navbar.svelte";
     import {authStore} from "../stores/AuthStore";
-    import PopUp from "./utils/PopUp.svelte";
+    import PopUp from "./_utils/PopUp.svelte";
 
     onMount(() => {
         if (!$authStore.isAuthenticated) {

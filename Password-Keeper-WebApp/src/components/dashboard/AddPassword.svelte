@@ -7,37 +7,40 @@
     import {authStore} from "../../stores/AuthStore";
     import {ResponseStatusU} from "../../logic/ResponseStatus";
     import {CreateNewPasswordRequestDTO} from "../../logic/password-storage-api/CreateNewPasswordRequestDTO";
+    import {popupStore} from "../../stores/PopupStore";
 
     let addPasswordMode = true;
     const switchActionType = () => {
         addPasswordMode = !addPasswordMode;
     }
 
+    const savePasswordDTO = (): SavePasswordRequestDTO =>
+        new SavePasswordRequestDTO(
+            storagePassword, newPassword,
+            passwordName, passwordUrl
+        );
+
+    const createPasswordDTO = (): CreateNewPasswordRequestDTO =>
+        new CreateNewPasswordRequestDTO(storagePassword, passwordName, passwordUrl);
+
     const onAddPassword = () => {
-        if(newPassword !== newPasswordRepeat) {
-            //todo
-        } else if(addPasswordMode) {
-          PasswordAPI.saveNewPassword(
-              new SavePasswordRequestDTO(
-                  storagePassword,
-                  newPassword,
-                  passwordName,
-                  passwordUrl
-              ), $authStore.authToken as string)
-              .then(status => {
-                  if(ResponseStatusU.isOk(status)) {
-                      console.log('ok')
-                  } else {
-                      console.log('not ok')
-                  }
-              })
+        if (newPassword !== newPasswordRepeat) {
+            popupStore.danger("New password and new password repeat fields does not match ");
+        } else if (addPasswordMode) {
+            PasswordAPI.saveNewPassword(
+                savePasswordDTO(),
+                $authStore.authToken as string
+            ).then(status => {
+                if (ResponseStatusU.isOk(status)) {
+                    popupStore.success("Password has been saved");
+                } else {
+                    popupStore.danger("We could not save your password. Try later or refresh a page.");
+                }
+            })
         } else {
             PasswordAPI.createNewPassword(
-                new CreateNewPasswordRequestDTO(
-                    storagePassword,
-                    passwordName,
-                    passwordUrl
-                ), $authStore.authToken as string
+                createPasswordDTO(),
+                $authStore.authToken as string
             ).then(status => {
                 if (ResponseStatusU.isOk(status)) {
                     console.log('ok')
@@ -89,7 +92,7 @@
             </span>
         </div>
 
-        <TextInput bind:value={newPassword} placeholder="New Password"
+        <TextInput autocomplete="new-password" bind:value={newPassword} placeholder="New Password"
                    disabled={!addPasswordMode} name="storage password" type="password"/>
         <TextInput bind:value={newPasswordRepeat} placeholder="Repeat new Password"
                    disabled={!addPasswordMode} name="storage password" type="password"/>
@@ -100,9 +103,9 @@
                    type="password"/>
 
 
-        <Button style="margin-top: 20px" size="lg" on:click={onAddPassword}>
+        <button class="btn-primary-lg mt-8" on:click={onAddPassword}>
             Add password
-        </Button>
+        </button>
 
     </div>
 </Modal>

@@ -36,10 +36,26 @@ export class MsgPopupStore extends AbstractStore<MsgHolder> {
     public setMsg(msgTitle: string, msg: string, msgType?: MsgType) {
         const v = this.value;
         v.msg = msg;
-        v.msgType = msgType;
+        v.msgType = msgType ? msgType : MsgType.INFO;
         v.msgTitle = msgTitle;
         v.open = true;
         this.update();
+    }
+
+    public success(msg: string, msgTitle?: string) {
+        this.setMsg(msgTitle ? msgTitle : "Success", msg, MsgType.SUCCESS);
+    }
+
+    public warning(msg: string, msgTitle?: string) {
+        this.setMsg(msgTitle ? msgTitle : "Warning", msg, MsgType.WARNING);
+    }
+
+    public danger(msg: string, msgTitle?: string) {
+        this.setMsg(msgTitle ? msgTitle : "Danger", msg, MsgType.DANGER);
+    }
+
+    public info(msg: string, msgTitle?: string) {
+        this.setMsg(msgTitle ? msgTitle : "Info", msg, MsgType.INFO);
     }
 
     public open() {

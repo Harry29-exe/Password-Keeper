@@ -22,7 +22,7 @@
 
 <style>
     .popup {
-        @apply fixed bottom-[6.5%] py-5 px-6 text-left min-w-[300px];
+        @apply fixed bottom-[6.5%] py-5 px-6 text-left min-w-[300px] z-[100];
         left: 50%;
         transform: translateX(-50%);
     }

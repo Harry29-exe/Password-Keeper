@@ -11,21 +11,26 @@
     }
 
 
+    .btn-primary-base {
+        @apply bg-primary-800 rounded-sm;
+        @apply hover:bg-primary-600 transition-colors;
+    }
+
     .btn-primary-sm {
-        @apply bg-primary-700 px-3 py-1 text-lg rounded-sm;
-        @apply hover:bg-primary-500;
+        @apply btn-primary-base px-3 py-1 text-lg shadow-sm;
     }
 
     .btn-primary-md {
-        @apply bg-primary-700 p-5 text-xl;
+        @apply btn-primary-base px-5 py-2 text-xl shadow-sm;
     }
 
     .btn-primary-lg {
-        @apply bg-primary-700 p-5 text-xl;
+        @apply btn-primary-base px-6 py-3 text-2xl shadow-md font-semibold;
     }
 
+
     .btn-close {
-        @apply bg-background-500/40 hover:bg-background-300/40 text-base btn-primary-sm;
+        @apply bg-background-400/40 hover:bg-background-100/40 text-base btn-primary-sm font-semibold;
     }
 
 }

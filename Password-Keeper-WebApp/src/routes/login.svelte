@@ -41,12 +41,12 @@
     <h1 class="text-4xl my-4">Login</h1>
     <div>
         Username:
-        <TextInput autocomplete={true} bind:value={username} name="username"
+        <TextInput autocomplete={"username"} bind:value={username} name="username"
                    placeholder="Username"/>
     </div>
     <div>
         Password:
-        <TextInput autocomplete={true} bind:value={password} name="password"
+        <TextInput autocomplete={"password"} bind:value={password} name="password"
                    placeholder="Password" type="password"/>
     </div>
 
