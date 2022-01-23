@@ -42,7 +42,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 true,
                 true,
                 isNonLocked,
-                //todo
                 new ArrayList<>()
         );
     }

@@ -20,7 +20,6 @@ public class AuthFunctions {
     }
 
     public boolean usernamesMatch(@ValidUsername String username) {
-        //todo test this
 
         var auth = SecurityContextHolder.getContext().getAuthentication();
 
