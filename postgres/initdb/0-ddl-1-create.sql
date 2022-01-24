@@ -1,4 +1,4 @@
-create sequence hibernate_sequence start 1 increment 1;
+create sequence hibernate_sequence start 1000 increment 1;
 create table account_lock
 (
     id          int8      not null,

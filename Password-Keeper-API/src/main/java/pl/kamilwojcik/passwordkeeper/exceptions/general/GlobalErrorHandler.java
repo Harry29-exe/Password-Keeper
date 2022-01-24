@@ -13,7 +13,7 @@ import static pl.kamilwojcik.passwordkeeper.exceptions.ErrorCode.BAD_REQUEST;
 public class GlobalErrorHandler extends ExceptionHandlerPrototype {
 
     @ExceptionHandler({Exception.class})
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ErrorBody handleUnhandledExceptions(Exception ex) {
         this.logError(
                 "Illegal state exception was throw with " +
