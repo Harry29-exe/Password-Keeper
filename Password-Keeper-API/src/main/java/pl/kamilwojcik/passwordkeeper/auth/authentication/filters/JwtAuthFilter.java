@@ -19,7 +19,6 @@ import java.util.ArrayList;
 @Component
 @Order(0)
 public class JwtAuthFilter extends OncePerRequestFilter {
-    public static final Integer FILTER_ORDER = 1;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -30,7 +29,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+
         var authToken = request.getHeader("Authorization");
         if (authToken == null || authToken.isBlank()) {
             filterChain.doFilter(request, response);
@@ -48,13 +52,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
-//    @Bean
-//    public FilterRegistrationBean<JwtAuthFilter> registrationBean() {
-//        FilterRegistrationBean<JwtAuthFilter> registrationBean =
-//                new FilterRegistrationBean<>();
-//
-//
-//    }
 
 }

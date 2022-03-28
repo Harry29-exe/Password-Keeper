@@ -1,73 +1,120 @@
-# Aplikacja do bezpiecznego przechowywania haseł
+# PasswordKeeper
 
-### Wykonał Kamil Wójcik
+### Web application for secure password storage
 
-- [Aplikacja do bezpiecznego przechowywania haseł](#aplikacja-do-bezpiecznego-przechowywania-hase)
-- [Uruchomienie](#uruchomienie)
-- [Używanie aplikacji](#uywanie-aplikacji)
-- [Uwagi](#uwagi)
-- [Struktura aplikacji](#struktura-aplikacji)
-  - [Backend](#backend)
-  - [Frontend](#frontend)
+---
 
-## Uruchomienie
+## Table of content
 
-Aby uruchomić aplikacje należy mieć na komputerze zainstalowanego docker'a oraz docker-compose'a. Aplikacje włączamy
-będąc w głównym folderze aplikacji, za pomocą komendy
+## About
+
+PasswordKeeper is web application which allows users to store their password in secure way.
+
+## How it works
+
+User have 2 password just for this app, and they have to remember it. Both application password are stored only as their
+hash (using BCrypt algorith). Application use first of passwords for logging users in, second one is used for encrypting
+others password with aes algorith.
+
+Thanks to this approach even administrator of application is not able to see user passwords.
+
+### Register
+
+![](readme/HowItWorks1_Register.png)
+
+### Saving/Creating Password
+
+![](readme/HowItWorks2_SavingCreatingPassw.png)
+
+### Reading Password
+
+![](readme/HowItWorks3_ReadingPassw.png)
+
+### Deployment
+
+![](readme/HowItWorks4_Deploymend.png)
+
+## Default configuration
+
+By default, application (nginx proxi) is configured in such a way that frontend lives on port: 4430 and communicates
+with backend which can be found on port 443. Before using frontend user should visit any backend address in order to add
+ssl certificate to trusted list.
+
+## Application deployment
+
+Requirements:
+
+- installed docker
+- installed docker-compose
+
+To start and run application run command:
 
 ```shell
 docker-compose build; docker-compose up;
 ```
 
-## Używanie aplikacji
+## Features
 
-Z punktu użytkownika ważny jest jedynie adres https://localhost:4430 ponieważ na nim znajduje się pplickacja z
-interfejsem graficznym. API aplickacji znajduje się pod adresem https://localhost:443
+Application offers:
 
-## Uwagi
+- Authorization system based on 2 JWT, where one is sent as cookie and serves as refresh token and the other one is used
+  for user authorization,
+- Storing user's passwords in such way that only user can decrypt it,
+- Encrypting stored password with AES in CBC mode,
+- Input data validation on 2 layers (api, service layers),
+- CSRF protection,
+- Device authorization system based on User-Agent and Ip information,
+- Device login history available for user,
 
-Aplikacja jest skonfigurowana pod moją sieć domową z tąd w wielu miejscach adresy 192.168.0.185 w wersji stricte
-produkcyjne powinny zostać usunięte, a adresy localhost powinny zostać zmienione na domenę na której aplikacja się
-znajduje.
+## App Tour
 
-W plikach konfiguracyjnych znajdują się hasła do bazy danych, klucze algorytmów szyfrujących czy klucze RSA. W wersji
-stricte-produkcyjnej powinny zostać one rzecz jasna podmienione na nowe tajne które nigdy nie wyjdą poza maszyny na
-których są uruchomione.
+### Application main page:
 
-## Struktura aplikacji
+![](readme/Tour1_MainPage.png)
 
-Aplikacja jest podzielona na cztery sekcje
+### User registration
 
-* Backend aplikacji (./Password-Keeper-API)
-* Frontend aplikacji (./Password-Keeper-WebApp)
-* Bazę danych (./postgres)
-* odrócone proxy (./nginx)
+![](readme/Tour2_UserRegiter.png)
 
-### Backend
+### Login Page
 
-Backend został napisany przy użyciu java + spring.
+![](readme/Tour3_Login.png)
 
-Został podzielony na sekcje ogólnego przeztnacenia takie jak:
+### Device Authorization (with email messaging mock)
 
-* config - tutaj znajduje się ogólna konfiguracja aplikacji taka jak
-  * konfiguracja spring security
-  * konfiguracja cors (annotacja DefaultCors)
-  * podstawowe funkcje sprawdzające czy użytkownik jest uprawniony do dostępu do serwisu/endpointu
-* validation - tutaj znajdują się validatory wykorzystywane w aplikacji
-* exceptions - niestandardowe wyjątki oraz ich handler'y
-* utils - zawierające wszystko co jest potrzebne całej aplikacji a nie pasje do wyżej wymienionych
-* moduły - moduły aplikacji
-  * auth - kontener na moduły związane z authentication i authorization
-  * user - obsługa konta użytkonika (tworzenie, usuwanie, modyfikowanie)
-  * password_storage - moduł odpowiedzialny za przechowywanie zapisanych haseł użytkowników
+![](readme/Tour4_1_DeviceAuthorization.png)
+![](readme/Tour4_2_DeviceAuthMsg.png)
 
-### Frontend
+### Welcome page
 
-Frontend został napisany przy użyciu typescript + sveltekit
+![](readme/Tour5_WellcomePage.png)
 
-Został podzielony na
+### Adding Password
 
-* routes - strony aplikacji związane z technologią sveltekit
-* components - komponenty używane przez strony aplikacji
-* logic - klienci api oraz dto
-* stores - store'y związane z technologią svelte
+![](readme/Tour6_1_AddingPassword.png)
+![](readme/Tour6_2_AddedPassword.png)
+
+### Generating Secure Password
+
+![](readme/Tour7_1_GeneratingPassword.png)
+![](readme/Tour7_2_GeneratedPassword.png)
+
+### Viewing Saved Password
+
+![](readme/Tour8_1_ViewingSavePassword.png)
+![](readme/Tour8_2_SavedPasswordView.png)
+![](readme/Tour8_3_GeneratedPasswordView.png)
+
+### Authorized Devices Page
+
+![](readme/Tour9_AuthorizedDevicesList.png)
+
+### Login History Page
+
+![](readme/Tour10_LoginHistory.png)
+
+
+
+
+
+

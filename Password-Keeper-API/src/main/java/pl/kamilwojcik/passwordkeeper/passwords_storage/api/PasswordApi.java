@@ -45,17 +45,9 @@ public interface PasswordApi {
             @NotNull Authentication auth
     );
 
-    //todo optional
-//    @PatchMapping
-
-//    void updatePasswordInfo()
-
-
     @DeleteMapping
     void deletePassword(
             @RequestBody @Valid DeletePasswordRequest request,
             @NotNull Authentication auth
     );
-
-
 }
