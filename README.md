@@ -6,6 +6,27 @@
 
 ## Table of content
 
+- [About](#about)
+- [How it works](#how-it-works)
+  - [Registration](#register)
+  - [Saving passwords](#savingcreating-password)
+  - [Reading passwords](#reading-password)
+  - [Deployment diagram](#deployment)
+- [Default Configuration](#default-configuration)
+- [Application deployment](#application-deployment)
+- [Features](#features)
+- [App Tour](#app-tour)
+  - [Main page](#application-main-page)
+  - [Registration](#user-registration)
+  - [Login page](#login-page)
+  - [Device authorization](#device-authorization-with-email-messaging-mock)
+  - [Welcome page](#welcome-page)
+  - [Adding password](#adding-password)
+  - [Generating password](#generating-secure-password)
+  - [Viewing saved password](#viewing-saved-password)
+  - [Authorized devices page](#authorized-devices-page)
+  - [Login history](#login-history-page)
+
 ## About
 
 PasswordKeeper is web application which allows users to store their password in secure way.
