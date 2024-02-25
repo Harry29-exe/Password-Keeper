@@ -1,0 +1,23 @@
+.table-wrapper {
+    @apply w-full mx-auto mt-10 sm:pt-1 md:pt-1 rounded-md md:shadow-lg bg-primary-800 overflow-hidden;
+    @apply sm:w-11/12 md:w-4/5 xl:w-3/4;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    overflow-wrap: anywhere;
+}
+
+tbody tr td {
+    @apply max-w-[40%] py-4 px-1 text-center;
+}
+
+tbody tr:nth-child(odd) {
+    @apply bg-background-700;
+}
+
+tbody tr:nth-child(even) {
+    @apply bg-background-800;
+}

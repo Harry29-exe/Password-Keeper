@@ -1,0 +1,17 @@
+.sm {
+    height: 20px;
+    font-size: 18px;
+    width: 80px;
+}
+
+.md {
+    height: 30px;
+    font-size: 24px;
+    width: 150px;
+}
+
+.lg {
+    height: 50px;
+    font-size: 32px;
+    width: 250px;
+}

@@ -1,0 +1,36 @@
+@tailwind components;
+
+@layer components {
+
+    .spacer-h {
+        @apply w-full border-b-2 border-primary-600 my-5 h-1;
+    }
+
+    .spacer-h-md {
+        @apply w-full border-b-2 border-primary-600 my-10 h-1;
+    }
+
+
+    .btn-primary-base {
+        @apply bg-primary-800 rounded-sm;
+        @apply hover:bg-primary-600 transition-colors;
+    }
+
+    .btn-primary-sm {
+        @apply btn-primary-base px-3 py-1 text-lg shadow-sm;
+    }
+
+    .btn-primary-md {
+        @apply btn-primary-base px-5 py-2 text-xl shadow-sm;
+    }
+
+    .btn-primary-lg {
+        @apply btn-primary-base px-6 py-3 text-2xl shadow-md font-semibold;
+    }
+
+
+    .btn-close {
+        @apply bg-background-400/40 hover:bg-background-100/40 text-base btn-primary-sm font-semibold;
+    }
+
+}
