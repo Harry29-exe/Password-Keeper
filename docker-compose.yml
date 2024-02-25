@@ -27,7 +27,7 @@ services:
 
   frontend:
     build:
-      context: Password-Keeper-WebApp
+      context: Password-Keeper-WebApp2
     container_name: pk-web-app
   #    ports:
   #      - "3000:3000"
