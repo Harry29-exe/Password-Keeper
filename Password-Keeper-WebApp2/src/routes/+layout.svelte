@@ -1,6 +1,5 @@
 <script>
-    // import '../../static/app.css';
-		import '../app.css';
+    import './../app.css';
     import "./../style/Utils.css";
     import "./../style/StyleComponents.css";
     import {onMount} from 'svelte';

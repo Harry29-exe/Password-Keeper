@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {LoginEventDTO} from "../../../logic/login-history-api/LoginEventDTO";
+    import type {LoginEventDTO} from "../../../logic/login-history-api/LoginEventDTO";
     import {onMount} from "svelte";
     import {LoginHistoryAPI} from "../../../logic/login-history-api/LoginHistoryAPI";
     import {authStore} from "../../../stores/AuthStore";

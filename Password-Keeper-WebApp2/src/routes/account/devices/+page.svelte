@@ -3,7 +3,7 @@
     import {onMount} from "svelte";
     import {ClientDevicesAPI} from "../../../logic/client-devices-api/ClientDevicesAPI";
     import {authStore} from "../../../stores/AuthStore";
-    import {ClientDeviceDTO} from "../../../logic/client-devices-api/ClientDeviceDTO";
+    import type {ClientDeviceDTO} from "../../../logic/client-devices-api/ClientDeviceDTO";
 
     let clientDevices: ClientDeviceDTO[] = []
     onMount(() => {

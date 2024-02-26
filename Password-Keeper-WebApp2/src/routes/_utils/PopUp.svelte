@@ -2,6 +2,8 @@
     import {popupStore} from "../../stores/PopupStore";
     import {fly} from "svelte/transition";
 
+    console.log('dupa 123')
+
     function close() {
         popupStore.close();
     }

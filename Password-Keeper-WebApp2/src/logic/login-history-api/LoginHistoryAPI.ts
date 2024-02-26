@@ -1,4 +1,4 @@
-import {LoginHistoryDTO} from "./LoginHistoryDTO";
+import type {LoginHistoryDTO} from "./LoginHistoryDTO";
 import {BACKEND_ADDRESS} from "../BackendAddress";
 
 export class LoginHistoryAPI {

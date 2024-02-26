@@ -1,4 +1,4 @@
-import {LoginEventDTO} from "./LoginEventDTO";
+import type {LoginEventDTO} from "./LoginEventDTO";
 
 export interface LoginHistoryDTO {
     page: number;

@@ -1,6 +1,6 @@
 <script lang="ts">
     import SecondaryNavbar from "../../components/navigation/SecondaryNavbar.svelte";
-    import {Page} from "../../components/navigation/Page";
+    import type {Page} from "../../components/navigation/Page";
     import Protected from "../../components/utils/Protected.svelte";
 
     const pages: Page[] = [

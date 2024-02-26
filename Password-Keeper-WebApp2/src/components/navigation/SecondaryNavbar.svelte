@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Page} from "./Page";
+    import type {Page} from "./Page";
     import {goto} from "$app/navigation";
     import {page} from "$app/stores";
 
