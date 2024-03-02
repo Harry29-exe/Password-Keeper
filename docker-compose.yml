@@ -25,21 +25,20 @@ services:
       - postgres
 
 
-  frontend:
-    build:
-      context: Password-Keeper-WebApp2
-    container_name: pk-web-app
+#  frontend:
+#    build:
+#      context: Password-Keeper-WebApp2
+#    container_name: pk-web-app
   #    ports:
   #      - "3000:3000"
 
 
   nginx:
     build:
-      context: nginx
+      context: .
+      dockerfile: nginx.Dockerfile
     container_name: pk-proxy
     ports:
-      - "443:443"
       - "4430:4430"
     depends_on:
       - backend
-      - frontend

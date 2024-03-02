@@ -7,6 +7,8 @@
     import {authStore} from "../stores/AuthStore";
     import PopUp from "./_utils/PopUp.svelte";
 
+    export const ssr = false;
+
     onMount(() => {
         if (!$authStore.isAuthenticated) {
             authStore.refreshAuth();
